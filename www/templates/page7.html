@@ -1,30 +1,76 @@
-<ion-view title="Rachas">
-  <ion-tabs class="tabs-stable tabs-icon-top">
+  <ion-view title="Rachas">
+    <ion-tabs class="tabs-stable tabs-icon-top">
+        <ion-tab title="Primera" icon="null">
+            <ion-content padding="false" class="has-header">
+
+                <div class="spacer" style="height: 100px;"></div>
+
+                <div class="button-bar">
+                    <button class="button button-stable button-block">Todos</button>
+                    <button class="button button-stable button-block">Casa</button>
+                    <button class="button button-stable button-block">Fuera</button>
+                </div>
 
 
-    <ion-tab title="Primera" icon="null">
-      <ion-content padding="true" class="has-header">
-        <div class="spacer" style="height: 100px;"></div>
-        <div class="button-bar">
-          <button class="button button-stable button-block">Todos</button>
-          <button class="button button-stable button-block">Casa</button>
-          <button class="button button-stable button-block">Fuera</button>
-        </div>
-        <ion-list>
-          <ion-item>Madrid</ion-item>
-          <ion-item>Depor</ion-item>
-          <ion-item>Barça</ion-item>
-          <ion-checkbox>Madrid</ion-checkbox>
-          <ion-checkbox>Checkbox</ion-checkbox>
-          <ion-checkbox>Barça</ion-checkbox>
-        </ion-list>
-        <button class="button button-positive button-block">Predecir</button>
-      </ion-content>
-    </ion-tab>
+                <ion-list>
+                    <ion-item class="jesus">
 
-    <ion-tab title="Segunda" icon="null">
-      <ion-content padding="true" class="has-header"></ion-content>
-    </ion-tab>
+                        <ion-scroll direction="xy" class="wide-as-needed">
+                            <ion-checkbox class="inline">Madrid</ion-checkbox>
+                            <a class="item">this is a button : 1</a>
+                            <a class="item">this is a button : 2</a>
+                            <a class="item">this is a button : 3</a>
+                            <a class="item">this is a button : 8</a>
+                        </ion-scroll>
 
-  </ion-tabs>
+                    </ion-item>
+                    <ion-item class="jesus">
+                        <ion-scroll direction="xy" class="wide-as-needed">
+                            <ion-checkbox class="inline">Madrid</ion-checkbox>
+                            <a class="item">this is a button : 1</a>
+                            <a class="item">this is a button : 2</a>
+                            <a class="item">this is a button : 3</a>
+                            <a class="item">this is a button : 3</a>
+                        </ion-scroll>
+
+                    </ion-item>
+                    <ion-item>
+
+                        <ion-scroll direction="xy" class="wide-as-needed">
+                            <ion-checkbox class="inline">Madrid</ion-checkbox>
+                            <a class="item">this is a button : 1</a>
+                            <a class="item">this is a button : 2</a>
+                            <a class="item">this is a button : 3</a>
+                            <a class="item">this is a button : 3</a>
+                        </ion-scroll>
+                    </ion-item>
+                    <ion-item>
+                        <ion-scroll direction="xy" class="wide-as-needed">
+                            <ion-checkbox class="inline">Madrid</ion-checkbox>
+                            <a class="item">this is a button : 1</a>
+                            <a class="item">this is a button : 2</a>
+                            <a class="item">this is a button : 3</a>
+                            <a class="item">this is a button : 3</a>
+                        </ion-scroll>
+                    </ion-item>
+                    <ion-item>
+                        <ion-scroll direction="xy" class="wide-as-needed">
+                            <ion-checkbox class="inline">Madrid</ion-checkbox>
+                            <a class="item">this is a button : 1</a>
+                            <a class="item">this is a button : 2</a>
+                            <a class="item">this is a button : 3</a>
+                            <a class="item">this is a button : 3</a>
+                        </ion-scroll>
+                    </ion-item>
+                </ion-list>
+                <button class="button button-positive button-block">Predecir</button>
+
+            </ion-content>
+        </ion-tab>
+
+        <ion-tab title="Segunda" icon="null">
+            <ion-content padding="true" class="has-header"></ion-content>
+        </ion-tab>
+
+    </ion-tabs>
 </ion-view>

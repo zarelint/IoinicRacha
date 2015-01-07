@@ -1,1 +1,23 @@
 /* Empty. Add your own CSS if you like */
+.derrota {
+    background: #f78d53;
+}
+
+.victoria {
+    background: #3cd12f;
+}
+.empate {
+    background: #ffff00;
+}
+.wide-as-needed {
+    overflow: scroll;
+    white-space: nowrap;
+}
+
+ion-scroll .item {
+    display: inline-block;
+    margin: 0;
+}
+.jesus {
+    padding: 0;
+}

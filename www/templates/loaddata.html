@@ -1,0 +1,10 @@
+
+<table ng-repeat="(key,val) in racha">
+
+<tr>
+      <td>{{key}}</td>
+      <td ng-repeat="b in val track by $index"  >
+        <div ng-class="scoreClass(b)">{{b}}</div>
+      </td>
+</tr>
+</table>

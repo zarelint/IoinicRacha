@@ -1,3 +1,4 @@
+'use strict';
 angular.module('app', ['ionic'])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
@@ -34,3 +35,38 @@ angular.module('app', ['ionic'])
 
 
     });
+
+
+
+
+
+/*
+
+
+var app = angular
+    .module('iotutorialApp', [
+        'ngAnimate',
+        'ngCookies',
+        'ngResource',
+        'ngRoute',
+        'ngSanitize',
+        'ngTouch',
+        'firebase',
+        'underscore'
+    ])
+    .constant('FIREBASE_URL', 'https://boiling-fire-888.firebaseio.com/')
+    .constant('NUM_JORNADAS', 38)
+    .constant('url_resultados', 'http://www.marca.com/futbol/primera/resultados.html')
+    .constant('url_clasificacion', 'http://www.marca.com/futbol/primera/clasificacion.html')
+    .config(function ($routeProvider) {
+        $routeProvider
+            .when('/post', {
+                templateUrl: 'views/post.html',
+                controller: 'PostCtrl'
+            })
+            .when('/', {
+                templateUrl: 'views/loaddata.html',
+                controller: 'LoaddataCtrl'
+            });
+    });
+*/
