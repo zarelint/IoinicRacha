@@ -3,6 +3,7 @@
         <ion-tab title="Primera" icon="null">
             <ion-content padding="false" class="has-header">
 
+
                 <div class="spacer" style="height: 100px;"></div>
 
                 <div class="button-bar">
@@ -13,24 +14,27 @@
 
 
                 <ion-list>
-                    <ion-item class="jesus">
 
-                        <ion-scroll direction="xy" class="wide-as-needed">
-                            <ion-checkbox class="inline">Madrid</ion-checkbox>
-                            <a class="item">this is a button : 1</a>
-                            <a class="item">this is a button : 2</a>
-                            <a class="item">this is a button : 3</a>
-                            <a class="item">this is a button : 8</a>
+                    <ion-item class="jesus" >
+                        <ion-scroll direction="x"  class="wide-as-needed">
+                            <div ng-repeat="(key,val) in racha">
+                                <ion-checkbox class="inline">{{key}}</ion-checkbox>
+                                <div ng-repeat="b in val track by $index">
+                                    <div class="item" ng-class="scoreClass(b)">{{b}}</div>
+                                </div>
+                            </div>
                         </ion-scroll>
 
                     </ion-item>
+
                     <ion-item class="jesus">
                         <ion-scroll direction="xy" class="wide-as-needed">
                             <ion-checkbox class="inline">Madrid</ion-checkbox>
-                            <a class="item">this is a button : 1</a>
-                            <a class="item">this is a button : 2</a>
-                            <a class="item">this is a button : 3</a>
-                            <a class="item">this is a button : 3</a>
+                            <div class="item">this is a button : 1</div>
+                            <div class="item">this is a button : 2</div>
+                            <div class="item">this is a button : 3</div>
+                            <div class="item">this is a button : 4</div>
+
                         </ion-scroll>
 
                     </ion-item>

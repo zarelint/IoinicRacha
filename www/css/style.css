@@ -1,12 +1,15 @@
 /* Empty. Add your own CSS if you like */
 .derrota {
     background: #f78d53;
+    #border-radius: 50%;
 }
 
 .victoria {
+   #border-radius: 50%;
     background: #3cd12f;
 }
 .empate {
+    #border-radius: 50%;
     background: #ffff00;
 }
 .wide-as-needed {

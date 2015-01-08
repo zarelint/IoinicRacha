@@ -2,14 +2,13 @@
 
 /**
  * @ngdoc function
- * @name iotutorialApp.controller:LoaddataCtrl
+ * @name iotutorialApp.controller:rachaCtrl
  * @description
- * # LoaddataCtrl
+ * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('LoaddataCtrl', function (getResultados, $scope, getRacha) {
+app.controller('rachaCtrl', function (getResultados, $scope, getRacha) {
 
-  //var updataData = function () {
     getResultados.loadData().then(function(data) {
       $scope.racha = getRacha.GetRachasCalendario(data[0]);
 
@@ -25,31 +24,7 @@ app.controller('LoaddataCtrl', function (getResultados, $scope, getRacha) {
         return clase;
       };
 
-
-
-      $scope.l2 =
-      {
-        'jesus': [1,2,3],  'jesus2': [1,2,3]
-      };
-
-      $scope.l =
-      {
-        'jesus': {
-          'a': 1,
-          'c': -1,
-          'e': 0
-        }
-      };
-
-      // Post.create(RachaCal);
     });
-
-  //}
-
-  // siguientes pasos...
-
-  //pintarlos
-  //
 
 
 });

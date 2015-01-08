@@ -1,5 +1,5 @@
 'use strict';
-angular.module('app', ['ionic'])
+var app=angular.module('app', ['ionic','underscore'])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -13,7 +13,7 @@ angular.module('app', ['ionic'])
         }
       });
     })
-
+    .constant('NUM_JORNADAS', 38)
 
     .config(function($stateProvider, $urlRouterProvider) {
 
@@ -24,7 +24,8 @@ angular.module('app', ['ionic'])
       $stateProvider
           .state('page7', {
             url: '/tabs',
-            templateUrl: 'templates/page7.html'
+            templateUrl: 'templates/page7.html',
+            controller: 'rachaCtrl'
           })
       ;
 
