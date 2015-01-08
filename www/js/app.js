@@ -22,7 +22,6 @@ angular.module('app', ['ionic'])
       // Set up the various states which the app can be in.
       // Each state's controller can be found in controllers.js
       $stateProvider
-
           .state('page7', {
             url: '/tabs',
             templateUrl: 'templates/page7.html'
