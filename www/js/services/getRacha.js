@@ -75,8 +75,8 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
    * Matriz de resultados en el orden en que se producen segun el calendario de la liga
    * Los resultados estan normalizados a 1, 0, -1
    * ['depor'] = '1,1,1,1,-0-.1]
-   * @param resultados
-   * @returns {{}}
+   * @param resultados ggg
+   * @returns {{}} fffff
    */
   RachaApi.getResultadosCalendario = function (resultados) {
 
