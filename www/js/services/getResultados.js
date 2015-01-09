@@ -21,6 +21,7 @@ app
       loadData: function () {
         if (!promise) { // impide que se llame dos veces
           //$http.get('resources/negozi.json' {header : {'Content-Type' : 'application/json; charset=UTF-8'}});
+      
           var getCal = $http.get('calendario.html');
           var getCla = $http.get('clasificacion.html');
           promise = $q.all([getCal, getCla]);

@@ -28,7 +28,7 @@ var app=angular.module('app', ['ionic','underscore'])
             controller: 'rachaCtrl'
           })
       ;
-
+    
       // if none of the above states are matched, use this as the fallback
 
       $urlRouterProvider.otherwise('/tabs');

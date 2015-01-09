@@ -11,7 +11,7 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha) {
 
     getResultados.loadData().then(function(data) {
       $scope.racha = getRacha.GetRachasCalendario(data[0]);
-
+ 
       $scope.scoreClass = function(scores) {
         var clase ='';
         if (scores === 0) {

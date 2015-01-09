@@ -117,11 +117,11 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
         for (var i = 0; i < resultados.length; i++) {
           //Casa
           if (resultados[i][0] === equipo && resultados[i][4] === jornada) {
-            equipoResultados[jornada] = parseResultado(resultados[i][1] - resultados[i][3]);
+            equipoResultados[m] = parseResultado(resultados[i][1] - resultados[i][3]);
           }
           //Fuera
           if (resultados[i][2] === equipo && resultados[i][4] === jornada) {
-            equipoResultados[jornada] = parseResultado(resultados[i][3] - resultados[i][1]);
+            equipoResultados[m] = parseResultado(resultados[i][3] - resultados[i][1]);
           }
         }
       }

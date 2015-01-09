@@ -15,14 +15,15 @@
 
                 <ion-list>
 
+
+
                     <ion-item class="jesus" >
                         <ion-scroll direction="x"  class="wide-as-needed">
-                            <div ng-repeat="(key,val) in racha">
-                                <ion-checkbox class="inline">{{key}}</ion-checkbox>
-                                <div ng-repeat="b in val track by $index">
-                                    <div class="item" ng-class="scoreClass(b)">{{b}}</div>
+                                <div ng-repeat="(key,val) in racha">
+                                        <ion-checkbox class="inline">{{key}}</ion-checkbox>
+                                         <div  ng-class="scoreClass(b)" class="item" ng-repeat="b in val track by $index">
+                                    </div>
                                 </div>
-                            </div>
                         </ion-scroll>
 
                     </ion-item>
