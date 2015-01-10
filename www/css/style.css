@@ -23,7 +23,7 @@ ion-scroll .item {
 }
 .jesus {
     padding: 0;
-    width: 70px;
+    border: 1px solid;
 }
 .slider{
   position: absolute !important;
