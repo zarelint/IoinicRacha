@@ -26,5 +26,25 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha) {
 
     });
 
+  $scope.predecir = function () {
+    console.log($scope.selection.length);
+  };
+
+  $scope.selection=[];
+
+  $scope.selecionarEquipo = function selecionarEquipo(equipo) {
+    var idx = $scope.selection.indexOf(equipo);
+    // estaba ya seleccionado, la deseleccion implica quitarlo from $scope.selection array.
+    if (idx > -1) {
+      $scope.selection.splice(idx, 1);
+    }
+    // añadir
+    else {
+      $scope.selection.push(equipo);
+    }
+
+  };
+
+
 
 });
