@@ -20,12 +20,13 @@
                                     <label class="checkbox col-center">
                                         <input id="{{key}}"
                                                type="checkbox"
-                                               ng-disabled="selection.length>=2 && !selection.indexOf(key) > -1 "
-                                               ng-click="selecionarEquipo(key)"
-                                               value="{{key}}"
-                                               ng-checked="selection.indexOf(key) > -1"
+                                               ng-disabled="selection.length==2 && !racha[key].si"
+                                               ng-model="racha[key].si"
+                                               ng-change="selecionarEquipo(key)"
+                                               value="{{key}}" >
+                                               <!--ng-checked="selection.indexOf(key) > -1"-->
 
-                                                >
+
                                     </label>
 
                                     <div class="col col-center">{{key}}</div>

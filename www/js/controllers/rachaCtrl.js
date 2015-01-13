@@ -27,11 +27,11 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha) {
     });
 
   $scope.predecir = function () {
-    console.log($scope.selection.length);
+
   };
 
   $scope.selection=[];
-
+ // window.jesus2=$scope.racha;
   $scope.selecionarEquipo = function selecionarEquipo(equipo) {
     var idx = $scope.selection.indexOf(equipo);
     // estaba ya seleccionado, la deseleccion implica quitarlo from $scope.selection array.
