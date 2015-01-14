@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name iotutorialApp.Racha
+ * @name iotutorialApp.getRacha
  * @description
  * # Este servico procesa los datos y los devuelve de dos formas difrentes
  * segun se producen o bine categorizados y sumados
@@ -74,7 +74,9 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
   /**
    * Matriz de resultados en el orden en que se producen segun el calendario de la liga
    * Los resultados estan normalizados a 1, 0, -1
-   * ['depor'] = '1,1,1,1,-0-.1]
+   * calendario['depor'] = ['1,1,1,1,-0-.1]
+   * casa['depor'] = ['1,1,1,1,-0-.1]
+   * fuera
    * @param resultados ggg
    * @returns {{}} fffff
    */
@@ -110,7 +112,10 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
 
     for (var j = 0; j < equipos.length; j++) {
       equipo = equipos[j];
+
       var equipoResultados = [];
+      var resultadosCasa = [];
+      var resultadosFuera = [];
       for (var m = 0; m < jornadas.length; m++) {
         jornada = jornadas [m];
 
@@ -118,10 +123,12 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
           //Casa
           if (resultados[i][0] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][1] - resultados[i][3]);
+            resultadosCasa.push(parseResultado(resultados[i][1] - resultados[i][3]));
           }
           //Fuera
           if (resultados[i][2] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][3] - resultados[i][1]);
+            resultadosFuera.push(parseResultado(resultados[i][1] - resultados[i][3]));
           }
         }
       }
@@ -136,6 +143,7 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
      calendario_ordenado[key]=calendario[key];
      });
      */
+  //  {todos:calendario, casa:resultadosCasa, fuera:resultadosFuera}
     return calendario;
 
   };

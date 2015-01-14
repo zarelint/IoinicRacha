@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc service
- * @name iotutorialApp.getWebData
+ * @name iotutorialApp.getResultados
  * @description
- * # getWebData
+ * # getResultados
  * Factory in the iotutorialApp.
  */
 app
