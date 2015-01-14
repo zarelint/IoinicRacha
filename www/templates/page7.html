@@ -10,7 +10,7 @@
                     <button class="button button-stable button-block">Casa</button>
                     <button class="button button-stable button-block">Fuera</button>
                 </div>
-                <button class="button button-positive button-block" ng-click="predecir()" >Predecir</button>
+                <button class="button button-positive button-block" ng-click="comparar()" >Predecir</button>
                 <ion-scroll direction="xy" class="myScroll">
                     <ul class="list">
                         <li class="item">
@@ -20,11 +20,12 @@
                                     <label class="checkbox col-center">
                                         <input id="{{key}}"
                                                type="checkbox"
-                                               ng-disabled="selection.length==2 && !racha[key].si"
-                                               ng-model="racha[key].si"
+                                               ng-disabled="selection.length==2 && !racha[key].checked"
+                                               ng-model="racha[key].checked"
                                                ng-change="selecionarEquipo(key)"
+                                               ng-checked="selection.indexOf(key) > -1"
                                                value="{{key}}" >
-                                               <!--ng-checked="selection.indexOf(key) > -1"-->
+
 
 
                                     </label>

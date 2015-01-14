@@ -1,0 +1,17 @@
+<ion-modal-view>
+
+    <ion-header-bar class="bar-energized">
+        <h1 class="title">Comparativa</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <div class="card" ng-show="mostrarDialog">
+            <div class="item item-text-wrap text-center">
+                 <h2> {{package.errorDialog}}</h2>
+            </div>
+        </div>
+
+        <button class="button button-full button-energized" ng-click="compareDialog.hide()">Done</button>
+    </ion-content>
+</ion-modal-view>
