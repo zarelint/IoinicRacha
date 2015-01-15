@@ -15,22 +15,35 @@
         <ion-scroll direction="xy" class="myScroll">
             <ul class="list">
                 <div class="row">
-                <li class="item">
-                    <div class="col col-center">{{selection[0]}}</div>
-                    <div ng-class="scoreClass(b)" class="item"
-                         ng-repeat="b in racha.casa[selection[0]] track by $index">
-                    </div>
-                </li>
-
+                    {{selection[0]}}
+                    <li class="item">
+                        <div class="col col-center">casa</div>
+                        <div ng-class="scoreClass(b)" class="item"
+                             ng-repeat="b in racha.casa[selection[0]] track by $index">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="col col-center">fuera</div>
+                        <div ng-class="scoreClass(b)" class="item"
+                             ng-repeat="b in racha.fuera[selection[0]] track by $index">
+                        </div>
+                    </li>
                 </div>
                 <div class="row">
-                <li class="item">
-                    <div class="col col-center">{{selection[1]}}</div>
-                    <div ng-class="scoreClass(b)" class="item"
-                         ng-repeat="b in racha.fuera[selection[1]] track by $index">
-                    </div>
-                </li>
-                    </div>
+                    {{selection[1]}}
+                    <li class="item">
+                        <div class="col col-center">casa</div>
+                        <div ng-class="scoreClass(b)" class="item"
+                             ng-repeat="b in racha.casa[selection[1]] track by $index">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="col col-center">fuera</div>
+                        <div ng-class="scoreClass(b)" class="item"
+                             ng-repeat="b in racha.fuera[selection[1]] track by $index">
+                        </div>
+                    </li>
+                </div>
             </ul>
         </ion-scroll>
 
