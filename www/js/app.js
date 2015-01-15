@@ -37,6 +37,17 @@ var app=angular.module('app', ['ionic','underscore'])
     });
 
 
+app
+    .filter('sumByKey', function() {
+        return function(data) {
+            var sum = 0;
+            for (var i = data.length - 1; i >= 0; i--) {
+                sum += parseInt(data[i]);
+            }
+
+            return (sum/data.length).toFixed(2);
+        };
+    });
 
 
 

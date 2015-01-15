@@ -20,13 +20,13 @@
                         <div class="col col-center">casa</div>
                         <div ng-class="scoreClass(b)" class="item"
                              ng-repeat="b in racha.casa[selection[0]] track by $index">
-                        </div>
+                        </div>{{racha.marcados[selection[0]]|sumByKey}}
                     </li>
                     <li class="item">
                         <div class="col col-center">fuera</div>
                         <div ng-class="scoreClass(b)" class="item"
                              ng-repeat="b in racha.fuera[selection[0]] track by $index">
-                        </div>
+                        </div>{{racha.encajados[selection[0]]|sumByKey}}
                     </li>
                 </div>
                 <div class="row">
@@ -35,13 +35,13 @@
                         <div class="col col-center">casa</div>
                         <div ng-class="scoreClass(b)" class="item"
                              ng-repeat="b in racha.casa[selection[1]] track by $index">
-                        </div>
+                        </div>{{racha.marcados[selection[1]]|sumByKey}}
                     </li>
                     <li class="item">
                         <div class="col col-center">fuera</div>
                         <div ng-class="scoreClass(b)" class="item"
                              ng-repeat="b in racha.fuera[selection[1]] track by $index">
-                        </div>
+                        </div>{{racha.encajados[selection[1]]|sumByKey}}
                     </li>
                 </div>
             </ul>

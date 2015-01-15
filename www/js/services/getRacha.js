@@ -107,16 +107,21 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
     var casa = {};
     var fuera = {};
     var calendario = {};
+    var marcados = {};
+    var encajados = {};
     var equipos = RachaApi.getListaEquiposJornadas(resultados).equipos;
     var jornadas = RachaApi.getListaEquiposJornadas(resultados).jornadas;
 
 
     for (var j = 0; j < equipos.length; j++) {
       equipo = equipos[j];
-      //clear arrays
+      //clear arrays para cada equipo
       var equipoResultados = [];
       var resultadosCasa = [];
       var resultadosFuera = [];
+      var golesMarcados = [];
+      var golesEncajados = [];
+
       for (var m = 0; m < jornadas.length; m++) {
         jornada = jornadas [m];
         for (var i = 0; i < resultados.length; i++) {
@@ -124,11 +129,15 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
           if (resultados[i][0] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][1] - resultados[i][3]);
             resultadosCasa.push  (parseResultado(resultados[i][1] - resultados[i][3]));
+            golesEncajados.push(resultados[i][3]);
+            golesMarcados.push(resultados[i][1]);
           }
           //Fuera
           if (resultados[i][2] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][3] - resultados[i][1]);
             resultadosFuera.push (parseResultado(resultados[i][3] - resultados[i][1]));
+            golesEncajados.push(resultados[i][1]);
+            golesMarcados.push(resultados[i][3]);
           }
         }
       }
@@ -136,6 +145,8 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       fuera[equipo] = resultadosFuera;
       casa[equipo] = resultadosCasa;
       calendario[equipo] = equipoResultados;
+      marcados[equipo] = golesMarcados;
+      encajados[equipo] = golesEncajados;
     }
 
 
@@ -145,7 +156,7 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
      });
      */
 
-    return {calendario:calendario, casa: casa, fuera:fuera};
+    return {calendario:calendario, casa: casa, fuera:fuera,marcados:marcados,encajados:encajados};
 
   };
 

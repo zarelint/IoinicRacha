@@ -79,5 +79,4 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicMod
   };
 
 
-
 });
