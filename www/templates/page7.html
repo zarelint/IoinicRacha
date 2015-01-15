@@ -14,19 +14,17 @@
                 <ion-scroll direction="xy" class="myScroll">
                     <ul class="list">
                         <li class="item">
-                            <div ng-repeat="(key,val) in racha">
+                            <div ng-repeat="(key,val) in racha.calendario">
                                 <div class="row">
 
                                     <label class="checkbox col-center">
                                         <input id="{{key}}"
                                                type="checkbox"
-                                               ng-disabled="selection.length==2 && !racha[key].checked"
-                                               ng-model="racha[key].checked"
+                                               ng-disabled="selection.length==2 && !racha.calendario[key].checked"
+                                               ng-model="racha.calendario[key].checked"
                                                ng-change="selecionarEquipo(key)"
                                                ng-checked="selection.indexOf(key) > -1"
                                                value="{{key}}" >
-
-
 
                                     </label>
 

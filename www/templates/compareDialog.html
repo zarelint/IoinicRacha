@@ -8,10 +8,26 @@
 
         <div class="card" ng-show="mostrarDialog">
             <div class="item item-text-wrap text-center">
-                 <h2> {{package.errorDialog}}</h2>
+                <h2> {{package.errorDialog}}</h2>
             </div>
         </div>
 
-        <button class="button button-full button-energized" ng-click="compareDialog.hide()">Done</button>
+        <ion-scroll direction="xy" class="myScroll">
+            <ul class="list">
+                <li class="item">
+                    <div ng-repeat="(key,val) in racha.casa[selection[1]] ">
+                        <div class="row">
+                            <div class="col col-center">{{key}}</div>
+                            <div ng-class="scoreClass(b)" class="item"
+                                 ng-repeat="b in val track by $index"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </ion-scroll>
+
+        <button class="button button-full button-energized" ng-click="compareDialog.hide()">Cerrar</button>
+
+
     </ion-content>
 </ion-modal-view>

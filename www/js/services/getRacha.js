@@ -102,20 +102,21 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       }
     }
 
-    var calendario = {};
+
     var equipo, jornada;
-
-
+    var casa = {};
+    var fuera = {};
+    var calendario = {};
     var equipos = RachaApi.getListaEquiposJornadas(resultados).equipos;
     var jornadas = RachaApi.getListaEquiposJornadas(resultados).jornadas;
 
 
     for (var j = 0; j < equipos.length; j++) {
       equipo = equipos[j];
-
       var equipoResultados = [];
       var resultadosCasa = [];
       var resultadosFuera = [];
+
       for (var m = 0; m < jornadas.length; m++) {
         jornada = jornadas [m];
 
@@ -133,18 +134,19 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
         }
       }
 
-
+      fuera[equipo] = resultadosFuera;
+      casa[equipo] = resultadosCasa;
       calendario[equipo] = equipoResultados;
     }
 
-    //console.log(calendario);
+
     /*
      _.chain(calendario).keys().sort().map(function (key) {
      calendario_ordenado[key]=calendario[key];
      });
      */
-  //  {todos:calendario, casa:resultadosCasa, fuera:resultadosFuera}
-    return calendario;
+
+    return {calendario:calendario, casa: casa, fuera:fuera};
 
   };
 
