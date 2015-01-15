@@ -113,13 +113,12 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
 
     for (var j = 0; j < equipos.length; j++) {
       equipo = equipos[j];
+      //clear arrays
       var equipoResultados = [];
       var resultadosCasa = [];
       var resultadosFuera = [];
-
       for (var m = 0; m < jornadas.length; m++) {
         jornada = jornadas [m];
-
         for (var i = 0; i < resultados.length; i++) {
           //Casa
           if (resultados[i][0] === equipo && resultados[i][4] === jornada) {

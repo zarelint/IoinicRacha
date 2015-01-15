@@ -14,15 +14,23 @@
 
         <ion-scroll direction="xy" class="myScroll">
             <ul class="list">
+                <div class="row">
                 <li class="item">
-                    <div ng-repeat="(key,val) in racha.casa[selection[1]] ">
-                        <div class="row">
-                            <div class="col col-center">{{key}}</div>
-                            <div ng-class="scoreClass(b)" class="item"
-                                 ng-repeat="b in val track by $index"></div>
-                        </div>
+                    <div class="col col-center">{{selection[0]}}</div>
+                    <div ng-class="scoreClass(b)" class="item"
+                         ng-repeat="b in racha.casa[selection[0]] track by $index">
                     </div>
                 </li>
+
+                </div>
+                <div class="row">
+                <li class="item">
+                    <div class="col col-center">{{selection[1]}}</div>
+                    <div ng-class="scoreClass(b)" class="item"
+                         ng-repeat="b in racha.fuera[selection[1]] track by $index">
+                    </div>
+                </li>
+                    </div>
             </ul>
         </ion-scroll>
 
