@@ -50,31 +50,25 @@ app
 
             window.j(data[0].data).find('div.jornadaCalendario').each(function () {
              var numeroJornada =  this.children[0].children[0].innerText.substr(8);
+                if (numeroJornada <= ultimaJornada) {// solo leemos jornadas jugadas
+                    window.j(this).find('a').each(function () {
+                        var local = this.children[0].innerText;
+                        var visitante = this.children[1].innerText;
+                        var rVisitante, rLocal;
 
-                window.j(this).find('a').each(function () {
-                    var local = this.children[0].innerText;
-                    var visitante = this.children[1].innerText;
-                    var rVisitante, rLocal;
-
-                    if (this.href === '' ) { // Partido anulado y pendiente de jugarse
-                        rVisitante = 'x';
-                        rLocal = 'x';
-                    } else {
-                       // numeroJornada = this.href.split('/')[8].split('_')[1];
-                        var resultado = this.children[2].innerText;
-                        rVisitante = resultado.split('-')[1]; //.replace(/Real/g, "");
-                        rLocal = resultado.split('-')[0];
-                    }
-
-                    if (numeroJornada <= ultimaJornada){
+                        if (this.href === '') { // Partido anulado y pendiente de jugarse
+                            rVisitante = 'x';
+                            rLocal = 'x';
+                        } else {
+                            // numeroJornada = this.href.split('/')[8].split('_')[1];
+                            var resultado = this.children[2].innerText;
+                            rVisitante = resultado.split('-')[1]; //.replace(/Real/g, "");
+                            rLocal = resultado.split('-')[0];
+                        }
                         resultados.push([local, rLocal, visitante, rVisitante, numeroJornada]);
-                    }else{
-                        return false;
-                    }
-                });
 
-
-
+                    });
+                }
             });
             // Le pego el cambiazo.
             angular.copy([resultados, clasificacion], data);

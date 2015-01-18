@@ -102,13 +102,23 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       }
     }
 
+    function parseGoles (gol){
+      // partido no juegado se contabiliza sin goles
+      if (isNaN(gol)){
+         gol=0;
+      }
+      return gol;
+    }
+
 
     var equipo, jornada;
     var casa = {};
     var fuera = {};
     var calendario = {};
-    var marcados = {};
-    var encajados = {};
+    var marcadosCasa = {};
+    var marcadosFuera = {};
+    var encajadosCasa = {};
+    var encajadosFuera = {};
     var equipos = RachaApi.getListaEquiposJornadas(resultados).equipos;
     var jornadas = RachaApi.getListaEquiposJornadas(resultados).jornadas;
 
@@ -119,8 +129,10 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       var equipoResultados = [];
       var resultadosCasa = [];
       var resultadosFuera = [];
-      var golesMarcados = [];
-      var golesEncajados = [];
+      var golesMarcadosCasa = [];
+      var golesEncajadosCasa = [];
+      var golesMarcadosFuera = [];
+      var golesEncajadosFuera = [];
 
       for (var m = 0; m < jornadas.length; m++) {
         jornada = jornadas [m];
@@ -129,15 +141,16 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
           if (resultados[i][0] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][1] - resultados[i][3]);
             resultadosCasa.push  (parseResultado(resultados[i][1] - resultados[i][3]));
-            golesEncajados.push(resultados[i][3]);
-            golesMarcados.push(resultados[i][1]);
+            golesEncajadosCasa.push(parseGoles(resultados[i][3]));
+            golesMarcadosCasa.push(parseGoles(resultados[i][1]));
+
           }
           //Fuera
           if (resultados[i][2] === equipo && resultados[i][4] === jornada) {
             equipoResultados[m] = parseResultado(resultados[i][3] - resultados[i][1]);
             resultadosFuera.push (parseResultado(resultados[i][3] - resultados[i][1]));
-            golesEncajados.push(resultados[i][1]);
-            golesMarcados.push(resultados[i][3]);
+            golesEncajadosFuera.push(parseGoles(resultados[i][1]));
+            golesMarcadosFuera.push(parseGoles(resultados[i][3]));
           }
         }
       }
@@ -145,8 +158,10 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       fuera[equipo] = resultadosFuera;
       casa[equipo] = resultadosCasa;
       calendario[equipo] = equipoResultados;
-      marcados[equipo] = golesMarcados;
-      encajados[equipo] = golesEncajados;
+      marcadosCasa[equipo] = golesMarcadosCasa;
+      marcadosFuera[equipo] = golesMarcadosFuera;
+      encajadosCasa[equipo] = golesEncajadosCasa;
+      encajadosFuera[equipo] = golesEncajadosFuera;
     }
 
 
@@ -156,7 +171,13 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
      });
      */
 
-    return {calendario:calendario, casa: casa, fuera:fuera,marcados:marcados,encajados:encajados};
+    return {calendario:calendario, casa: casa, fuera:fuera,
+      marcadosCasa:marcadosCasa,
+      marcadosFuera:marcadosFuera,
+      encajadosCasa:encajadosCasa,
+      encajadosFuera:encajadosFuera
+
+    };
 
   };
 
