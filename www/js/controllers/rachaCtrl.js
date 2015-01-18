@@ -18,8 +18,11 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicMod
           clase= 'empate';
         } else if (scores === 1) {
           clase= 'victoria';
-        } else {
+        } else if (scores ===-1){
           clase= 'derrota';
+        }
+        else {
+          clase= '';
         }
         return clase;
       };

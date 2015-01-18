@@ -22,7 +22,7 @@ app
         if (!promise) { // impide que se llame dos veces
           //$http.get('resources/negozi.json' {header : {'Content-Type' : 'application/json; charset=UTF-8'}});
          //TODO implementar cache y guardar datos en FireBase
-          var getCal = $http.get('calendario.html', { cache: true});
+          var getCal = $http.get('http://www.marca.com/futbol/primera/calendario.html', { cache: true,crossDomain: true});
           var getCla = $http.get('clasificacion.html', { cache: true});
           promise = $q.all([getCal, getCla]);
 
@@ -35,28 +35,46 @@ app
             });
 
             var ultimaJornada = 1;
-            var numeroJornada = 1;
-            var resultadosUltimaJornada = [];
+            //var numeroJornada = 1;
 
-            window.j(data[0].data).find('div.jornadaCalendario a').each(function () {
-              if (this.href === '') {
-                ultimaJornada = numeroJornada - 1;
-                _.each(resultados, function (lista) {
-                  if (lista[4] <= ultimaJornada) {
-                    resultadosUltimaJornada.push(lista);
-                  }
+
+            /**
+             * Este sistema para detectar la ultima jornada
+             * dependen enteramente que en las joranada sin jugar lleven
+             * asociado la clase 'proximaJornada'
+             */
+            window.j(data[0].data).find('div.jornadaCalendario.proximaJornada h2').each(function () {
+              ultimaJornada =  this.innerText.substr(8)-1;
+              return false;
+            });
+
+            window.j(data[0].data).find('div.jornadaCalendario').each(function () {
+             var numeroJornada =  this.children[0].children[0].innerText.substr(8);
+
+                window.j(this).find('a').each(function () {
+                    var local = this.children[0].innerText;
+                    var visitante = this.children[1].innerText;
+                    var rVisitante, rLocal;
+
+                    if (this.href === '' ) { // Partido anulado y pendiente de jugarse
+                        rVisitante = 'x';
+                        rLocal = 'x';
+                    } else {
+                       // numeroJornada = this.href.split('/')[8].split('_')[1];
+                        var resultado = this.children[2].innerText;
+                        rVisitante = resultado.split('-')[1]; //.replace(/Real/g, "");
+                        rLocal = resultado.split('-')[0];
+                    }
+
+                    if (numeroJornada <= ultimaJornada){
+                        resultados.push([local, rLocal, visitante, rVisitante, numeroJornada]);
+                    }else{
+                        return false;
+                    }
                 });
-                resultados = resultadosUltimaJornada;
-                return false;
-              } else {
-                numeroJornada = this.href.split('/')[8].split('_')[1];
-                var local = this.children[0].innerText;
-                var visitante = this.children[1].innerText;
-                var resultado = this.children[2].innerText;
-                var rVisitante = resultado.split('-')[1]; //.replace(/Real/g, "");
-                var rLocal = resultado.split('-')[0];
-                resultados.push([local, rLocal, visitante, rVisitante, numeroJornada]);
-              }
+
+
+
             });
             // Le pego el cambiazo.
             angular.copy([resultados, clasificacion], data);

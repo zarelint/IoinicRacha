@@ -15,7 +15,8 @@ var app=angular.module('app', ['ionic','underscore'])
     })
     .constant('NUM_JORNADAS', 38)
 
-    .config(function($stateProvider, $urlRouterProvider) {
+
+    .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
       // Ionic uses AngularUI Router which uses the concept of states
       // Learn more here: https://github.com/angular-ui/ui-router
@@ -26,8 +27,7 @@ var app=angular.module('app', ['ionic','underscore'])
             url: '/tabs',
             templateUrl: 'templates/page7.html',
             controller: 'rachaCtrl'
-          })
-      ;
+          });
     
       // if none of the above states are matched, use this as the fallback
 
@@ -39,7 +39,14 @@ var app=angular.module('app', ['ionic','underscore'])
 
 app
     .filter('sumByKey', function() {
+
+
         return function(data) {
+
+            if ( !data ){
+                return false;
+            }
+
             var sum = 0;
             for (var i = data.length - 1; i >= 0; i--) {
                 sum += parseInt(data[i]);
