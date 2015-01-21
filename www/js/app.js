@@ -1,5 +1,5 @@
 'use strict';
-var app=angular.module('app', ['ionic','underscore'])
+var app=angular.module('app', ['ionic','underscore','firebase'])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -14,7 +14,7 @@ var app=angular.module('app', ['ionic','underscore'])
       });
     })
     .constant('NUM_JORNADAS', 38)
-
+    .constant('FIREBASE_URL', 'https://boiling-fire-888.firebaseio.com/')
 
     .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -27,6 +27,10 @@ var app=angular.module('app', ['ionic','underscore'])
             url: '/tabs',
             templateUrl: 'templates/page7.html',
             controller: 'rachaCtrl'
+          }).state('fire', {
+              url: '/tabs2',
+              templateUrl: 'templates/post.html',
+              controller: 'PostCtrl'
           });
     
       // if none of the above states are matched, use this as the fallback

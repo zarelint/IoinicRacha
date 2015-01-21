@@ -24,6 +24,7 @@ app.factory('Post', function ($firebase, FIREBASE_URL) {
   };
 });
 // inyecta el service Post en el controller
+
 app.controller('PostCtrl', function ($scope, Post) {
 
   $scope.posts = Post.all;
@@ -40,3 +41,4 @@ app.controller('PostCtrl', function ($scope, Post) {
 
 
 });
+

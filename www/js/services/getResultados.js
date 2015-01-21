@@ -19,8 +19,10 @@ app
     var myService = {
 
       loadData: function () {
+
         if (!promise) { // impide que se llame dos veces
           //$http.get('resources/negozi.json' {header : {'Content-Type' : 'application/json; charset=UTF-8'}});
+
          //TODO implementar cache y guardar datos en FireBase
           var getCal = $http.get('http://www.marca.com/futbol/primera/calendario.html', { cache: true,crossDomain: true});
           var getCla = $http.get('clasificacion.html', { cache: true});
