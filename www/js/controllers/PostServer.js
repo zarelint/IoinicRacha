@@ -15,6 +15,9 @@ app.factory('Post', function ($firebase, FIREBASE_URL) {
     create: function (post) {
       return posts.$add(post);
     },
+    add: function(post){
+    ref.push(post);
+    },
     get: function (postId) {
       return $firebase(ref.child('posts').child(postId)).$asObject();
     },

@@ -32,7 +32,7 @@ app
 
             window.j(data[1].data).find('table#calsificacion_completa tbody tr').each(function () {
               var posicion = this.children[0].innerText;
-              var equipo = this.children[1].innerText;
+              var equipo = this.children[1].innerText.replace('.','');
               clasificacion.push([posicion, equipo]);
             });
 
@@ -54,8 +54,8 @@ app
              var numeroJornada =  this.children[0].children[0].innerText.substr(8);
                 if (numeroJornada <= ultimaJornada) {// solo leemos jornadas jugadas
                     window.j(this).find('a').each(function () {
-                        var local = this.children[0].innerText;
-                        var visitante = this.children[1].innerText;
+                        var local = this.children[0].innerText.replace('.','');
+                        var visitante = this.children[1].innerText.replace('.','');
                         var rVisitante, rLocal;
 
                         if (this.href === '') { // Partido anulado y pendiente de jugarse
