@@ -7,19 +7,21 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http,Post) {
+app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
+//app.controller('rachaCtrl', function ( $scope, $ionicModal, $http) {
   //TODO usar los datos de FireBase
     getResultados.loadData().then(function(data) {
-     // $scope.racha = getRacha.GetRachasCalendario(data[0]);
+      $scope.racha = getRacha.GetRachasCalendario(data[0]);
 
+     // guardar en firebase
      // Post.create($scope.racha);
 
-     // $scope.racha = Post.all;
+/*
       $http.get('https://boiling-fire-888.firebaseio.com/posts/-JgIys2uB4ltcf5WpbD1.json').
           success(function(data) {
             $scope.racha = data;
       });
-
+*/
 
       $scope.scoreClass = function(scores) {
         var clase ='';

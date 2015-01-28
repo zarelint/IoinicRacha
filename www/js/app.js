@@ -15,8 +15,13 @@ var app=angular.module('app', ['ionic','underscore','firebase'])
     })
     .constant('NUM_JORNADAS', 38)
     .constant('FIREBASE_URL', 'https://boiling-fire-888.firebaseio.com/')
+    .config(function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    })
 
-    .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+    .config(function($stateProvider, $urlRouterProvider) {
 
       // Ionic uses AngularUI Router which uses the concept of states
       // Learn more here: https://github.com/angular-ui/ui-router
