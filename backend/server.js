@@ -1,39 +1,39 @@
 'use strict';
+
 // directorio actual
 var applicationRoot = __dirname,
 
 //Web framework
     express = require( 'express' ),
-    _ = require('node_modules/underscore/underscore.js'),
+    _ = require('underscore'),
+
 
 //Utilities for dealing with file paths
     path = require( 'path');
 
-//load data rachas
-    getRachas2  = require('./assetsAMD/api/actual2');
-    getRachas1  = require('./assetsAMD/api/actual');
+var resul = require('./actual')();
+var api2 = require('./getRacha');
 
-var rachas  =  getRachas1();
-var rachas2  = getRachas2();
-
-var lista  = [rachas, rachas2];
+//var rachas = api2.getRacha(_,38).RachaApi.GetRachasCalendario(api.resultados);
+var rachas2;
+var lista  = [resul.resultados, rachas2];
 
 //Create server
 var app = express();
 // Configure server
-app.configure( function() {
+//var bodyParser = require('body-parser');var methodOverride = require('method-override');
 //parses request body and populates request.body
-    app.use( express.bodyParser() );
+    //app.use( express.bodyParser() );
 //checks request.body for HTTP method overrides
-    app.use( express.methodOverride() );
+    //app.use( express.methodOverride() );
 //perform route lookup based on URL and HTTP method
-    app.use( app.router );
+   // app.use( app.router );
 //Where to serve static content
     app.use( express.static( path.join( applicationRoot, '.') ) );
 
 //Show all errors in development
-    app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+    //app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
+
 
 var port = 8080;
 app.listen( port, function() {
@@ -55,6 +55,7 @@ app.get( '/DatosRachas', function( request, response ) {
 
 //Get una racha por id
 app.get( '/DatosRachas/:id', function( request, response ) {
-   var _racha = _.findWhere(lista, {id: parseInt(request.params.id)});
-   return response.send( JSON.stringify(_racha) );
+    var _racha = _.findWhere(lista, {id: parseInt(request.params.id)});
+    return response.send( JSON.stringify(_racha) );
 });
+
