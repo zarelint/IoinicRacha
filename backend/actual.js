@@ -2,12 +2,47 @@
 
 module.exports = function temporadaActual2() {
 
+    var Promise = require('promise');
 
     var cheerio = require('cheerio');
     var resultados = [], clasificacion = [];
     var request = require('request');
     //var sys = require('sys');
 
+    /*
+    requestp(url).then(function (data) {
+        console.log("%s@%s: %s", data.name, data.version, data.description);
+    }, function (err) {
+        console.error("%s; %s", err.message, url);
+        console.log("%j", err.res.statusCode);
+    });
+*/
+    function requestp(url) {
+
+        return new Promise(function (resolve, reject) {
+            request({url:url, encoding: 'binary'}, function (err, res, body) {
+                if (err) {
+                    return reject(err);
+                } else if (res.statusCode !== 200) {
+                    err = new Error('Unexpected status code: '+ res.statusCode);
+                    err.res = res;
+                    return reject(err);
+                }
+                resolve(body);
+            });
+        });
+    }
+    var promise1 = requestp('http://www.marca.com/futbol/primera/clasificacion.html');
+    var promise2 = requestp('http://www.marca.com/futbol/primera/calendario.html');
+
+    Promise.all([promise1, promise2])
+        .then(function (res) {
+             loadClasificacion( res[0]);
+             loadCalendario( res[1]);
+
+            console.log( resultados, clasificacion);
+        });
+/*
     request({
         uri: 'http://www.marca.com/futbol/primera/clasificacion.html',
         encoding: 'binary'
@@ -32,17 +67,18 @@ module.exports = function temporadaActual2() {
         // Print the google web page.
         //sys.puts(body);
     });
-
-    function loadClasificacion(err, data) {
+*/
+    function loadClasificacion(data) {
         var $ = cheerio.load(data);
-        $(data).find('table#calsificacion_completa tbody tr').each(function () {
+        $(data).find('table.tablaclasificacion :nth-child(7)').each(function () {
+           // var jj= $(this).find('tr');
             var posicion = this.children[0].innerText;
             var equipo = this.children[1].innerText.replace('.', '');
             clasificacion.push([posicion, equipo]);
         });
     }
 
-    function loadCalendario(err, data) {
+    function loadCalendario(data) {
         console.log('dentro');
         var $ = cheerio.load(data);
         var ultimaJornada = 1;
@@ -56,6 +92,7 @@ module.exports = function temporadaActual2() {
             ultimaJornada = this.children[0].data.substr(8) - 1;
             return false;
         });
+
 
         $(data).find('div.jornadaCalendario').each(function () {
 
@@ -102,5 +139,5 @@ module.exports = function temporadaActual2() {
 
     }
 
-    return  {resultados:resultados,clasificacion:clasificacion };
+   // return  {resultados:resultados,clasificacion:clasificacion };
 };
