@@ -263,4 +263,5 @@ module.exports = function temporadaActual() {
 
     return RachaApi;
   };
+  return getRacha;
 };

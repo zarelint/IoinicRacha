@@ -12,11 +12,11 @@ var applicationRoot = __dirname,
     path = require( 'path');
 
 var resul = require('./actual')();
-var api2 = require('./getRacha');
+var api2 = require('./getRacha')();
 
-//var rachas = api2.getRacha(_,38).RachaApi.GetRachasCalendario(api.resultados);
-var rachas2;
-var lista  = [resul.resultados, rachas2];
+var rachas = api2(_,38).GetRachasCalendario(resul.resultados);
+
+var lista  = [rachas,resul.resultados];
 
 //Create server
 var app = express();
