@@ -28,7 +28,7 @@ app
                     //'url=http://www.marca.com/futbol/primera/calendario.html&callback=JSON_CALLBACK',
                     //    { headers : {'Content-Type': 'application/json; charset=utf-8', scriptCharset: 'utf-8'} }
                     //);
-                    var getCal = $http.get('http://www.marca.com/futbol/primera/calendario.html');
+                    var getCal = $http.get('calendario.html');
                     var getCla = $http.get('clasificacion.html', {cache: true});
                     promise = $q.all([getCal, getCla]);
 

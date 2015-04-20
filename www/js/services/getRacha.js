@@ -8,7 +8,6 @@
  * segun se producen o bine categorizados y sumados
  */
 app.factory('getRacha', function (_, NUM_JORNADAS) {
-
   /**
    * Api Racha, para calcular las rachas requiere dos inputs
    * resultados.push([local, rLocal, visitante, rVisitante, numeroJornada])
@@ -20,13 +19,54 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
     GetRachasCalendario: function (resultados) {
       return RachaApi.getResultadosCalendario(resultados);
     },
+
+    GetPrediccion: function (resultados, clasificacion,jorEstimada) {
+      var jorEstimada=jorEstimada-1; // array resultados empieza jornada cero.
+      var equipo;
+      var Avg = {};
+      var rachas = RachaApi.getRachasCategorizadas(resultados);
+      var resultbyCal = RachaApi.getResultadosCalendario(resultados);
+
+      //  calcula los promedios
+      for (var i = 0; i < clasificacion.length; i++) {
+         equipo = clasificacion[i][1];
+        Avg[equipo] = {
+          victoria: _.reduce(rachas[equipo][0], function(memo, num){ return memo + num; }, 0)/rachas[equipo][0].length,
+          empate: _.reduce(rachas[equipo][2], function(memo, num){ return memo + num; }, 0)/rachas[equipo][0].length,
+          derrota: _.reduce(rachas[equipo][1], function(memo, num){ return memo + num; }, 0)/rachas[equipo][0].length,
+          ultimo: rachas[equipo][3],
+          posicion: i + 1
+        };
+      }
+
+
+      // Analizo la racha de victotoria, si vuelve a ganar
+      if ( resultbyCal.calendario[equipo][jorEstimada-1] === 1 ) { // En la anterior jornada gano
+        //si volviese a ganar
+        //rachas[equipo][0]=2,2,5
+        // sacar el ultimo valor de la racha victorias = 5 y sumo otra mas +1 => su media
+        // si esta por encima  de su media de victorias, pues es mas chungo que pase
+        if (rachas[equipo][0][rachas[equipo][0].length-1] +1 > Math.round(Avg[equipo].victoria) +1){
+          // Prediccion seria de que no vuelve a ganar otra vez
+        }
+        else if ( rachas[equipo][0][rachas[equipo][0].length-1] +1 <= Math.round(Avg[equipo].victoria) +1){
+          // Se mantiene la racha = victoria
+        }// si estoy por debajo de su media de victorias puede ser no sea un racha sino un victoria puntal/acidental
+        // esto implica que no podemos predecir basado en rachas
+        else if (rachas[equipo][0][rachas[equipo][0].length-1] +1 <= Math.round(Avg[equipo].victoria) -1){
+          // no hay prediccion 1x2
+        }
+
+      }
+    },
+
     GetRachasCategoria: function (resultados, clasificacion) {
       var rachasOrdenadas = [];
       var rachas = RachaApi.getRachasCategorizadas(resultados);
 
       // Ordernar las rachas segun la clasificacion actual
       for (var i = 0; i < clasificacion.length; i++) {
-        var equipo = clasificacion[i];
+        var equipo = clasificacion[i][1];
 
         rachasOrdenadas[i] = {
           equipo: equipo,
@@ -189,14 +229,11 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
    */
   RachaApi.getRachasCategorizadas = function (resultados) {
 
-    var calendario = RachaApi.getResultadosCalendario();
-    //simularRachas(calendario);
-
-
+    var rachas = RachaApi.getResultadosCalendario(resultados);
     var equipos = RachaApi.getListaEquiposJornadas(resultados).equipos;
+    var calendario = rachas.calendario;
 
-
-    var rachas = {};
+    var rachasOut = {};
     var victorias = 0;
     var empates = 0;
     var derrotas = 0;
@@ -208,12 +245,14 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
       var slotVictorias = [];
       var slotDerrotas = [];
       var slotEmpates = [];
+
       // Toma como referecia la 'X', para deducir cual ha sido la ultima jornada
-      var ULTIMA_JORNADA_JUGADA = _.indexOf(calendario[equipos[0]], 'x') - 1;
-
+      //var ULTIMA_JORNADA_JUGADA = _.indexOf(calendario[equipos[0]], 'x') - 1;
+      var ULTIMA_JORNADA_JUGADA = _.size(_.toArray(calendario)[0]) -1
       var ultimoResultado = calendario[equipo][ULTIMA_JORNADA_JUGADA];
-      for (var j = 1; j <= NUM_JORNADAS; j++) {
+      for (var j = 0; j <= NUM_JORNADAS; j++) {
 
+        //slot victorias
         if (calendario[equipo][j] === 1) {
           if (calendario[equipo][j] === calendario[equipo][j + 1]) {
             victorias++;
@@ -258,10 +297,11 @@ app.factory('getRacha', function (_, NUM_JORNADAS) {
 //      slotDerrotas=  _.sortBy(slotDerrotas, function (name) {  return name;}).reverse();
 
       }
-      rachas[equipo] = [slotVictorias, slotDerrotas, slotEmpates, ultimoResultado];
+      rachasOut[equipo] = [slotVictorias, slotDerrotas, slotEmpates, ultimoResultado];
+     // console.log(rachasOut[equipo]);
     }
 
-    return rachas;
+    return rachasOut;
 
   };
 

@@ -14,6 +14,7 @@ var app=angular.module('app', ['ionic','underscore','firebase'])
       });
     })
     .constant('NUM_JORNADAS', 38)
+
     .constant('FIREBASE_URL', 'https://boiling-fire-888.firebaseio.com/')
     .config(function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
@@ -32,15 +33,19 @@ var app=angular.module('app', ['ionic','underscore','firebase'])
             url: '/tabs',
             templateUrl: 'templates/page7.html',
             controller: 'rachaCtrl'
+          }).state('aciertos', {
+              url: '/tabs3',
+              templateUrl: 'templates/aciertos.html',
+              controller: 'aciertosCtrl'
           }).state('fire', {
               url: '/tabs2',
               templateUrl: 'templates/post.html',
               controller: 'PostCtrl'
           });
     
-      // if none of the above states are matched, use this as the fallback
+      //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tabs');
+      $urlRouterProvider.otherwise('/tabs3');
 
 
     });
