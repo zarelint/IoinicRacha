@@ -2,43 +2,29 @@
 
 /**
  * @ngdoc function
- * @name iotutorialApp.controller:rachaCtrl
+ * @name iotutorialApp.controller: rachaCtrl
  * @description
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
 app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
-//app.controller('rachaCtrl', function ( $scope, $ionicModal, $http) {
-  //TODO usar los datos de FireBase
-    getResultados.loadData().then(function(data) {
-      $scope.racha = getRacha.GetRachasCalendario(data[0]);
 
-     // guardar en firebase
-     // Post.create($scope.racha);
+    //Tener un servidor propio permiter usar datos procesados y actualizados
+    $http.get('http://nodejs-rachas.rhcloud.com/Datosrachas').
+        success(function(data) {
+             $scope.racha = data[0];
+        });
 
-/*
-      $http.get('https://boiling-fire-888.firebaseio.com/posts/-JgIys2uB4ltcf5WpbD1.json').
-          success(function(data) {
-            $scope.racha = data;
-      });
+/*   Esto opcion no es util porque tenemos que recargar los datos en Firebase antes de usar la app
+      getResultados.loadData().then(function(data) {
+          //Subir a firebase
+          Post.create(getRacha.GetRachasCalendario(data[0]));
+          $http.get('https://boiling-fire-888.firebaseio.com/posts/-JgIys2uB4ltcf5WpbD1.json').
+              success(function(data) {
+                $scope.racha = data;
+          });
+      }
 */
-
-      $scope.scoreClass = function(scores) {
-        var clase ='';
-        if (scores === 0) {
-          clase= 'empate';
-        } else if (scores === 1) {
-          clase= 'victoria';
-        } else if (scores ===-1){
-          clase= 'derrota';
-        }
-        else {
-          clase= '';
-        }
-        return clase;
-      };
-
-    });
 
 
   /**
@@ -51,6 +37,20 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicMod
     $scope.compareDialog = modal;
   });
 
+    $scope.scoreClass = function(scores) {
+        var clase ='';
+        if (scores === 0) {
+            clase= 'empate';
+        } else if (scores === 1) {
+            clase= 'victoria';
+        } else if (scores ===-1){
+            clase= 'derrota';
+        }
+        else {
+            clase= '';
+        }
+        return clase;
+    };
 
   $scope.package = {};
 
