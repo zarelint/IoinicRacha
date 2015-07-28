@@ -7,24 +7,14 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
-
-    //Tener un servidor propio permiter usar datos procesados y actualizados
-    $http.get('http://nodejs-rachas.rhcloud.com/Datosrachas').
+app.controller('rachasPrimeraCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
+     //$http.get('http://nodejs-rachas.rhcloud.com/RachasPrimera',{ cache: true}).
+     $http.get('RachasPrimera.json',{ cache: true}).
+    //$http.get('http://localhost:8080/RachasPrimera',{ cache: true}).
         success(function(data) {
              $scope.racha = data[0];
         });
 
-/*   Esto opcion no es util porque tenemos que recargar los datos en Firebase antes de usar la app
-      getResultados.loadData().then(function(data) {
-          //Subir a firebase
-          Post.create(getRacha.GetRachasCalendario(data[0]));
-          $http.get('https://boiling-fire-888.firebaseio.com/posts/-JgIys2uB4ltcf5WpbD1.json').
-              success(function(data) {
-                $scope.racha = data;
-          });
-      }
-*/
 
 
   /**
@@ -32,7 +22,16 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicMod
    */
   $ionicModal.fromTemplateUrl('templates/compareDialog.html', {
     scope: $scope,
-    animation: 'slide-in-up'
+    animation: 'slide-in-up',
+      cerrar: function(){
+
+
+          for ( var equipo in $scope.racha.calendario ){
+              $scope.racha.calendario[equipo].checked = false;
+          }
+          $scope.selection=[];
+          this.hide();
+      }
   }).then(function(modal) {
     $scope.compareDialog = modal;
   });
@@ -90,6 +89,9 @@ app.controller('rachaCtrl', function (getResultados, $scope, getRacha, $ionicMod
       $scope.selection.push(equipo);
     }
 
+      if ($scope.selection.length ===2) {
+          $scope.comparar();
+      }
   };
 
 

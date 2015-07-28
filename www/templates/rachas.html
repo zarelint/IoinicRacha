@@ -1,0 +1,68 @@
+<ion-view title="Primera">
+    <ion-content>
+
+        <button class="button button-positive button-block" ng-click="comparar()">Predecir</button>
+        <ion-scroll zooming="true" direction="xy" class="myScroll" style="width: 500px; height: 500px">
+
+
+                <div ng-repeat="(key2,val) in racha.calendario">
+
+
+
+                              <!--  <div class="row">-->
+
+                                    <label class="checkbox  button"   ng-class="{'button-calm': racha.calendario[key2].checked }" >
+                                        <div class="row row-center">
+                                            <div class=" col-center rcorners2">
+                                                    <input id="{{key2}}"   ng-show=false
+                                                           type="checkbox"
+                                                           ng-disabled="selection.length==2 && !racha.calendario[key2].checked"
+                                                           ng-model="racha.calendario[key2].checked"
+                                                           ng-change="selecionarEquipo(key2)"
+                                                           ng-checked="selection.indexOf(key2) > -1">
+                                            </div>
+                                            <div class="col">
+                                                <div class="text-center rcorners2">&nbsp;&nbsp;{{key2}}</div>
+
+                                                <div class="row">
+                                                    <div ng-class="scoreClass(b)" class="item col" ng-repeat="b in val track by $index"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </label>
+                                    <!--<div class="col">{{key2}}</div>-->
+                                <!--</div>-->
+
+
+                    </div>
+
+                </div>
+
+<!--            <ul class="list">
+                <li class="item">
+                    <div ng-repeat="(key,val) in racha.calendario">
+                        <div class="row">
+                            <label class="checkbox ">
+                                <input id="{{key}}"
+                                       type="checkbox"
+                                       ng-disabled="selection.length==2 && !racha.calendario[key].checked"
+                                       ng-model="racha.calendario[key].checked"
+                                       ng-change="selecionarEquipo(key)"
+                                       ng-checked="selection.indexOf(key) > -1"
+                                       value="{{key}}">
+                            </label>
+
+                            <div class="col col-center">{{key}}</div>
+                            <div ng-class="scoreClass(b)" class="item" ng-repeat="b in val track by $index"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>-->
+
+        </ion-scroll>
+        <div class="spacer" style="height: 100px;"></div>
+
+    </ion-content>
+
+</ion-view>

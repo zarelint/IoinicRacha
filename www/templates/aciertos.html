@@ -1,0 +1,33 @@
+<ion-view title="Agenda">
+            <ion-content>
+
+                <ion-list>
+                    <div ng-repeat="(group,val) in predicciones">
+                        <ion-item class="item-stable"
+                                  ng-click="toggleGroup(group)"
+                                  ng-class="{active: isGroupShown(group)}">
+                            <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                            &nbsp;
+                             {{group}}
+                        </ion-item>
+                        <ion-item class="item-accordion"
+                                  ng-repeat="(key2,val) in predicciones[group]"
+                                  ng-show="isGroupShown(group)">
+
+                                <div class="col">
+                                  <b>{{predicciones[group][key2].partido}}</b>
+                                </div>
+
+                                <div class="col">
+                                    <div class="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jornada Estimada: {{predicciones[group][key2].jorEstimada}} </div>
+                                    <div class="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Liga: {{predicciones[group][key2].liga}} </div>
+                                    <div class="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Promedio de Aciertos: {{predicciones[group][key2].ligaRate}}  </div>
+                                </div>
+
+                        </ion-item>
+                    </div>
+                </ion-list>
+
+            </ion-content>
+
+</ion-view>

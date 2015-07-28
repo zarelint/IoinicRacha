@@ -1,5 +1,5 @@
 'use strict';
-var app=angular.module('app', ['ionic','underscore','firebase'])
+var app=angular.module('app', ['ionic','underscore'])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -28,24 +28,49 @@ var app=angular.module('app', ['ionic','underscore','firebase'])
       // Learn more here: https://github.com/angular-ui/ui-router
       // Set up the various states which the app can be in.
       // Each state's controller can be found in controllers.js
-      $stateProvider
-          .state('page7', {
-            url: '/tabs',
-            templateUrl: 'templates/page7.html',
-            controller: 'rachaCtrl'
-          }).state('aciertos', {
-              url: '/tabs3',
-              templateUrl: 'templates/aciertos.html',
-              controller: 'aciertosCtrl'
-          }).state('fire', {
-              url: '/tabs2',
-              templateUrl: 'templates/post.html',
-              controller: 'PostCtrl'
-          });
-    
-      //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tabs3');
+        $stateProvider
+            .state('tabs', {
+                url: "/tab",
+                abstract: true,
+                templateUrl: "templates/tabs.html"
+            })
+            .state('tabs.primera', {
+                url: "/primera",
+                views: {
+                    'primera': {
+                        templateUrl: "templates/rachas.html",
+                        controller: 'rachasPrimeraCtrl'
+                    }
+                }
+            })
+            .state('tabs.segunda', {
+                url: "/segunda",
+                views: {
+                    'segunda': {
+                        templateUrl: "templates/rachas2.html",
+                        controller: 'rachasSegundaCtrl'
+                    }
+                }
+            })
+            .state('tabs.tips', {
+                url: "/tips",
+                views: {
+                    'tips': {
+                        templateUrl: "templates/aciertos.html",
+                        controller: 'aciertosCtrl'
+                    }
+                }
+            });
+
+
+
+
+
+
+        //Pagina por defecto si no hay match
+
+      $urlRouterProvider.otherwise('/tab/segunda');
 
 
     });
