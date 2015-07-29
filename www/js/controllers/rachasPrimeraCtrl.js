@@ -13,7 +13,11 @@ app.controller('rachasPrimeraCtrl', function (getResultados, $scope, getRacha, $
     //$http.get('http://localhost:8080/RachasPrimera',{ cache: true}).
         success(function(data) {
              $scope.racha = data[0];
+             for ( var equipo in $scope.racha.calendario ){
+                 $scope.racha.calendario[equipo].splice(0, 1);
+             }
         });
+
 
 
 
@@ -30,7 +34,7 @@ app.controller('rachasPrimeraCtrl', function (getResultados, $scope, getRacha, $
               $scope.racha.calendario[equipo].checked = false;
           }
           $scope.selection=[];
-          this.hide();
+          $scope.compareDialog.hide();
       }
   }).then(function(modal) {
     $scope.compareDialog = modal;

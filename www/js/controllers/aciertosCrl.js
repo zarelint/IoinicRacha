@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('aciertosCtrl', function ($scope, $http,_) {
+app.controller('aciertosCtrl', function ($scope, $http,_,$ionicSlideBoxDelegate) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     //$http.get('http://nodejs-rachas.rhcloud.com/Pliga').
     $http.get('Pliga.json').
@@ -21,7 +21,13 @@ app.controller('aciertosCtrl', function ($scope, $http,_) {
                 '18 julio': [{liga: 'bread1',partido: 'butter1',ligaRate:'55%',jorEstimada:13}],
                 '21 julio': [{liga: 'bread1',partido: 'butter1',ligaRate:'55%',jorEstimada:13}]
             };*/
-
+            $scope.ultimos = [  {date:'Sep 14', partido1:'Criciuma EC',res:'1-1',partido2:'Botafogo'},
+                                {date:'Sep 14', partido1:'Criciuma EC',res:'1-1',partido2:'Botafogo'},
+                                {date:'Sep 14', partido1:'Botafogo',res:'6-0',partido2:'Botafogo'},
+                                {date:'Sep 14', partido1:'Botafogo',res:'3-0',partido2:'Botafogo'},
+                                {date:'Sep 14', partido1:'Criciuma EC',res:'1-2',partido2:'Botafogo'},
+                                {date:'Sep 14', partido1:'Botafogo',res:'1-1',partido2:'Botafogo'}
+            ];
 
             /*
              * if given group is the selected group, deselect it
@@ -31,6 +37,7 @@ app.controller('aciertosCtrl', function ($scope, $http,_) {
                 if ($scope.isGroupShown(group)) {
                     $scope.shownGroup = null;
                 } else {
+                    $ionicSlideBoxDelegate.update();
                     $scope.shownGroup = group;
                 }
             };

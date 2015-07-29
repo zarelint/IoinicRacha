@@ -15,6 +15,9 @@ app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $
         //$http.get('http://localhost:8080/RachasSegunda',{ cache: true}).
         success(function(data) {
             $scope.racha = data[0];
+            for ( var equipo in $scope.racha.calendario ){
+                $scope.racha.calendario[equipo].splice(0, 1);
+            }
         });
 
 
@@ -22,19 +25,18 @@ app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $
      * Definicicion dialogo CompareDialog
      */
     $ionicModal.fromTemplateUrl('templates/compareDialog.html', {
-        scope: $scope,
-        animation: 'slide-in-up',
-        cerrar: function(){
+            scope: $scope,
+            animation: 'slide-in-up',
+            cerrar: function(){
+                for ( var equipo in $scope.racha.calendario ){
+                    $scope.racha.calendario[equipo].checked = false;
+                }
+                $scope.selection=[];
+                $scope.compareDialog.hide();
 
-
-            for ( var equipo in $scope.racha.calendario ){
-                $scope.racha.calendario[equipo].checked = false;
             }
-            $scope.selection=[];
-            this.hide();
-        }
     }).then(function(modal) {
-        $scope.compareDialog2 = modal;
+        $scope.compareDialog = modal;
     });
 
 
@@ -66,12 +68,12 @@ app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $
          */
         if ( $scope.selection.length !== 2 ){
             $scope.mostrarDialog = true;
-            $scope.package.errorDialog='Deben estar seleccionados 2 equipos';
+            $scope.package.errorDialog='Deben estar seleccionados 3 equipos';
         }else{
             $scope.mostrarDialog = false;
         }
 
-        $scope.compareDialog2.show();
+        $scope.compareDialog.show();
     };
 
     $scope.selection=[];
@@ -90,7 +92,9 @@ app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $
         else {
             $scope.selection.push(equipo);
         }
-
+        if ($scope.selection.length ===2) {
+            $scope.comparar();
+        }
     };
 
 

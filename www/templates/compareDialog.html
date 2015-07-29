@@ -1,7 +1,7 @@
 <ion-modal-view>
 
-    <ion-header-bar class="bar-positive">
-        <h1 class="title">Comparativa</h1>
+    <ion-header-bar class="bar-positive" align-title="center">
+        <h1 class="title" >Resultados Casa/Fuera</h1>
     </ion-header-bar>
     <!--<ion-content has-header="true" has-footer="false" padding="true" scroll="false">-->
         <ion-content>
@@ -20,18 +20,20 @@
                     <div class="text-center">{{selection[0]}} - {{selection[1]}}</div>
 
                     <div class="row">
-                        <div class="col-10">{{selection[0]}}</div>
-                        <ion-scroll zooming="true" direction="x" class="myScroll"  >
+
+                        <div class="col-20">{{selection[0]}}</div>
+                        <ion-scroll zooming="true" direction="x" class="myScroll"  style="width: 360px"  >
                             <div class="row">
-                            <div ng-class="scoreClass(b)" class="item col"
-                                 ng-repeat="b in racha.casa[selection[0]] track by $index">
-                            </div> </div>
+                                <div ng-class="scoreClass(b)" class="item col"
+                                     ng-repeat="b in racha.casa[selection[0]] track by $index">
+                                </div>
+                            </div>
                         </ion-scroll>
                     </div>
 
                     <div class="row">
-                        <div class="col-10">{{selection[1]}}</div>
-                        <ion-scroll zooming="true" direction="x" class="myScroll"  >
+                        <div class="col-20">{{selection[1]}}</div>
+                        <ion-scroll zooming="true" direction="x" class="myScroll"  style="width: 360px"  >
                             <div class="row">
                         <div ng-class="scoreClass(b)" class="item col"
                              ng-repeat="b in racha.fuera[selection[1]] track by $index">
@@ -43,8 +45,8 @@
                     <div class="text-center">{{selection[1]}} - {{selection[0]}}</div>
 
                     <div class="row">
-                        <div class="col-10">{{selection[1]}}</div>
-                        <ion-scroll zooming="true" direction="x" class="myScroll"  >
+                        <div class="col-20">{{selection[1]}}</div>
+                        <ion-scroll zooming="true" direction="x" class="myScroll"   style="width: 360px" >
                             <div class="row">
                                 <div ng-class="scoreClass(b)" class="item col"
                                      ng-repeat="b in racha.casa[selection[1]] track by $index">
@@ -53,8 +55,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-10">{{selection[0]}}</div>
-                        <ion-scroll zooming="true" direction="x" class="myScroll"  >
+                        <div class="col-20">{{selection[0]}}</div>
+                        <ion-scroll zooming="true" direction="x" class="myScroll"  style="width: 360px"   >
                             <div class="row">
                                 <div ng-class="scoreClass(b)" class="item col"
                                      ng-repeat="b in racha.fuera[selection[0]] track by $index">
