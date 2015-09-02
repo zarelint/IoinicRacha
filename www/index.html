@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
-
+ <!--<base href="/IoinicRacha/www/" />-->
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/ionicons.min.css" rel="stylesheet">
@@ -24,17 +24,14 @@
     <script src="js/app.js"></script>
     <script src="js/controllers/rachasSegunda2Ctrl.js"></script>
     <script src="js/controllers/rachasPrimeraCtrl.js"></script>
-    <script src="js/services/getRacha.js"></script>
-    <script src="js/services/getResultados.js"></script>
-    <script src="js/controllers/PostServer.js"></script>
+
+
     <script src="js/controllers/aciertosCrl.js"></script>
+    <script src="js/controllers/LoginCtrl.js"></script>
 
-    <!-- bower js  <script src="lib/angular/angular.js"></script>
-        <script src="lib/angularfire/dist/angularfire.js"></script>
-    <script src="lib/angularfire/dist/angularfire.js"></script>
-        <script src="lib/firebase/firebase.js"></script>
+      <script src="js/services/auth.factory.js"></script>
+      <script src="js/services/data.factory.js"></script>
 
-    -->
 
     <script src="lib/underscore/underscore.js"></script>
     <script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
@@ -46,7 +43,8 @@
 
   </head>
 
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body ng-app="app">
+
   <div>
     <div>
       <ion-nav-bar class="bar-stable">
@@ -59,4 +57,4 @@
   </body>
 </html>
 
-</html>
+

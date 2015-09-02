@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachasPrimeraCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
+app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
      //$http.get('http://nodejs-rachas.rhcloud.com/RachasPrimera',{ cache: true}).
      $http.get('RachasPrimera.json',{ cache: true}).
     //$http.get('http://localhost:8080/RachasPrimera',{ cache: true}).
@@ -93,10 +93,10 @@ app.controller('rachasPrimeraCtrl', function (getResultados, $scope, getRacha, $
       $scope.selection.push(equipo);
     }
 
-      if ($scope.selection.length ===2) {
+    if ($scope.selection.length ===2) {
           $scope.comparar();
-      }
+    }
   };
-
+    console.log( 'primera '+accessToken);
 
 });

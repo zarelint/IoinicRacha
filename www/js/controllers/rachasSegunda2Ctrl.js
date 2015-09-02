@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $ionicModal, $http) {
+app.controller('rachasSegundaCtrl', function ( $scope, $ionicModal, $http) {
 
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/RachasSegunda',{ cache: true}).
@@ -19,7 +19,7 @@ app.controller('rachasSegundaCtrl', function (getResultados, $scope, getRacha, $
                 $scope.racha.calendario[equipo].splice(0, 1);
             }
         });
-
+    console.log( 'segunda '+accessToken);
 
     /**
      * Definicicion dialogo CompareDialog
