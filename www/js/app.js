@@ -46,7 +46,7 @@ var app=angular.module('app', ['ionic','underscore'])
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
 
-    .config(function($httpProvider,$stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         $httpProvider.interceptors.push('TokenInterceptor');
 
@@ -107,7 +107,7 @@ var app=angular.module('app', ['ionic','underscore'])
 
         //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tab/segunda');
+      $urlRouterProvider.otherwise('/tab/primera');
 
 /*        $urlRouterProvider.otherwise(function($injector, $location){
             var state = $injector.get('$state');

@@ -11,8 +11,8 @@ app.controller('rachasSegundaCtrl', function ( $scope, $ionicModal, $http) {
 
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/RachasSegunda',{ cache: true}).
-    $http.get('RachasSegunda.json',{ cache: true}).
-        //$http.get('http://localhost:8080/RachasSegunda',{ cache: true}).
+ //   $http.get('RachasSegunda.json',{ cache: true}).
+        $http.get('http://localhost:8080/RachasSegunda',{ cache: true}).
         success(function(data) {
             $scope.racha = data[0];
             for ( var equipo in $scope.racha.calendario ){

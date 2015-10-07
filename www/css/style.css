@@ -1,16 +1,48 @@
 /* Empty. Add your own CSS if you like */
-.derrota {
-    background: #f78d53;
-    #border-radius: 50%;
+.texto-celda {
+    position: relative;
+    top: 35%;
+    -webkit-transform: translateY(-35%);
+    -ms-transform: translateY(-35%);
+    transform: translateY(-35%);
+    font-size: 10px;
+    color: white;
+    font-stretch: condensed;
+    font-weight: bold;
+    width: 10px;
 }
+.row-tam2{
+    line-height: 10px;
+    padding: 0;
 
+}
+.texto-celda2 {
+text-align: center;
+    font-size: 10px;
+    color: white;
+    font-stretch: condensed;
+    font-weight: bold;
+    width: 10px;
+}
+.row-tam{
+    padding: 0;
+    height: 15px;
+}
+.derrota {
+
+    padding: 1px;
+    background: #f78d53;
+}
+.blanco {
+    padding: 1px;
+}
 .victoria {
-   #border-radius: 50%;
+    padding: 1px;
     background: #3cd12f;
 }
 .empate {
-    #border-radius: 50%;
-    background: #ffff00;
+    padding: 1px;
+    background: #ffc011;
 }
 .wide-as-needed {
     overflow: scroll;
@@ -20,12 +52,8 @@
 ion-scroll .item {
     display: inline-block;
     margin: 0;
-    /*height: 50%;*/
 }
-.jesus {
-    padding: 0;
-    border: 1px solid;
-}
+
 .slider{
   position: absolute !important;
   top: 0 !important;
@@ -37,9 +65,22 @@ ion-scroll .item {
 width: 100%;
 height: 100% ;
 }
-.rcorners3 {
+.borde {
     border: 2px solid #8AC007;
 }
+
+.circle-singleline {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: center;
+    background: #45aec8;
+    color: white;
+    box-shadow: 1px 1px 1px black;
+}
+
 body {
     cursor: url('http://ionicframework.com/img/finger.png'), auto;
 }
@@ -54,7 +95,7 @@ body {
     transition: 0.09s all linear;
 }
 .list .item.item-accordion.ng-hide {
-    line-height: 0px;
+    line-height: 0;
 }
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {

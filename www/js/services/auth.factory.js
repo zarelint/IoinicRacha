@@ -40,9 +40,13 @@ app.factory('TokenInterceptor', function($q, $window) {
     return {
         request: function(config) {
             config.headers = config.headers || {};
-            if ($window.sessionStorage.token) {
-                config.headers['X-Access-Token'] = $window.sessionStorage.token;
-                config.headers['X-Key'] = $window.sessionStorage.user;
+            //if ($window.sessionStorage.token) {
+            if (accessToken) {
+                //config.headers['X-Access-Token'] = $window.sessionStorage.token;
+                //config.headers['X-Access-Token'] = accessToken;
+                //$ curl -v -H "Authorization: Bearer 123456789" http://127.0.0.1:3000/
+                config.headers['Authorization'] = 'Bearer'+' '+accessToken;
+                // config.headers['X-Key'] = $window.sessionStorage.user;
                 config.headers['Content-Type'] = "application/json";
             }
             return config || $q.when(config);
