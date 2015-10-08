@@ -25,8 +25,14 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
                  $scope.racha[liga].calendarioFiltered =  angular.copy($scope.racha[liga].calendario) ;
                  $scope.racha[liga].difGolFiltered =      angular.copy($scope.racha[liga].difGol);
                  $scope.racha[liga].difPuntosFiltered =   angular.copy($scope.racha[liga].difPuntos);
-                 $scope.racha[liga].casaFiltered =   angular.copy($scope.racha[liga].casa);
-                 $scope.racha[liga].fueraFiltered =   angular.copy($scope.racha[liga].fuera);
+                 $scope.racha[liga].casaFiltered =          angular.copy($scope.racha[liga].casa);
+                 $scope.racha[liga].fueraFiltered =     angular.copy($scope.racha[liga].fuera);
+                 $scope.racha[liga].difPuntosCasaFiltered =   angular.copy($scope.racha[liga].difPuntosCasa);
+                 $scope.racha[liga].difPuntosFueraFiltered =   angular.copy($scope.racha[liga].difPuntosFuera);
+
+
+
+
              }
 
              $scope.items = $scope.ligas;
@@ -44,9 +50,6 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
 
     $scope.changedliga = function() {
          ligaSelected = $scope.items[$scope.data.selectedindex];
-/*        var nombreequipo = Object.keys($scope.racha[ligaSelected].difPuntos)[0];
-        $scope.anchoFila =  (  ($scope.racha[ligaSelected].difPuntos[nombreequipo].length -1 ) / 2)*13+'px';
-        $scope.anchoFilaCalendar =    ($scope.racha[ligaSelected].calendario[nombreequipo].length -1 ) *13+'px';*/
     };
 
     $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,tipo) {
@@ -58,11 +61,13 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
         }
 
         // Clear previous filters
-        $scope.racha[ligaSelected].calendarioFiltered =  angular.copy($scope.racha[ligaSelected].calendario) ;
-        $scope.racha[ligaSelected].difGolFiltered =      angular.copy($scope.racha[ligaSelected].difGol);
-        $scope.racha[ligaSelected].difPuntosFiltered =   angular.copy($scope.racha[ligaSelected].difPuntos);
-        $scope.racha[ligaSelected].casaFiltered =   angular.copy($scope.racha[ligaSelected].casa);
-        $scope.racha[ligaSelected].fueraFiltered =   angular.copy($scope.racha[ligaSelected].fuera);
+        $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
+        $scope.racha[ligaSelected].difGolFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].difGol[equipo]);
+        $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
+        $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
+        $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
+        $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosCasa[equipo]);
+        $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);
 
         if (filterValue !== null){ // si selecciona null no filtramos y salimos
 
@@ -78,27 +83,21 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
             indextobedeleted.sort( function(a,b){return b-a} );
             var cont=0;
             for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+
                 $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].difGolFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
+                $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
+                $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
+
                 cont++;
             }
 
         }
 
 
-
-        if (tipo ==='Equipo0'){
-            $scope.anchoFilaCalendarEquipo0 =    ($scope.racha[ligaSelected].calendarioFiltered[equipo].length -1 ) *22+'px';
-            $scope.anchoFilaEquipoCasa0 =  (  ($scope.racha[ligaSelected].casaFiltered[equipo].length -1 ) / 1)*22+'px';
-            $scope.anchoFilaEquipoFuera0 =  (  ($scope.racha[ligaSelected].fueraFiltered[equipo].length -1 ) / 1)*22+'px';
-        }else{
-            $scope.anchoFilaCalendarEquipo1 =    ($scope.racha[ligaSelected].calendarioFiltered[equipo].length -1 ) *22+'px';
-            $scope.anchoFilaEquipoCasa1 =  (  ($scope.racha[ligaSelected].casaFiltered[equipo].length -1 ) / 1)*22+'px';
-            $scope.anchoFilaEquipoFuera1 =  (  ($scope.racha[ligaSelected].fueraFiltered[equipo].length -1 ) / 1)*22+'px';
-        }
 
 
 
@@ -161,7 +160,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
   });
 
     $scope.scoreClass = function(scores) {
-        var clase ='';
+        var clase= 'blanco';
         if (scores === 0) {
             clase= 'empate';
         } else if (scores >0) {
@@ -169,9 +168,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
         } else if (scores <0){
             clase= 'derrota';
         }
-        else {
-            clase= 'blanco';
-        }
+
         return clase;
     };
 
@@ -200,11 +197,6 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
           $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
           $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
       }
-
-
-
-
-
 
 
       $scope.compareDialog.show();

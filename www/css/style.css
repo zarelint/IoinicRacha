@@ -22,7 +22,7 @@ text-align: center;
     color: white;
     font-stretch: condensed;
     font-weight: bold;
-    width: 10px;
+    width: 15px;
 }
 .row-tam{
     padding: 0;
@@ -44,6 +44,7 @@ text-align: center;
     padding: 1px;
     background: #ffc011;
 }
+
 .wide-as-needed {
     overflow: scroll;
     white-space: nowrap;
