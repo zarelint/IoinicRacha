@@ -1,7 +1,7 @@
 
 <ion-view title="Primera"   >
     <!--<select ng-model="blah" ng-options="key as value for (key , value) in data"></select>-->
-    <ion-content>
+    <ion-content class="padding">
         <select ng-model="data.selectedindex"
                 ng-options="items.indexOf(item) as item for item in items"
                 ng-change="changedliga()">
@@ -21,7 +21,7 @@
                                     <label class="checkbox  button"   ng-class="{'button-calm': racha[ items[data.selectedindex] ].calendarioFiltered[key2].checked }" >
                                         <div class="row row-center">
 
-                                            <div class=" col-center rcorners2">
+                                            <div class=" col-center ">
                                                     <input id="{{key2}}"   ng-show=false
                                                            type="checkbox"
                                                            ng-disabled="selection.length==2 && !racha[ items[data.selectedindex] ].calendarioFiltered[key2].checked"
@@ -31,10 +31,10 @@
                                             </div>
 
                                             <div class="col">
-                                                <div class="text-center rcorners2">&nbsp;&nbsp;{{key2}}</div>
+                                                <div class="text-center">&nbsp;&nbsp;{{key2}}</div>
 
                                                 <div class="row row-tam " >
-                                                    <div ng-class="scoreClass(b)"  class="item col " ng-repeat="b in val track by $index " ng-if="$index > 0">
+                                                    <div ng-class="scoreClass(b)"  class="item  " ng-repeat="b in val track by $index " ng-if="$index > 0">
                                                         <div class="texto-celda">  {{ racha[ items[data.selectedindex] ].difPuntosFiltered[key2][$index]}} </div>
                                                     </div>
                                                 </div>
@@ -56,7 +56,7 @@
 
 
                 </div>
-
+            <div class="spacer" style="width: 360px; height: 137px;"></div>
 
         </ion-scroll>
 

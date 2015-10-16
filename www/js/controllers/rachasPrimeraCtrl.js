@@ -10,12 +10,10 @@
 app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
 
     var ligaSelected ;
-    //$http.get('http://nodejs-rachas.rhcloud.com/RachasPrimera',{ cache: true}).
-    // $http.get('RachasPrimera.json',{ cache: true}).
-    //  $http.get('http://localhost:8080/ligas',{ cache: true}).
-    $http.get('ligas.json',{ cache: true}).
-    //$http.get('http://nodejs-rachas.rhcloud.com/ligas',{ cache: true}).
-    // $http.get('http://localhost:8080/RachasPrimera').
+
+    // $http.get('http://localhost:8080/ligas',{ cache: true}).
+     $http.get('ligas2.json',{ cache: true}).
+
         success(function(data) {
              $scope.ligas = [];
              $scope.racha = data;
@@ -37,7 +35,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
 
              $scope.items = $scope.ligas;
              $scope.data = {};
-             $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0];
+             $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
              $scope.data.selectedindex = 1;
              $scope.data.selectedindex2 = 1;
              $scope.data.selectedindexEquipo0 = 1;
@@ -46,7 +44,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
              ligaSelected = $scope.items[1];
         });
 
-
+$scope.filtroAnimo={};
 
     $scope.changedliga = function() {
          ligaSelected = $scope.items[$scope.data.selectedindex];
@@ -75,8 +73,23 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
             // get index to be deleted
             for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
                 var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
-                if (value > filterValue || value < -filterValue) {
+/*                if (value > filterValue || value < -filterValue) {
                     indextobedeleted.push(indexjornada);
+                }*/
+                if (filterValue > 0){
+                    if (value > filterValue || value <0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValue < 0){
+                    if (value < filterValue || value >0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValue === 0){
+                    if (value !== filterValue ) {
+                        indextobedeleted.push(indexjornada);
+                    }
                 }
             }
             //sort index in descent order
@@ -120,8 +133,13 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
                 for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
                     var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
 
-                   if (value > filterValue || value < -filterValue) {
+             /*      if (value > filterValue || value < -filterValue) {
                         indextobedeleted.push(indexjornada);
+                    }*/
+                    if (filterValue >= 0){
+                        if (value > filterValue || value <0) {
+                            indextobedeleted.push(indexjornada);
+                        }
                     }
 
                 }
@@ -159,7 +177,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
     $scope.compareDialog = modal;
   });
 
-    $scope.scoreClass = function(scores) {
+    $scope.scoreClass = function scoreClass(scores) {
         var clase= 'blanco';
         if (scores === 0) {
             clase= 'empate';
@@ -171,7 +189,28 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
 
         return clase;
     };
-
+    $scope.scoreClass2 = function scoreClass2(scores,dif,filtroAnimo) {
+        var clase= 'blanco';
+        if (scores === 0) {
+            clase= 'empate';
+        } else if (scores >0) {
+            clase= 'victoria';
+        } else if (scores <0){
+            clase= 'derrota';
+        }
+if (filtroAnimo.checked===true) {
+    if (dif > 2 && scores === 0) { // has empatado con un mierda [bajonazo]
+        clase = 'derrota';
+    }
+    if (dif < -2 && scores === 0) { // has empatado con el madrid [subidon y que se jodan]
+        clase = 'victoria';
+    }
+    if (dif < -5 && scores < 0) { // has perdido con el madrid [ bueno chavles no pasa lo normas como si fuera un empate
+        clase = 'empate';
+    }
+}
+        return clase;
+    };
   $scope.package = {};
 
 
@@ -190,13 +229,16 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
       $scope.mostrarDialog = false;
     }
 
-      if ( $scope.racha[ligaSelected].donde[$scope.selection[0]][$scope.racha[ligaSelected].ultima]==='casa'  ){
+      //if ( $scope.racha[ligaSelected].donde[$scope.selection[0]][$scope.racha[ligaSelected].ultima]==='casa'  ){
           $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
           $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-      }else{
-          $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-          $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-      }
+
+          $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
+          $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
+
+          $scope.dificultadSelec1Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
+          $scope.dificultadSelec0Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
+
 
 
       $scope.compareDialog.show();

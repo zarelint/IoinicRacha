@@ -9,7 +9,7 @@
     color: white;
     font-stretch: condensed;
     font-weight: bold;
-    width: 10px;
+    width: 13px;
 }
 .row-tam2{
     line-height: 10px;
@@ -107,4 +107,15 @@ body {
     position: relative;
     height: 320px;
 }
+.pegar{
+    padding: 0;
+}
+.item-checkbox-right .checkbox input,
+.item-checkbox-right .checkbox-icon {
+    float: right;
+}
 
+.item-checkbox.item-checkbox-right {
+    /*the default item padding*/
+    padding: 15px;
+}

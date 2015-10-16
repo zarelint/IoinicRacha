@@ -44,17 +44,43 @@
                 </label>
 
 
+                <div class="item   col  ">
+                    <div class="row row-center ">
+                        <div class="col col-75 ">
+                            Filtro Resultados Emocionales
+                        </div>
+                        <div class="col  ">
+                            <label class="toggle">
+                                <input type="checkbox" ng-model="filtroAnimo.checked">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
              <ion-scroll zooming="true" direction="x" class="myScroll"  style="width: 360px"  >
+
+
+
+
                 <div class="item ">
+
 
                     <div class="text-center">{{selection[0]}} / {{selection[1]}}</div>
 
                     <div class="row row-center">
                             <div class="row row-tam2" >
-                                <div  ng-class="scoreClass(p)" class="item"
+                                <div  ng-class="scoreClass2(p,racha[ items[data.selectedindex] ].difPuntosFiltered[selection[0]][$index],filtroAnimo)" class="item"
                                       ng-repeat="p in racha[items[data.selectedindex]].calendarioFiltered[selection[0]] track by $index "
                                       ng-if="  racha[items[data.selectedindex]].calendarioFiltered[selection[0]][$index]!=='x' && $index > 0 && racha[items[data.selectedindex]].calendarioFiltered[selection[0]][$index]!== null ">
-                                    <div class="texto-celda2"> {{racha[ items[data.selectedindex] ].difPuntosFiltered[selection[0]][$index]}}</div>
+                                    <div class="texto-celda2"> {{racha[ items[data.selectedindex] ].difPuntosFiltered[selection[0]][$index] }}</div>
                                 </div>
                             </div>
                     </div>
@@ -63,7 +89,7 @@
 
                     <div class="row row-center">
                             <div class="row row-tam2" >
-                                <div  ng-class="scoreClass(p)" class="item"
+                                <div  ng-class="scoreClass2(p,racha[ items[data.selectedindex] ].difPuntosFiltered[selection[1]][$index],filtroAnimo)" class="item"
                                       ng-repeat="p in racha[items[data.selectedindex]].calendarioFiltered[selection[1]] track by $index"
                                       ng-if=" racha[items[data.selectedindex]].calendarioFiltered[selection[1]][$index]!=='x' && $index > 0 && racha[items[data.selectedindex]].calendarioFiltered[selection[1]][$index]!== null ">
                                     <div class="texto-celda2"> {{racha[ items[data.selectedindex] ].difPuntosFiltered[selection[1]][$index]}}   </div>
@@ -76,6 +102,7 @@
 
                 <div class="item">
                     <div class="text-center">{{selection[0]}} / {{selection[1]}} </div>
+                    <div class="text-center">{{dificultadSelec0Casa}} / {{dificultadSelec1Fuera}} </div>
                     <div class="row row-center">
                         <div class="row row-tam2" >
                             <div  ng-class="scoreClass(p)" class="item"
@@ -100,6 +127,7 @@
              <!--   </ion-scroll>-->
                 <div class="item">
                     <div class="text-center">{{selection[1]}} / {{selection[0]}} </div>
+                    <div class="text-center">{{dificultadSelec1Casa}} / {{dificultadSelec0Fuera}} </div>
                     <div class="row row-center">
                    <!--     <ion-scroll zooming="true" direction="x" class="myScroll"  style="width: 300px"  >-->
                             <div class="row row-tam2" >
