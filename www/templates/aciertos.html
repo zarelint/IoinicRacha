@@ -1,5 +1,5 @@
 <ion-view title="Agenda"  cache-view="false" >
-            <ion-content>
+            <ion-content  class="has-subheader" >
 
                 <ion-list>
 
@@ -14,89 +14,29 @@
                             {{group}}
                         </ion-item>
 
-
-                        <ion-item ng-repeat="(key2,val) in predicciones[group]" ng-show="isGroupShown(group)">
-
-                          <div class=" slide-container" >
-                                <ion-slide-box on-slide-changed="slideHasChanged($index)"  active-slide="activeSlide">
-                                    <ion-slide>
+                            <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 
 
+                                <ion-item class="item-dark texto-blanco row row-center" ng-click="ver(liga)" >
+                                        <div class="col col-70">  {{ liga }} / {{val[0].jornada}}  </div>
 
-                                        <div class="card">
-                                            <div class="item item-divider item-calm">
-                                                <div class="row">
-                                                    <div class="col">{{predicciones[group][key2].partido}}</div>
+                                        <div class="col2 "> <b>{{val[0].rate}}%</b>  </div>
+                                </ion-item>
 
-                                                </div>
+                               <!-- href="#/tab/tips-->
 
+                                <ion-item   class="item-text-wrap"  ng-repeat="predLiga in val"  ng-class-odd="'even-row'" >
+                                            <div class="row row-center"  ng-click="verEncuentro(predLiga)">
+                                                <div class="col col-20">  {{predLiga.hora}}              </div>
+                                                <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
+                                                <div>    <b>{{predLiga.prediccion}}</b>  </div>
                                             </div>
-                                            <div class="item item-text-wrap">
-                                                <div class="row">
-                                                    <div class="col">Jornada Estimada </div>
-                                                    <div class="col">{{predicciones[group][key2].jorEstimada}} </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">Liga </div>
-                                                    <div class="col"> {{predicciones[group][key2].liga}} </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">Promedio de Aciertos </div>
-                                                    <div class="col"> {{predicciones[group][key2].ligaRate}}  </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">Prediccion</div>
-                                                    <div class="col" style="font-size:20px"><b>1X</b></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                </ion-item>
 
 
-                                    </ion-slide>
-                                    <ion-slide>
-
-
-                                        <div class="bar bar-header bar-calm">
-                                            <h1 class="title">Ultimos Enfrentamientos</h1>
-                                        </div>
-
-
-
-
-                                                            <div class="col text-center">Ultimos Enfrentamientos</div>
-                                        <ul class="list">
-                                            <li class="item">
-                                                            <div  ng-repeat="kk in ultimos" >
-                                                                <div class="row">
-
-
-                                                                        <div  class="col">{{kk.partido1 }}</div>
-                                                                        <div  class="col text-center"><b>{{kk.res }}</b></div>
-                                                                        <div  class="col">{{kk.partido2 }}</div>
-
-
-                                                                </div>
-
-                                                            </div>
-                                            </li>
-                                        </ul>
-
-
-                                    </ion-slide>
-                                </ion-slide-box>
-
-                          </div>
-
-
-
-
-                        </ion-item>
-
+                            </div>
 
                     </div>
                 </ion-list>
-
             </ion-content>
-
 </ion-view>

@@ -5,7 +5,7 @@ var clientId = '321359984550-9otvkbcpbk6kj52e4i5oih5mkrdamnlp.apps.googleusercon
 var clientSecret = "BilFKZS3JiNAkgqk8PobtnUX";
 
 
-var app=angular.module('app', ['ionic','underscore'])
+var app=angular.module('app', ['ionic','angular.filter'])
     .run(function($ionicPlatform, $window, $location, AuthenticationFactory) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -73,15 +73,6 @@ var app=angular.module('app', ['ionic','underscore'])
                     }
                 }
             })
-            .state('tabs.segunda', {
-                url: "/segunda",
-                views: {
-                    'segunda': {
-                        templateUrl: "templates/rachas2.html",
-                        controller: 'rachasSegundaCtrl'
-                    }
-                }
-            })
             .state('tabs.tips', {
                 url: "/tips",
                 views: {
@@ -98,16 +89,18 @@ var app=angular.module('app', ['ionic','underscore'])
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
-
+            })
+            .state('detailRates', {
+                url: '/detailRates',
+                templateUrl: 'templates/detailRates.html',
+                controller: 'detailRatesCtrl'
             });
-
-
 
 
 
         //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tab/primera');
+      $urlRouterProvider.otherwise('/tab/tips');
 
 /*        $urlRouterProvider.otherwise(function($injector, $location){
             var state = $injector.get('$state');
@@ -120,19 +113,4 @@ var app=angular.module('app', ['ionic','underscore'])
 
 
 
-    app.filter('sumByKey', function() {
-        return function(data) {
-
-            if ( !data ){
-                return false;
-            }
-
-            var sum = 0;
-            for (var i = data.length - 1; i >= 0; i--) {
-                sum += parseInt(data[i]);
-            }
-
-            return (sum/data.length).toFixed(2);
-        };
-    });
 

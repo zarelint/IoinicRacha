@@ -7,23 +7,21 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('aciertosCtrl', function ($scope, $http,_,$ionicSlideBoxDelegate, $location, $ionicHistory) {
+app.controller('aciertosCtrl', function ($scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     //$http.get('http://nodejs-rachas.rhcloud.com/Pliga').
-    $http.get('Pliga.json').
+
+     //$http.get('Pliga.json').
+     $http.get('prediccion.json').
+    // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
    // $http.get('http://localhost:8080/Pliga',{ cache: true}).
 
         success(function(data) {
-            $scope.predicciones =  data;
+            $scope.predicciones =  data.pred;
+            $scope.ratesLigasX =  data.ratesLigasX; // obj[francia2][0] obj[francia2][2]
+            $scope.ratesLigas1 =  data.ratesLigas1;
+            //  ratesLigasX[prop] = [ ratesLigas[3], param, ratesLigas[1] ];
         });
-
-        $scope.ultimos = [  {date:'Sep 14', partido1:'Criciuma EC',res:'1-1',partido2:'Botafogo'},
-                            {date:'Sep 14', partido1:'Criciuma EC',res:'1-1',partido2:'Botafogo'},
-                            {date:'Sep 14', partido1:'Botafogo',res:'6-0',partido2:'Botafogo'},
-                            {date:'Sep 14', partido1:'Botafogo',res:'3-0',partido2:'Botafogo'},
-                            {date:'Sep 14', partido1:'Criciuma EC',res:'1-2',partido2:'Botafogo'},
-                            {date:'Sep 14', partido1:'Botafogo',res:'1-1',partido2:'Botafogo'}
-        ];
 
         /*
          * if given group is the selected group, deselect it
@@ -41,8 +39,34 @@ app.controller('aciertosCtrl', function ($scope, $http,_,$ionicSlideBoxDelegate,
             return $scope.shownGroup === group;
         };
 
+        $scope.ver = function(liga) {
+/*          // todo lo levanto en un modal?
+            if (liga.indexOf('singles') > -1){
+                $location.path("/detailRates/"+ $scope.ratesLigas1[liga]);
+            }else if (liga.indexOf('dobles') > -1){
+                $location.path("/detailRates/"+ $scope.ratesLigasX[]);
+            }*/
+        };
+
+    // todo ir al panel control
+         $scope.verEncuentro = function(item) {
+        //
+             var liga= item.tipo;
+             var ligaparsed= item.liga;
+             var equipos = item.encuentro.split('-');
+             var equipo1= equipos[0];
+             var equipo2= equipos[1];
+
+             detailMatch.equipo1 = equipo1;
+             detailMatch.equipo2 = equipo2;
+             detailMatch.liga = ligaparsed;
+
+             $location.path("/detailRates");
 
 
+
+             //console.log(equipo1);
+         };
     // si el Password is not set redirigo  a la pantalla de login
 
 
@@ -62,7 +86,9 @@ app.controller('aciertosCtrl', function ($scope, $http,_,$ionicSlideBoxDelegate,
                     disableAnimate: true,
                     disableBack: true
                 });
-                $location.path("/login");
+
+                // Si no encuentra token redirecciono al login
+               // $location.path("/login");
             }
 
 

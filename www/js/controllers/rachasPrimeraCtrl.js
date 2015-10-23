@@ -11,7 +11,7 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
 
     var ligaSelected ;
 
-    // $http.get('http://localhost:8080/ligas',{ cache: true}).
+    //$http.get('http://localhost:8080/ligas',{ cache: true}).
      $http.get('ligas2.json',{ cache: true}).
 
         success(function(data) {

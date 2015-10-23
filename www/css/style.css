@@ -16,6 +16,15 @@
     padding: 0;
 
 }
+
+
+.even-row{background: rgba(244, 244, 244, 0.51)  }
+
+
+.texto-blanco{
+    color: white;
+    font-weight: bold;
+}
 .texto-celda2 {
 text-align: center;
     font-size: 10px;

@@ -77,8 +77,9 @@
                                 password:password
                                 };
 
+                    console.log(parametros);
 
-
+                       //postJSON('http://nodejs-rachas.rhcloud.com/api/oauth/token/', parametros
                        postJSON('http://localhost:8080/api/oauth/token/', parametros
                                 , function(data) {
                                     console.log(JSON.parse(data).access_token);
@@ -98,7 +99,7 @@
 
         } else {
             alert( 'problemas autentificacion');
-            window.location.href = "http://localhost:63342/IoinicRacha/www/index.html#/tab/segunda";
+            window.location.href = "http://localhost:63342/IoinicRacha/www/index.html#/tab/primera";
         }
 
     </script>

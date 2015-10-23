@@ -7,3 +7,14 @@ app.factory('dataFactory', function($http) {
     };
     return _prodFactory;
 });
+
+/**
+ * Paratido a analizar
+ */
+app.factory('detailMatch', function() {
+    var match  = {};
+    match.equipo1 = '';
+    match.equipo2 = '';
+    match.liga = '';
+    return match;
+});
