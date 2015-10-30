@@ -7,21 +7,71 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('aciertosCtrl', function ($scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
-    //$http.get('http://nodejs-rachas.rhcloud.com/Pliga').
-
-     //$http.get('Pliga.json').
-     $http.get('prediccion.json').
     // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
-   // $http.get('http://localhost:8080/Pliga',{ cache: true}).
 
+    //  $http.get('prediccion.json').
+        $http.get('http://localhost:8080/prediccion/1').
         success(function(data) {
             $scope.predicciones =  data.pred;
             $scope.ratesLigasX =  data.ratesLigasX; // obj[francia2][0] obj[francia2][2]
             $scope.ratesLigas1 =  data.ratesLigas1;
-            //  ratesLigasX[prop] = [ ratesLigas[3], param, ratesLigas[1] ];
+
+            var keys = Object.keys(data.pred);
+            keys.sort(function (item1, item2) {
+                var date1 = new Date(item1);
+                var date2 = new Date(item2);
+                if (date1 < date2)
+                    return 1;
+                if (date1 > date2)
+                    return -1;
+                return 0;
+            });
+            $scope.listaFechas = keys;
+
         });
+
+
+    var end = false;
+    $scope.loadmore = true;
+
+
+    // appends the new records to the items scope
+    $scope.fetchMore = function() {
+        if (end) return;
+
+        var per_page =3;
+        var total_pages=  Math.ceil(Object.keys($scope.predicciones).length / per_page);
+        var page= total_pages +1;
+
+        $http.get("http://localhost:8080/prediccion/"+ page).success(function (items) {
+            if (items.last === true){
+                $scope.loadmore = false;
+            }
+            if (  Object.keys(items.pred).length !==0) {
+                angular.extend($scope.predicciones, items.pred);//Array.prototype.push.apply($scope.predicciones, items.pred);
+                var keys = Object.keys($scope.predicciones);
+                keys.sort(function (item1, item2) {
+                    var date1 = new Date(item1);
+                    var date2 = new Date(item2);
+                    if (date1 < date2)
+                        return 1;
+                    if (date1 > date2)
+                        return -1;
+                    return 0;
+                });
+                $scope.listaFechas = keys;
+            } else {
+                end = true;
+            }
+        }).error(function (err) {
+            console.log("Failed to download list items:", err);
+            end = true;
+        }).finally(function () {
+            $scope.$broadcast("scroll.infiniteScrollComplete");
+        });
+    };
 
         /*
          * if given group is the selected group, deselect it
@@ -40,32 +90,29 @@ app.controller('aciertosCtrl', function ($scope, $http,$ionicSlideBoxDelegate, $
         };
 
         $scope.ver = function(liga) {
-/*          // todo lo levanto en un modal?
-            if (liga.indexOf('singles') > -1){
-                $location.path("/detailRates/"+ $scope.ratesLigas1[liga]);
+           if (liga.indexOf('singles') > -1){
+                $state.go('detailRates', {myParam: $scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]});
             }else if (liga.indexOf('dobles') > -1){
-                $location.path("/detailRates/"+ $scope.ratesLigasX[]);
-            }*/
+                $state.go('detailRates', {myParam: $scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]});
+            }
         };
 
-    // todo ir al panel control
+
          $scope.verEncuentro = function(item) {
-        //
+
              var liga= item.tipo;
              var ligaparsed= item.liga;
              var equipos = item.encuentro.split('-');
              var equipo1= equipos[0];
              var equipo2= equipos[1];
-
+             detailMatch.jornada = item.jornada;
              detailMatch.equipo1 = equipo1;
              detailMatch.equipo2 = equipo2;
              detailMatch.liga = ligaparsed;
 
-             $location.path("/detailRates");
-
-
-
-             //console.log(equipo1);
+             $state.go('detailMatch', {myParam: detailMatch});
+             //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
+             // $location.path("/detailRates");
          };
     // si el Password is not set redirigo  a la pantalla de login
 

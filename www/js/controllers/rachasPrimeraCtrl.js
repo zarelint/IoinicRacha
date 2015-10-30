@@ -7,47 +7,52 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http) {
+app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaService) {
 
     var ligaSelected ;
 
-    //$http.get('http://localhost:8080/ligas',{ cache: true}).
-     $http.get('ligas2.json',{ cache: true}).
 
+   // $http.get('http://localhost:8080/listaligas').
+    $http.get('listaligas.json').
         success(function(data) {
-             $scope.ligas = [];
-             $scope.racha = data;
-
-             for (var liga in data){
-                 $scope.ligas.push(liga);
-                 $scope.racha[liga].calendarioFiltered =  angular.copy($scope.racha[liga].calendario) ;
-                 $scope.racha[liga].difGolFiltered =      angular.copy($scope.racha[liga].difGol);
-                 $scope.racha[liga].difPuntosFiltered =   angular.copy($scope.racha[liga].difPuntos);
-                 $scope.racha[liga].casaFiltered =          angular.copy($scope.racha[liga].casa);
-                 $scope.racha[liga].fueraFiltered =     angular.copy($scope.racha[liga].fuera);
-                 $scope.racha[liga].difPuntosCasaFiltered =   angular.copy($scope.racha[liga].difPuntosCasa);
-                 $scope.racha[liga].difPuntosFueraFiltered =   angular.copy($scope.racha[liga].difPuntosFuera);
+            $scope.ligas = data;
+    });
 
 
+    $scope.data = {};
+    $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
+    $scope.data.selectedindex = 1;
+    $scope.data.selectedindex2 = 1;
+    $scope.data.selectedindexEquipo0 = 1;
+    $scope.data.selectedindexEquipo1 = 1;
+    $scope.filtroAnimo={};
+    //$scope.racha={};
 
 
-             }
-
-             $scope.items = $scope.ligas;
-             $scope.data = {};
-             $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
-             $scope.data.selectedindex = 1;
-             $scope.data.selectedindex2 = 1;
-             $scope.data.selectedindexEquipo0 = 1;
-             $scope.data.selectedindexEquipo1 = 1;
-
-             ligaSelected = $scope.items[1];
-        });
-
-$scope.filtroAnimo={};
 
     $scope.changedliga = function() {
-         ligaSelected = $scope.items[$scope.data.selectedindex];
+
+        ligaSelected = $scope.data.selectedindex;
+        $scope.ligaSelected = ligaSelected;
+
+        LigaService.getliga(ligaSelected).then(function(data) {
+            $scope.racha = data;
+        });
+
+/*        $http.get('francia.json').
+            success(function(data) {
+
+                $scope.racha[ligaSelected] = data;
+                // hacemos un copia del original.
+                $scope.racha[ligaSelected].calendarioFiltered =      angular.copy($scope.racha[ligaSelected].calendario) ;
+                $scope.racha[ligaSelected].difGolFiltered =          angular.copy($scope.racha[ligaSelected].difGol);
+                $scope.racha[ligaSelected].difPuntosFiltered =       angular.copy($scope.racha[ligaSelected].difPuntos);
+                $scope.racha[ligaSelected].casaFiltered =            angular.copy($scope.racha[ligaSelected].casa);
+                $scope.racha[ligaSelected].fueraFiltered =           angular.copy($scope.racha[ligaSelected].fuera);
+                $scope.racha[ligaSelected].difPuntosCasaFiltered =   angular.copy($scope.racha[ligaSelected].difPuntosCasa);
+                $scope.racha[ligaSelected].difPuntosFueraFiltered =  angular.copy($scope.racha[ligaSelected].difPuntosFuera);
+            });*/
+
     };
 
     $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,tipo) {
@@ -115,7 +120,7 @@ $scope.filtroAnimo={};
 
 
     };
-    $scope.changedIgualdad = function() {
+/*    $scope.changedIgualdad = function() {
         var filterValue = $scope.igualdad[$scope.data.selectedindex2];
 
         $scope.racha[ligaSelected].calendarioFiltered =  angular.copy($scope.racha[ligaSelected].calendario) ;
@@ -133,9 +138,9 @@ $scope.filtroAnimo={};
                 for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
                     var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
 
-             /*      if (value > filterValue || value < -filterValue) {
+             /!*      if (value > filterValue || value < -filterValue) {
                         indextobedeleted.push(indexjornada);
-                    }*/
+                    }*!/
                     if (filterValue >= 0){
                         if (value > filterValue || value <0) {
                             indextobedeleted.push(indexjornada);
@@ -155,7 +160,7 @@ $scope.filtroAnimo={};
                 }
         }
 
-    };
+    };*/
 
 
   /**
@@ -167,8 +172,8 @@ $scope.filtroAnimo={};
       cerrar: function(){
 
 
-          for ( var equipo in $scope.racha[$scope.items[$scope.data.selectedindex]].calendarioFiltered ){
-              $scope.racha[$scope.items[$scope.data.selectedindex]].calendarioFiltered[equipo].checked = false;
+          for ( var equipo in $scope.racha[ligaSelected].calendarioFiltered ){
+              $scope.racha[ligaSelected].calendarioFiltered[equipo].checked = false;
           }
           $scope.selection=[];
           $scope.compareDialog.hide();
@@ -189,6 +194,7 @@ $scope.filtroAnimo={};
 
         return clase;
     };
+
     $scope.scoreClass2 = function scoreClass2(scores,dif,filtroAnimo) {
         var clase= 'blanco';
         if (scores === 0) {
@@ -198,19 +204,22 @@ $scope.filtroAnimo={};
         } else if (scores <0){
             clase= 'derrota';
         }
-if (filtroAnimo.checked===true) {
-    if (dif > 2 && scores === 0) { // has empatado con un mierda [bajonazo]
-        clase = 'derrota';
-    }
-    if (dif < -2 && scores === 0) { // has empatado con el madrid [subidon y que se jodan]
-        clase = 'victoria';
-    }
-    if (dif < -5 && scores < 0) { // has perdido con el madrid [ bueno chavles no pasa lo normas como si fuera un empate
-        clase = 'empate';
-    }
-}
+
+        if (filtroAnimo.checked===true) {
+            if (dif > 2 && scores === 0) { // has empatado con un mierda [bajonazo]
+                clase = 'derrota';
+            }
+            if (dif < -2 && scores === 0) { // has empatado con el madrid [subidon y que se jodan]
+                clase = 'victoria';
+            }
+            if (dif < -5 && scores < 0) { // has perdido con el madrid [ bueno chavles no pasa lo normas como si fuera un empate
+                clase = 'empate';
+            }
+        }
         return clase;
     };
+
+
   $scope.package = {};
 
 
@@ -265,6 +274,6 @@ if (filtroAnimo.checked===true) {
           $scope.comparar();
     }
   };
-    console.log( 'primera '+accessToken);
+    console.log( 'token: '+accessToken);
 
 });

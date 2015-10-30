@@ -1,13 +1,38 @@
-<ion-view title="detail"  >
+<ion-view title='Historial' >
 
     <ion-nav-buttons side="left">
         <button class="button button-clear" ng-click="goBack()"><i class="icon ion-arrow-left-c" ></i> Back</button>
     </ion-nav-buttons>
 
 
-    <ion-content class="padding">
+    <ion-content>
+        <ion-list>
+        <div class="item item-divider text-center">
+           Rachas de {{rangoJornadas}} jornadas
+        </div>
+        <div class="item pegar ">
+            <div class="row row-center pegar">
+                <div class="col">Jornada</div>
+                <div class="col">Aciertos</div>
+            </div>
+        </div>
+            <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item!== null ">
+                <div class="row pegar">
+                    <div class="col">{{ $index}}</div>
+                   <div class="col">{{item}}</div>
+                   <!--  <div class="col">2 / 3</div>-->
+                </div>
+            </div>
 
-        fff
+            <div class="item pegar item-divider">
+                <div class="row pegar">
+                    <div class="col">Acierto Acumulado</div>
+                    <div class="col">{{ rate}}%</div>
+                </div>
+            </div>
+
+        </ion-list>
+
     </ion-content>
 
 </ion-view>

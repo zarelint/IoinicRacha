@@ -10,6 +10,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
+
         if(window.cordova && window.cordova.plugins.Keyboard) {
           cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
@@ -45,7 +46,11 @@ var app=angular.module('app', ['ionic','angular.filter'])
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
-
+    .config(function($ionicConfigProvider) {
+        if (!ionic.Platform.isIOS()) {
+            $ionicConfigProvider.scrolling.jsScrolling(false);
+        }
+    })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         $httpProvider.interceptors.push('TokenInterceptor');
@@ -93,7 +98,15 @@ var app=angular.module('app', ['ionic','angular.filter'])
             .state('detailRates', {
                 url: '/detailRates',
                 templateUrl: 'templates/detailRates.html',
-                controller: 'detailRatesCtrl'
+                controller: 'detailRatesCtrl',
+                params: {myParam: null},
+                cache: false
+            }).state('detailMatch', {
+                url: '/detailMatch',
+                templateUrl: 'templates/detailMatch.html',
+                controller: 'detailMatchCtrl',
+                params: {myParam: null},
+                cache: false
             });
 
 
@@ -112,5 +125,30 @@ var app=angular.module('app', ['ionic','angular.filter'])
     });
 
 
+app.filter('orderByKey', function () {
+    return function(obj, field, reverse) {
+        var arr=[];
+        console.log(field);
+        arr = Object.keys(obj)
+            .map(function (key) { return obj[key] })
+            .sort(function(a,b) { return a > b; } );
+        if(reverse) arr.reverse();
+        return arr;
+    };
+});
+
+app.filter('orderObjectBy', function() {
+    return function(items, field, reverse) {
+        var filtered = [];
+        angular.forEach(items, function(item) {
+            filtered.push(item);
+        });
+        filtered.sort(function (a, b) {
+            return (a[field] > b[field] ? 1 : -1);
+        });
+        if(reverse) filtered.reverse();
+        return filtered;
+    };
+});
 
 
