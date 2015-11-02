@@ -1,58 +1,36 @@
-<ion-view title="Agenda"  cache-view="false" >
-            <ion-content  class="has-subheader"  >
-               <!-- <ion-scroll zooming="true" direction="xy" class="myScroll" style="width: 360px; height: 600px">-->
-<!--                <div ng-repeat="(group,val) in predicciones">
-
-                    <ion-item class="item-stable"
-                              ng-click="toggleGroup(group)"
-                              ng-class="{active: isGroupShown(group)}">
-                        <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
-                        &nbsp;
-                        {{group}}
-                    </ion-item>
-
-                    <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
+<ion-view title="tips"  cache-view="false" >
+            <ion-content  >
 
 
-                        <ion-item class="item-dark texto-blanco row row-center" ng-click="ver(liga)" >-->
+                <ion-list>
 
-                        <ion-list>
+                            <div  collection-repeat="item in predicciones | groupByDayMonthYear2"    >
 
-                    <div ng-repeat="fecha in listaFechas ">
-                            <div class="item item-dark item-divider text-center">
-                                {{fecha}}
-                            </div>
-                        <div class="card">
-                            <div ng-repeat="(liga,val) in predicciones[fecha] | groupBy: 'tipo' "      >
+                                <div ng-if="item.tipodiv == 'fecha'" class="item text-center item-divider pegar ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>
+                                <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center pegar" ng-click="ver(item.liga)" >
+                                    <div class="col col-70">  {{ item.liga }} / {{item.jornada}}  </div>
+                                    <div class="col2 "> <b>{{item.rate}}%</b>  </div>
+                                </div>
 
-                                <ion-item class="item-dark texto-blanco row row-center pegar" ng-click="ver(liga)" >
-                                        <div class="col col-70">  {{ liga }} / {{val[0].jornada}}  </div>
 
-                                        <div class="col2 "> <b>{{val[0].rate}}%</b>  </div>
-                                </ion-item>
-
-                                <ion-item   class="item-text-wrap pegar "  ng-repeat="predLiga in val"  ng-class-odd="'even-row'" >
-                                            <div class="row row-center"  ng-click="verEncuentro(predLiga)">
-                                                <div class="col col-20">  {{predLiga.hora}}              </div>
-                                                <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
-                                                <div class="col col-10">    <b>{{predLiga.prediccion}}</b>  </div>
-
-                                                <img ng-src="img/tick.png" ng-show="predLiga.real">
-                                            </div>
-                                </ion-item>
+                                <div  ng-if="item.tipodiv == null" class="item item-text-wrap pegar row row-center" ng-click="verEncuentro(item)"   >
+                                        <div class="col col-20">  {{item.hora}}              </div>
+                                        <div class="col col-60 ">  {{item.encuentro}}         </div>
+                                        <div class="col col-10">    <b>{{item.prediccion}}</b>  </div>
+                                        <img ng-src="img/tick.png" ng-show="item.real">
+                                </div>
 
                             </div>
-                        </div>
-                    </div>
+
+
 
                 </ion-list>
 
-                <ion-infinite-scroll
+     <!--           <ion-infinite-scroll
                         ng-if="loadmore"
                         on-infinite="fetchMore()"
                         distance="10%">
-                </ion-infinite-scroll>
+                </ion-infinite-scroll>-->
 
-              <!--  </ion-scroll>-->
             </ion-content>
 </ion-view>

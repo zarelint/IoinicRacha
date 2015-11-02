@@ -29,7 +29,8 @@ app.factory('LigaService', function($http, $log, $q) {
 
             if (racha[liga] === undefined) {
                 // $http.get('ligas.json')
-                $http.get('http://localhost:8080/ligas/'+liga)
+                //$http.get('http://localhost:8080/ligas/'+liga)
+                $http.get('http://nodejs-rachas.rhcloud.com/ligas/'+liga)
                     .success(function (data) {
                         racha[liga] = data;
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;

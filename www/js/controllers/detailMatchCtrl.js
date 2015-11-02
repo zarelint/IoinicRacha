@@ -91,8 +91,8 @@ app.controller('detailMatchCtrl', function ($stateParams, LigaService, $state, $
 
 
     $scope.goBack = function() {
-        // $ionicHistory.goBack();
-        $state.go('tabs.tips');
+        $ionicHistory.goBack();
+        //$state.go('tabs.tips');
     };
     $scope.scoreClass = function scoreClass(scores) {
         var clase= 'blanco';

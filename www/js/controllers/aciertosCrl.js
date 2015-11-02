@@ -1,34 +1,18 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name iotutorialApp.controller: rachaCtrl
- * @description
- * # rachaCtrl
- * Controller of the iotutorialApp
- */
+
 app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
 
     //  $http.get('prediccion.json').
-        $http.get('http://localhost:8080/prediccion/1').
+   //    $http.get('http://localhost:8080/prediccion/1').
+       $http.get('http://nodejs-rachas.rhcloud.com/prediccion/1').
         success(function(data) {
             $scope.predicciones =  data.pred;
-            $scope.ratesLigasX =  data.ratesLigasX; // obj[francia2][0] obj[francia2][2]
+            $scope.ratesLigasX =  data.ratesLigasX;
             $scope.ratesLigas1 =  data.ratesLigas1;
 
-            var keys = Object.keys(data.pred);
-            keys.sort(function (item1, item2) {
-                var date1 = new Date(item1);
-                var date2 = new Date(item2);
-                if (date1 < date2)
-                    return 1;
-                if (date1 > date2)
-                    return -1;
-                return 0;
-            });
-            $scope.listaFechas = keys;
 
         });
 
@@ -50,8 +34,9 @@ app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDel
                 $scope.loadmore = false;
             }
             if (  Object.keys(items.pred).length !==0) {
-                angular.extend($scope.predicciones, items.pred);//Array.prototype.push.apply($scope.predicciones, items.pred);
-                var keys = Object.keys($scope.predicciones);
+                //angular.extend($scope.predicciones, items.pred);
+                Array.prototype.push.apply($scope.predicciones, items.pred);
+/*                var keys = Object.keys($scope.predicciones);
                 keys.sort(function (item1, item2) {
                     var date1 = new Date(item1);
                     var date2 = new Date(item2);
@@ -61,7 +46,7 @@ app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDel
                         return -1;
                     return 0;
                 });
-                $scope.listaFechas = keys;
+                $scope.listaFechas = keys;*/
             } else {
                 end = true;
             }
@@ -130,8 +115,8 @@ app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDel
             }else{
                 //desahila marcha atras
                 $ionicHistory.nextViewOptions({
-                    disableAnimate: true,
-                    disableBack: true
+                    disableAnimate: true
+                   // , disableBack: true
                 });
 
                 // Si no encuentra token redirecciono al login

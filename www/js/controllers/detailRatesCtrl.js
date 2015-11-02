@@ -13,7 +13,7 @@ app.controller('detailRatesCtrl', function ($stateParams, LigaService, $state, $
     $scope.rangoJornadas=$stateParams.myParam[1][Object.keys($stateParams.myParam[1])[0]].rangoJornadas;
     $scope.rate=$stateParams.myParam[2];
     $scope.goBack = function() {
-        // $ionicHistory.goBack();
-        $state.go('tabs.tips');
+         $ionicHistory.goBack();
+        //$state.go('tabs.tips');
     };
 });

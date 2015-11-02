@@ -90,6 +90,16 @@ var app=angular.module('app', ['ionic','angular.filter'])
                     }
                 }
             })
+
+            .state('tabs.vip', {
+                url: "/vip",
+                views: {
+                    'vip': {
+                        templateUrl: "templates/vip.html",
+                        controller: 'vipCtrl'
+                    }
+                }
+            })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
@@ -113,7 +123,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
 
         //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tab/tips');
+      $urlRouterProvider.otherwise('/tab/vip');
 
 /*        $urlRouterProvider.otherwise(function($injector, $location){
             var state = $injector.get('$state');
@@ -122,8 +132,22 @@ var app=angular.module('app', ['ionic','angular.filter'])
             return $location.path();
         });*/
 
-    });
+    }).directive('dividerCollectionRepeat', function($parse) {
+        return {
+            priority: 1001,
+            compile: compile
+        };
 
+        function compile (element, attr) {
+ /*         var height = attr.itemHeight || '73';
+            attr.$set('itemHeight', 'item.isDivider ? 37 : ' + height);*/
+
+            element.children().attr('ng-hide', 'item.isDivider');
+            element.prepend(
+                '<div class="item item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>'
+            );
+        }
+    });
 
 app.filter('orderByKey', function () {
     return function(obj, field, reverse) {
@@ -151,4 +175,141 @@ app.filter('orderObjectBy', function() {
     };
 });
 
+app.filter('groupBy', function ($timeout) {
+    return function (data, key) {
+        if (!key) return data;
+        var outputPropertyName = '__groupBy__' + key;
+        if(!data[outputPropertyName]){
+            var result = {};
+            for (var i=0;i<data.length;i++) {
+                if (!result[data[i][key]])
+                    result[data[i][key]]=[];
+                result[data[i][key]].push(data[i]);
+            }
+            Object.defineProperty(data, outputPropertyName, {enumerable:false, configurable:true, writable: false, value:result});
+            $timeout(function(){delete data[outputPropertyName];},0,false);
+        }
+        return data[outputPropertyName];
+    };
+});
 
+var has = function has(obj, key) {
+    return obj != null && hasOwnProperty.call(obj, key);
+};
+
+var  memoize = function(func, hasher) {
+    var memoize = function(key) {
+        var cache = memoize.cache;
+        var address = '' + (hasher ? hasher.apply(this, arguments) : key);
+        if (!has(cache, address)) cache[address] = func.apply(this, arguments);
+        return cache[address];
+    };
+    memoize.cache = {};
+    return memoize;
+};
+
+
+app.filter('groupByDayMonthYear2', function($parse) {
+
+    var dividers = {},item,liga;
+    var asociame = {};
+
+    return memoize(function(input) {
+        if (!input || !input.length) return;
+
+        var output = [], currentDate;
+        for (var i = 0, ii = input.length; i < ii && (item = input[i]); i++) {
+            currentDate = moment(item.fecha).format('DD MMM');
+            if (!asociame[currentDate]) {
+                asociame[currentDate] = {};
+            }
+            if (!asociame[currentDate][item.liga]) {
+                asociame[currentDate][item.liga] = [];
+            }
+
+            asociame[currentDate][item.liga].push(item);
+        }
+
+        var fechaKeys =  Object.keys(asociame);
+        fechaKeys.sort(function (item1, item2) {
+            var date1 = new Date(item1);
+            var date2 = new Date(item2);
+            if (date1 < date2)
+                return 1;
+            if (date1 > date2)
+                return -1;
+            return 0;
+        });
+        for (var indexfecha in fechaKeys) {
+            var fecha = fechaKeys[indexfecha];
+            output.push( {
+                isDivider: true,
+                divider: fecha,
+                tipodiv: 'fecha'
+
+            });
+
+            for (var liga in asociame[fecha]) {
+                output.push( {
+                    isDivider: true,
+                    divider: liga,
+                    tipodiv: 'liga',
+                    liga:asociame[fecha][liga][0].tipo,
+                    rate:asociame[fecha][liga][0].rate,
+                    jornada: asociame[fecha][liga][0].jornada
+                });
+
+                for (var index in asociame[fecha][liga]) {
+                    output.push(asociame[fecha][liga][index]);
+                }
+            }
+        }
+
+
+        return output;
+    });
+
+});
+
+app.filter('groupByDayMonthYear', function($parse) {
+
+    var dividers = {},item;
+
+    return function(input) {
+        if (!input || !input.length) return;
+
+        var output = [],
+            previousDate,
+            currentDate;
+
+
+        for (var i = 0, ii = input.length; i < ii && (item = input[i]); i++) {
+            currentDate = moment(item.fecha).startOf('day');
+
+            // para que esto funcione tienen que venir ya ordernados
+            //  and the array will be sorted in ascending order.
+            //insert date divider
+            if (!previousDate || !currentDate.isSame(previousDate)) {
+                var dividerId = currentDate.format('DDMMYYYY');
+                if (!dividers[dividerId]) {
+                    dividers[dividerId] = {
+                        isDivider: true,
+                        _id: dividerId,
+                        divider: currentDate.format('DD MMMM YYYY')
+                    };
+                }
+                output.push(dividers[dividerId]);
+            }
+
+//insert liga divider
+
+
+            output.push(item);
+
+            previousDate = currentDate;
+        }
+
+        return output;
+    };
+
+});

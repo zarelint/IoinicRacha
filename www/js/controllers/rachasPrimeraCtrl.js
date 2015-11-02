@@ -12,8 +12,9 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
     var ligaSelected ;
 
 
-   // $http.get('http://localhost:8080/listaligas').
-    $http.get('listaligas.json').
+    // $http.get('http://localhost:8080/listaligas').
+     $http.get('http://nodejs-rachas.rhcloud.com/listaligas').
+         // $http.get('listaligas.json').
         success(function(data) {
             $scope.ligas = data;
     });

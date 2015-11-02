@@ -2,9 +2,10 @@
   "name": "racha",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.1.0"
+    "ionic": "driftyco/ionic-bower#master"
   },
   "dependencies": {
-    "angular-filter": "~0.5.7"
+    "angular-filter": "~0.5.7",
+    "moment": "~2.10.6"
   }
 }
