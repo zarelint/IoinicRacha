@@ -43,6 +43,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
     })
 
     .config(function($httpProvider) {
+        $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
@@ -139,8 +140,9 @@ var app=angular.module('app', ['ionic','angular.filter'])
         };
 
         function compile (element, attr) {
- /*         var height = attr.itemHeight || '73';
-            attr.$set('itemHeight', 'item.isDivider ? 37 : ' + height);*/
+            var height = attr.itemHeight || '73';
+            attr.$set('itemHeight', 'item.isDivider ? 37 : ' + height);
+
 
             element.children().attr('ng-hide', 'item.isDivider');
             element.prepend(

@@ -24,6 +24,7 @@ app.controller('detailMatchCtrl', function ($stateParams, LigaService, $state, $
     //Selecionar Equipos
     $scope.selection[0] = detailMatch.equipo1;
     $scope.selection[1] = detailMatch.equipo2;
+    $scope.algodesc= detailMatch.algodesc;
     var ligaSelected = detailMatch.liga;
     $scope.ligaSelected= ligaSelected;
 

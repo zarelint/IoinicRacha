@@ -16,7 +16,14 @@
     padding: 0;
 
 }
+.item{
+    height: 100%;
+    min-height: 100%;
 
+}
+.letra-pred{
+    font-size: 11px;
+}
 
 .even-row{background: rgba(244, 244, 244, 0.51)  }
 
@@ -44,6 +51,10 @@ text-align: center;
 }
 .blanco {
     padding: 1px;
+}
+.text-success{
+    color: red;
+    font-weight: bold;
 }
 .victoria {
     padding: 1px;
@@ -116,6 +127,7 @@ body {
     position: relative;
     height: 320px;
 }
+
 .pegar{
     padding: 0;
 }

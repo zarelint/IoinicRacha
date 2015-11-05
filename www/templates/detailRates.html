@@ -8,7 +8,7 @@
     <ion-content>
         <ion-list>
         <div class="item item-divider text-center">
-           Rachas de {{rangoJornadas}} jornadas
+            {{algodesc}}
         </div>
         <div class="item pegar ">
             <div class="row row-center pegar">
@@ -16,11 +16,10 @@
                 <div class="col">Aciertos</div>
             </div>
         </div>
-            <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item!== null ">
-                <div class="row pegar">
+            <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item.rate!== null ">
+                <div class="row pegar" ng-class="{ 'text-success': !item.pleno }">
                     <div class="col">{{ $index}}</div>
-                   <div class="col">{{item}}</div>
-                   <!--  <div class="col">2 / 3</div>-->
+                    <div class="col">{{item.rate}}</div>
                 </div>
             </div>
 

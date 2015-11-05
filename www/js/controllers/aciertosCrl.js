@@ -1,21 +1,27 @@
 'use strict';
 
 
-app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('aciertosCtrl', function ( LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
 
     //  $http.get('prediccion.json').
-   //    $http.get('http://localhost:8080/prediccion/1').
-       $http.get('http://nodejs-rachas.rhcloud.com/prediccion/1').
+       $http.get('http://localhost:8080/prediccion/1').
+    //   $http.get('http://nodejs-rachas.rhcloud.com/prediccion/1').
         success(function(data) {
             $scope.predicciones =  data.pred;
             $scope.ratesLigasX =  data.ratesLigasX;
             $scope.ratesLigas1 =  data.ratesLigas1;
-
-
         });
 
+
+    $scope.getHeight = function (check) {
+        if (check.tipodiv !== undefined) {
+            return 30;
+        }else{
+            return 50;
+        }
+    };
 
     var end = false;
     $scope.loadmore = true;
@@ -87,7 +93,7 @@ app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDel
 
              var liga= item.tipo;
              var ligaparsed= item.liga;
-             var equipos = item.encuentro.split('-');
+             var equipos = item.encuentro.split('/');
              var equipo1= equipos[0];
              var equipo2= equipos[1];
              detailMatch.jornada = item.jornada;
@@ -95,6 +101,11 @@ app.controller('aciertosCtrl', function ($state, $scope, $http,$ionicSlideBoxDel
              detailMatch.equipo2 = equipo2;
              detailMatch.liga = ligaparsed;
 
+             if (liga.indexOf('singles') > -1){
+                 detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]);
+             }else if (liga.indexOf('dobles') > -1){
+                 detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]);
+             }
              $state.go('detailMatch', {myParam: detailMatch});
              //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
              // $location.path("/detailRates");

@@ -12,9 +12,9 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
     var ligaSelected ;
 
 
-    // $http.get('http://localhost:8080/listaligas').
-     $http.get('http://nodejs-rachas.rhcloud.com/listaligas').
-         // $http.get('listaligas.json').
+     $http.get('http://localhost:8080/listaligas').
+    // $http.get('http://nodejs-rachas.rhcloud.com/listaligas').
+    //     $http.get('listaligas.json').
         success(function(data) {
             $scope.ligas = data;
     });
@@ -31,6 +31,10 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
 
 
 
+    $scope.getkey = function (obj) {
+        return Object.keys(obj)[0];
+    };
+
     $scope.changedliga = function() {
 
         ligaSelected = $scope.data.selectedindex;
@@ -39,21 +43,6 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
         LigaService.getliga(ligaSelected).then(function(data) {
             $scope.racha = data;
         });
-
-/*        $http.get('francia.json').
-            success(function(data) {
-
-                $scope.racha[ligaSelected] = data;
-                // hacemos un copia del original.
-                $scope.racha[ligaSelected].calendarioFiltered =      angular.copy($scope.racha[ligaSelected].calendario) ;
-                $scope.racha[ligaSelected].difGolFiltered =          angular.copy($scope.racha[ligaSelected].difGol);
-                $scope.racha[ligaSelected].difPuntosFiltered =       angular.copy($scope.racha[ligaSelected].difPuntos);
-                $scope.racha[ligaSelected].casaFiltered =            angular.copy($scope.racha[ligaSelected].casa);
-                $scope.racha[ligaSelected].fueraFiltered =           angular.copy($scope.racha[ligaSelected].fuera);
-                $scope.racha[ligaSelected].difPuntosCasaFiltered =   angular.copy($scope.racha[ligaSelected].difPuntosCasa);
-                $scope.racha[ligaSelected].difPuntosFueraFiltered =  angular.copy($scope.racha[ligaSelected].difPuntosFuera);
-            });*/
-
     };
 
     $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,tipo) {

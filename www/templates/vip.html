@@ -6,7 +6,7 @@
 
                <div ng-repeat="group in listaFechas">
 
-                    <ion-item class="item-stable"
+                    <ion-item
                                  ng-click="toggleGroup(group)"
                                  ng-class="{active: isGroupShown(group)}">
                            <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
@@ -17,7 +17,7 @@
                     <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 
 
-                            <ion-item class="item-dark texto-blanco row row-center" ng-click="ver(liga)" >
+                            <ion-item class="item-dark pegar texto-blanco row row-center" ng-click="ver(liga)" >
                                 <div class="col col-70">  {{ liga }} / {{val[0].jornada}}  </div>
 
                                 <div class="col2 "> <b>{{val[0].rate}}%</b>  </div>
@@ -25,11 +25,11 @@
 
 
                         <!--ng-class-odd="'even-row'"-->
-                            <ion-item   class="item-text-wrap"  ng-repeat="predLiga in val"   >
+                            <ion-item   class="item-text-wrap pegar"  ng-repeat="predLiga in val"   >
                                 <div class="row row-center"  ng-click="verEncuentro(predLiga)">
                                     <div class="col col-20">  {{predLiga.hora}}              </div>
                                     <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
-                                    <div>    <b>{{predLiga.prediccion}}</b>  </div>
+                                    <div class="col col-10 " >   <b>{{predLiga.prediccion}}</b>  </div>
                                 </div>
                             </ion-item>
 
