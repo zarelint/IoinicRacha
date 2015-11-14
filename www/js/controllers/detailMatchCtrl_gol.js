@@ -7,7 +7,7 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl', function (  $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl_gol', function (  $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
     //console.log($stateParams.myParam);
 
  $ionicHistory.nextViewOptions({
@@ -53,7 +53,9 @@ console.log(detailMatch.from);
         $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosCasa[equipo]);
         $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);
 
-
+         $scope.racha[ligaSelected].golCasaRateFiltered[equipo] =   angular.copy( $scope.racha[ligaSelected].golCasaRate[equipo]);
+         $scope.racha[ligaSelected].golFueraRateFiltered[equipo] =  angular.copy( $scope.racha[ligaSelected].golFueraRate[equipo]);
+         $scope.racha[ligaSelected].golRateFiltered[equipo] =       angular.copy( $scope.racha[ligaSelected].golRate[equipo]);
 
         var indextobedeleted = [];
         // get index to be deleted
@@ -79,6 +81,10 @@ console.log(detailMatch.from);
             $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
 
+
+         $scope.racha[ligaSelected].golCasaRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+         $scope.racha[ligaSelected].golFueraRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+         $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
     }
@@ -87,13 +93,10 @@ console.log(detailMatch.from);
     // Cargar datos Liga si es que fuese necesario
     LigaService.getliga(ligaSelected ).then(function(data) {
         $scope.racha = data;
-        console.log('load data liga puntos')
-/*
-        $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-        $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][$scope.racha[ligaSelected].ultima];*/
 
-        $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][detailMatch.jornada];
-        $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][detailMatch.jornada];
+console.log('load data liga gol')
+        $scope.dificultadSelec0 =  $scope.racha[ligaSelected].golRate[$scope.selection[0]][detailMatch.jornada];
+        $scope.dificultadSelec1 =  $scope.racha[ligaSelected].golRate[$scope.selection[1]][detailMatch.jornada];
 
         $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
         $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];

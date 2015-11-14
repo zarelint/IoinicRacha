@@ -18,13 +18,14 @@ app.factory('detailMatch', function() {
     match.liga = '';
     match.jornada = '';
     match.algodesc = '';
+    match.from = '';
     return match;
 });
 
 
 
 
-app.factory('LigaService', function($http, $log, $q) {
+app.factory('LigaService', function(myconf,$http, $log, $q) {
     var racha = {};
 
     return {
@@ -33,8 +34,9 @@ app.factory('LigaService', function($http, $log, $q) {
 
             if (racha[liga] === undefined) {
                 //  $http.get('ligas.json')
-               $http.get('http://localhost:8080/ligas/'+liga)
-                // $http.get('http://nodejs-rachas.rhcloud.com/ligas/'+liga)
+                //  $http.get('http://localhost:8080/ligas/'+liga)
+              //  $http.get(myconf.url + 'ligas/'+ liga)
+                $http.get('https://nodejs-rachas.rhcloud.com/ligas/'+liga)
                     .success(function (data) {
                         racha[liga] = data;
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;
@@ -45,9 +47,17 @@ app.factory('LigaService', function($http, $log, $q) {
                         racha[liga].difPuntosCasaFiltered =   angular.copy(racha[liga].difPuntosCasa);
                         racha[liga].difPuntosFueraFiltered =  angular.copy(racha[liga].difPuntosFuera);
 
+                        racha[liga].golCasaRateFiltered =   angular.copy(racha[liga].golCasaRate);
+                        racha[liga].golFueraRateFiltered =  angular.copy(racha[liga].golFueraRate);
+                        racha[liga].golRateFiltered =       angular.copy(racha[liga].golRate);
+
+
+
                         racha[liga].listaEquipos = [];
+                        racha[liga].listaPartidos = [];
                         for ( var equipo in data.clasificacion){
                             racha[liga].listaEquipos.push(equipo);
+                            racha[liga].listaPartidos.push(equipo+'-'+ data.rival[data.ultima][equipo] );
                         }
 
                         deferred.resolve(racha);

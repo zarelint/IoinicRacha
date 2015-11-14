@@ -7,18 +7,21 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaService) {
+app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
+
+
 
     var ligaSelected ;
 
 
-     $http.get('http://localhost:8080/listaligas').
-    // $http.get('http://nodejs-rachas.rhcloud.com/listaligas').
+  //    $http.get('http://localhost:8080/listaligas').
+
+     $http.get('https://nodejs-rachas.rhcloud.com/listaligas').
     //     $http.get('listaligas.json').
         success(function(data) {
             $scope.ligas = data;
+            
     });
-
 
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
@@ -43,6 +46,9 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
         LigaService.getliga(ligaSelected).then(function(data) {
             $scope.racha = data;
         });
+        
+        
+        
     };
 
     $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,tipo) {
@@ -110,67 +116,9 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
 
 
     };
-/*    $scope.changedIgualdad = function() {
-        var filterValue = $scope.igualdad[$scope.data.selectedindex2];
-
-        $scope.racha[ligaSelected].calendarioFiltered =  angular.copy($scope.racha[ligaSelected].calendario) ;
-        $scope.racha[ligaSelected].difGolFiltered =      angular.copy($scope.racha[ligaSelected].difGol);
-        $scope.racha[ligaSelected].difPuntosFiltered =   angular.copy($scope.racha[ligaSelected].difPuntos);
-
-        if (!filterValue){
-            return 0;
-        }
-
-        // Filtro aplicado globalmente a todos los quipos
-        for ( var equipo in $scope.racha[ligaSelected].difPuntos ){
-                var indextobedeleted = [];
-                // get index to be deleted
-                for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
-                    var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
-
-             /!*      if (value > filterValue || value < -filterValue) {
-                        indextobedeleted.push(indexjornada);
-                    }*!/
-                    if (filterValue >= 0){
-                        if (value > filterValue || value <0) {
-                            indextobedeleted.push(indexjornada);
-                        }
-                    }
-
-                }
-                //sort index in descent order
-
-                indextobedeleted.sort( function(a,b){return b-a} );
-                var cont=0;
-                for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
-                    $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                    $scope.racha[ligaSelected].difGolFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                    $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                    cont++;
-                }
-        }
-
-    };*/
 
 
-  /**
-   * Definicicion dialogo CompareDialog
-   */
-  $ionicModal.fromTemplateUrl('templates/compareDialog.html', {
-    scope: $scope,
-    animation: 'slide-in-up',
-      cerrar: function(){
 
-
-          for ( var equipo in $scope.racha[ligaSelected].calendarioFiltered ){
-              $scope.racha[ligaSelected].calendarioFiltered[equipo].checked = false;
-          }
-          $scope.selection=[];
-          $scope.compareDialog.hide();
-      }
-  }).then(function(modal) {
-    $scope.compareDialog = modal;
-  });
 
     $scope.scoreClass = function scoreClass(scores) {
         var clase= 'blanco';
@@ -210,38 +158,30 @@ app.controller('rachasPrimeraCtrl', function ( $scope, $ionicModal, $http,LigaSe
     };
 
 
-  $scope.package = {};
+      
 
+        $scope.comparar = function comparar() {
+             
+            
+            for ( var equipo in $scope.racha[ligaSelected].calendarioFiltered ){
+                  $scope.racha[ligaSelected].calendarioFiltered[equipo].checked = false;
+            }
+              
+                 
+             var ligaparsed= ligaSelected;
+             var equipo1= $scope.selection[0];
+             var equipo2= $scope.selection[1];
+             detailMatch.jornada =  $scope.racha[ligaSelected].ultima;
+             detailMatch.equipo1 = equipo1;
+             detailMatch.equipo2 = equipo2;
+             detailMatch.liga = ligaparsed;
+             detailMatch.from = 'tabs.primera';
+             detailMatch.algodesc ='';
+             $scope.selection=[];
+             $state.go('detailMatch', {myParam: detailMatch});
+  
+         };
 
-  /**
-   * Funcion comparar
-   * Muestra en el cuadro de dialogo los datos de los equipos
-   */
-  $scope.comparar = function comparar() {
-    /**
-     *  Muestra un mensaje de error
-     */
-    if ( $scope.selection.length !== 2 ){
-      $scope.mostrarDialog = true;
-      $scope.package.errorDialog='Deben estar seleccionados 2 equipos';
-    }else{
-      $scope.mostrarDialog = false;
-    }
-
-      //if ( $scope.racha[ligaSelected].donde[$scope.selection[0]][$scope.racha[ligaSelected].ultima]==='casa'  ){
-          $scope.dificultadSelec0 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-          $scope.dificultadSelec1 =  $scope.racha[ligaSelected].difPuntos[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-
-          $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-          $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-
-          $scope.dificultadSelec1Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-          $scope.dificultadSelec0Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-
-
-
-      $scope.compareDialog.show();
-  };
 
   $scope.selection=[];
   /**

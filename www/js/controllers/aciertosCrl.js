@@ -1,13 +1,13 @@
 'use strict';
 
 
-app.controller('aciertosCtrl', function ( LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('aciertosCtrl', function (myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
 
     //  $http.get('prediccion.json').
-       $http.get('http://localhost:8080/prediccion/1').
-    //   $http.get('http://nodejs-rachas.rhcloud.com/prediccion/1').
+      //  $http.get('http://localhost:8080/prediccion/1').
+      $http.get('https://nodejs-rachas.rhcloud.com/prediccion/1').
         success(function(data) {
             $scope.predicciones =  data.pred;
             $scope.ratesLigasX =  data.ratesLigasX;
@@ -35,7 +35,7 @@ app.controller('aciertosCtrl', function ( LigaService, $state, $scope, $http,$io
         var total_pages=  Math.ceil(Object.keys($scope.predicciones).length / per_page);
         var page= total_pages +1;
 
-        $http.get("http://localhost:8080/prediccion/"+ page).success(function (items) {
+        $http.get("https://nodejs-rachas.rhcloud.com/prediccion/"+ page).success(function (items) {
             if (items.last === true){
                 $scope.loadmore = false;
             }
@@ -99,6 +99,7 @@ app.controller('aciertosCtrl', function ( LigaService, $state, $scope, $http,$io
              detailMatch.jornada = item.jornada;
              detailMatch.equipo1 = equipo1;
              detailMatch.equipo2 = equipo2;
+               detailMatch.from = 'tabs.tips';
              detailMatch.liga = ligaparsed;
 
              if (liga.indexOf('singles') > -1){

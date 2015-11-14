@@ -76,6 +76,7 @@ ion-scroll .item {
 }
 
 .slider{
+    background-color:#0072bc;
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
@@ -103,7 +104,7 @@ height: 100% ;
 }
 
 body {
-    cursor: url('http://ionicframework.com/img/finger.png'), auto;
+    cursor: url('finger.png'), auto;
 }
 
 /*

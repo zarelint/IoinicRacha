@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('vipCtrl', function (LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
     // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
 
     //  $http.get('prediccion.json').
-    $http.get('http://localhost:8080/prediccionVip').
+   // $http.get('http://localhost:8080/prediccionVip').
 
-    //  $http.get('http://nodejs-rachas.rhcloud.com/prediccionVip').
+      $http.get('https://nodejs-rachas.rhcloud.com/prediccionVip').
         success(function(data) {
             $scope.predicciones =  data.pred;
             $scope.ratesLigasX =  data.ratesLigasX;
@@ -63,6 +63,7 @@ app.controller('vipCtrl', function (LigaService, $state, $scope, $http,$ionicSli
         detailMatch.equipo1 = equipo1;
         detailMatch.equipo2 = equipo2;
         detailMatch.liga = ligaparsed;
+          detailMatch.from = 'tabs.vip';
         if (liga.indexOf('singles') > -1){
             detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]);
         }else if (liga.indexOf('dobles') > -1){

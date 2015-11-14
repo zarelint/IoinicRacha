@@ -47,10 +47,17 @@ var app=angular.module('app', ['ionic','angular.filter'])
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
+    
+
     .config(function($ionicConfigProvider) {
+          $ionicConfigProvider.navBar.alignTitle('center');
         if (!ionic.Platform.isIOS()) {
             $ionicConfigProvider.scrolling.jsScrolling(false);
         }
+    }).constant("myconf", {
+       // "url": "https://rachanode-jvillajos.c9users.io/"
+        "url": "'https://nodejs-rachas.rhcloud.com/"
+        
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
@@ -75,7 +82,8 @@ var app=angular.module('app', ['ionic','angular.filter'])
                 views: {
                     'primera': {
                         templateUrl: "templates/rachas.html",
-                        controller: 'rachasPrimeraCtrl'
+                        controller: 'rachasPrimeraCtrl',     
+                        cache: false
                     }
                 }
             })
@@ -118,7 +126,15 @@ var app=angular.module('app', ['ionic','angular.filter'])
                 controller: 'detailMatchCtrl',
                 params: {myParam: null},
                 cache: false
-            });
+            }).state('detailMatch_gol', {
+                url: '/detailMatch_gol',
+                templateUrl: 'templates/detailMatch_gol.html',
+                controller: 'detailMatchCtrl_gol',
+                params: {myParam: null},
+                cache: false
+            })
+            
+            ;
 
 
 
