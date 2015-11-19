@@ -77,22 +77,22 @@ var app=angular.module('app', ['ionic','angular.filter'])
                 abstract: true,
                 templateUrl: "templates/tabs.html"
             })
-            .state('tabs.primera', {
-                url: "/primera",
+            .state('tabs.ligas', {
+                url: "/ligas",
                 views: {
-                    'primera': {
-                        templateUrl: "templates/rachas.html",
-                        controller: 'rachasPrimeraCtrl',     
+                    'ligas': {
+                        templateUrl: "templates/ligas.html",
+                        controller: 'LigasCtrl',
                         cache: false
                     }
                 }
             })
-            .state('tabs.tips', {
-                url: "/tips",
+            .state('tabs.historial', {
+                url: "/historial",
                 views: {
-                    'tips': {
-                        templateUrl: "templates/aciertos.html",
-                        controller: 'aciertosCtrl',
+                    'historial': {
+                        templateUrl: "templates/historial.html",
+                        controller: 'historialCtrl',
                         access: {
                             requiredLogin: true
                         }
@@ -116,19 +116,19 @@ var app=angular.module('app', ['ionic','angular.filter'])
             })
             .state('detailRates', {
                 url: '/detailRates',
-                templateUrl: 'templates/detailRates.html',
+                templateUrl: 'templates/detail/detailRates.html',
                 controller: 'detailRatesCtrl',
                 params: {myParam: null},
                 cache: false
             }).state('detailMatch', {
                 url: '/detailMatch',
-                templateUrl: 'templates/detailMatch.html',
+                templateUrl: 'templates/detail/detailMatch_points.html',
                 controller: 'detailMatchCtrl',
                 params: {myParam: null},
                 cache: false
             }).state('detailMatch_gol', {
                 url: '/detailMatch_gol',
-                templateUrl: 'templates/detailMatch_gol.html',
+                templateUrl: 'templates/detail/detailMatch_gol.html',
                 controller: 'detailMatchCtrl_gol',
                 params: {myParam: null},
                 cache: false
@@ -241,11 +241,11 @@ app.filter('groupByDayMonthYear2', function($parse) {
             if (!asociame[currentDate]) {
                 asociame[currentDate] = {};
             }
-            if (!asociame[currentDate][item.liga]) {
-                asociame[currentDate][item.liga] = [];
+            if (!asociame[currentDate][item.tipo]) {
+                asociame[currentDate][item.tipo] = [];
             }
 
-            asociame[currentDate][item.liga].push(item);
+            asociame[currentDate][item.tipo].push(item);
         }
 
         var fechaKeys =  Object.keys(asociame);
@@ -286,48 +286,5 @@ app.filter('groupByDayMonthYear2', function($parse) {
 
         return output;
     });
-
-});
-
-app.filter('groupByDayMonthYear', function($parse) {
-
-    var dividers = {},item;
-
-    return function(input) {
-        if (!input || !input.length) return;
-
-        var output = [],
-            previousDate,
-            currentDate;
-
-
-        for (var i = 0, ii = input.length; i < ii && (item = input[i]); i++) {
-            currentDate = moment(item.fecha).startOf('day');
-
-            // para que esto funcione tienen que venir ya ordernados
-            //  and the array will be sorted in ascending order.
-            //insert date divider
-            if (!previousDate || !currentDate.isSame(previousDate)) {
-                var dividerId = currentDate.format('DDMMYYYY');
-                if (!dividers[dividerId]) {
-                    dividers[dividerId] = {
-                        isDivider: true,
-                        _id: dividerId,
-                        divider: currentDate.format('DD MMMM YYYY')
-                    };
-                }
-                output.push(dividers[dividerId]);
-            }
-
-//insert liga divider
-
-
-            output.push(item);
-
-            previousDate = currentDate;
-        }
-
-        return output;
-    };
 
 });

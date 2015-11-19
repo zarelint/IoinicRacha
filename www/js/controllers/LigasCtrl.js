@@ -7,16 +7,16 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
+app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
 
 
 
     var ligaSelected ;
 
 
-  //    $http.get('http://localhost:8080/listaligas').
+    // $http.get('http://localhost:8080/listaligas').
 
-     $http.get('https://nodejs-rachas.rhcloud.com/listaligas').
+       $http.get('https://nodejs-rachas.rhcloud.com/listaligas').
     //     $http.get('listaligas.json').
         success(function(data) {
             $scope.ligas = data;
@@ -61,7 +61,6 @@ app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $sco
 
         // Clear previous filters
         $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].difGolFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].difGol[equipo]);
         $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
         $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
         $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
@@ -99,7 +98,6 @@ app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $sco
             for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
 
                 $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].difGolFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
@@ -175,7 +173,7 @@ app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $sco
              detailMatch.equipo1 = equipo1;
              detailMatch.equipo2 = equipo2;
              detailMatch.liga = ligaparsed;
-             detailMatch.from = 'tabs.primera';
+             detailMatch.from = 'tabs.ligas';
              detailMatch.algodesc ='';
              $scope.selection=[];
              $state.go('detailMatch', {myParam: detailMatch});
@@ -184,6 +182,18 @@ app.controller('rachasPrimeraCtrl', function ( detailMatch, $state, myconf, $sco
 
 
   $scope.selection=[];
+
+  $scope.irPartido = function (match) {
+      detailMatch.jornada =  $scope.racha[ligaSelected].ultima;
+      detailMatch.equipo1 = match.split('-')[0];
+      detailMatch.equipo2 = match.split('-')[1];
+      detailMatch.liga = ligaSelected;
+      detailMatch.from = 'tabs.ligas';
+      detailMatch.algodesc ='';
+      $scope.selection=[];
+      $state.go('detailMatch', {myParam: detailMatch});
+  };
+
   /**
    * Metodo invocado cada vez que hace click en un check, para copiar el equipo seleccionado e
    * en el array 'selection'

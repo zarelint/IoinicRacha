@@ -18,10 +18,10 @@ app.controller('detailMatchCtrl_gol', function (  $stateParams, LigaService, $st
 $scope.ir = function(destino){
     $state.go(destino);
      //$state.go('tabs.tips');
-}
+};
 
 $scope.back = detailMatch.from; 
-console.log(detailMatch.from);
+
 
     // inicializar controles
     $scope.data = {};
@@ -46,7 +46,6 @@ console.log(detailMatch.from);
 
         // Clear previous filters
         $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].difGolFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].difGol[equipo]);
         $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
         $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
         $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
@@ -74,7 +73,6 @@ console.log(detailMatch.from);
         for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
 
             $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
-            $scope.racha[ligaSelected].difGolFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
@@ -87,22 +85,21 @@ console.log(detailMatch.from);
          $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
-    }
+    };
 
 
     // Cargar datos Liga si es que fuese necesario
     LigaService.getliga(ligaSelected ).then(function(data) {
         $scope.racha = data;
+        var jorMatch =  $scope.racha[ligaSelected].jornadabymatch[detailMatch.equipo1+'-'+detailMatch.equipo2];
+        $scope.dificultadSelec0 =  $scope.racha[ligaSelected].golRate[$scope.selection[0]][jorMatch];
+        $scope.dificultadSelec1 =  $scope.racha[ligaSelected].golRate[$scope.selection[1]][jorMatch];
 
-console.log('load data liga gol')
-        $scope.dificultadSelec0 =  $scope.racha[ligaSelected].golRate[$scope.selection[0]][detailMatch.jornada];
-        $scope.dificultadSelec1 =  $scope.racha[ligaSelected].golRate[$scope.selection[1]][detailMatch.jornada];
+        $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].golCasaRate[$scope.selection[0]][jorMatch];
+        $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].golFueraRate[$scope.selection[1]][jorMatch];
 
-        $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
-        $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-
-        $scope.dificultadSelec1Casa =  $scope.racha[ligaSelected].difPuntosCasaMix[$scope.selection[1]][$scope.racha[ligaSelected].ultima];
-        $scope.dificultadSelec0Fuera =  $scope.racha[ligaSelected].difPuntosFueraMix[$scope.selection[0]][$scope.racha[ligaSelected].ultima];
+        $scope.dificultadSelec1Casa =  $scope.racha[ligaSelected].golCasaRate[$scope.selection[1]][jorMatch];
+        $scope.dificultadSelec0Fuera =  $scope.racha[ligaSelected].golFueraRate[$scope.selection[0]][jorMatch];
 
         corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
         corteJornadaEquipo(detailMatch.equipo2,detailMatch.jornada);
@@ -118,6 +115,15 @@ console.log('load data liga gol')
         
         
         
+    };
+
+    $scope.coloreacelda = function coloreacelda(valor) {
+
+        if (valor ==='x'){
+            return "texto-celda-black"
+        }else{
+            return "texto-celda2"
+        }
     };
     $scope.scoreClass = function scoreClass(scores) {
         var clase= 'blanco';
@@ -165,7 +171,6 @@ console.log('load data liga gol')
 
         // Clear previous filters
         $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].difGolFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].difGol[equipo]);
         $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
         $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
         $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
@@ -203,7 +208,6 @@ console.log('load data liga gol')
             for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
 
                 $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].difGolFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
                 $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);

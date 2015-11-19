@@ -33,9 +33,17 @@
     font-weight: bold;
 }
 .texto-celda2 {
-text-align: center;
+    text-align: center;
     font-size: 10px;
     color: white;
+    font-stretch: condensed;
+    font-weight: bold;
+    width: 15px;
+}
+.texto-celda-black {
+    text-align: center;
+    font-size: 10px;
+    color: black;
     font-stretch: condensed;
     font-weight: bold;
     width: 15px;
@@ -50,6 +58,7 @@ text-align: center;
     background: #f78d53;
 }
 .blanco {
+    color:grey;
     padding: 1px;
 }
 .text-success{

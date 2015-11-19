@@ -1,0 +1,138 @@
+<ion-view title="Analisis por Puntos"  >
+
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
+    </ion-nav-buttons>
+    
+    
+    <ion-nav-buttons side="right">
+      <button class="button" ng-click="ir('detailMatch_gol')">
+          Goles
+      </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="list  ">
+            <div class="item text-center item-divider">
+                {{selection[0]}} / {{selection[1]}}
+            </div>
+            <div class="list list-inset ">
+                <div class="item text-center item-divider">
+                    Casa + Fuera
+                </div>
+                <div class="item ">
+                    <div class="row row-center">
+                        <div class="row row-center row-tam2" >
+                            <!--<ion-scroll  direction="x" class="myScroll"  style="width: 140px">-->
+
+                            <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[0]][$index],filtroAnimo)" class="item "
+                                  ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
+                                  ng-if="   $index > 0 && racha[ligaSelected].calendarioFiltered[selection[0]][$index]!== null " >
+
+                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFiltered[selection[0]][$index] }}</div>
+                            </div>
+                            <!--</ion-scroll>-->
+                        </div>
+                    </div>
+
+                    <div class="spacer"></div>
+
+                    <div class="row row-center">
+                        <div class="row row-tam2" >
+
+                            <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index],filtroAnimo)" class="item "
+                                  ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
+                                  ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
+                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index]}}   </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="item text-center item-divider">
+                    Casa / Fuera
+                </div>
+
+                <div class="item">
+                    <!--             <div class="text-left">Casa o Fuera</div>
+                <!--               <div class="text-center">{{selection[0]}} / {{selection[1]}} </div>
+                               <div class="text-center">{{dificultadSelec0Casa}} / {{dificultadSelec1Fuera}}  </div>-->
+
+                    <div class="row row-center">
+                        <div class="row row-tam2" >
+
+                            <div  ng-class="scoreClass(p)" class="item"
+                                  ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
+                                  ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
+
+                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosCasaFiltered[selection[0]][$index]}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="row row-center">
+                        <div class="row row-tam2 " >
+
+                            <div  ng-class="scoreClass(p)" class="item"
+                                  ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
+                                  ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">
+                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFueraFiltered[selection[1]][$index]}}   </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="list list-inset">
+                <div class="item text-center item-divider">
+                    Filtros
+                </div>
+                <div class="item   text-center  " ng-if = " algodesc !==''">
+                    {{algodesc}}
+                </div>
+
+                <label class="item item-input item-select  ">
+                    <div class="item-text-wrap input-label col ">
+                        Indice Desiguldad {{selection[0]}}
+                    </div>
+                    <select class=" borde"  ng-model="data.selectedindexEquipo0" ng-change="changedIgualdadEquipo(selection[0],'Equipo0')">
+                        <option ng-repeat="(key3, value3) in igualdad" value="{{key3}}">{{value3}}</option>
+                    </select>
+                </label>
+
+                <label class="item item-input item-select">
+                    <div class="item-text-wrap col input-label">
+                        <div>Indice Desiguldad</div>
+                        <div> {{selection[1]}}</div>
+
+                    </div>
+                        <select   ng-model="data.selectedindexEquipo1" ng-change="changedIgualdadEquipo(selection[1],'Equipo1')">
+                            <option ng-repeat="(key4, value4) in igualdad" value="{{key4}}">{{value4}}</option>
+                        </select>
+                </label>
+
+
+                <div class="item  col">
+                    <div class="row row-center ">
+                        <div class="col col-75 ">
+                            Filtro Resultados Emocionales
+                        </div>
+                        <div class="col  ">
+                            <label class="toggle">
+                                <input type="checkbox" ng-model="filtroAnimo.checked">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

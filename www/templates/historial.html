@@ -4,8 +4,23 @@
 
                 <ion-list>
 
+                            <div class="item item-dark  col  "  >
+                                <div class="row row-center ">
+                                    <div class="col col-75 ">
+                                         Aciertos/Fallos
+                                    </div>
+                                    <div class="col  ">
+                                        <label class="toggle">
+                                            <input type="checkbox" ng-model="aciertos.checked">
+                                            <div class="track">
+                                                <div class="handle"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="item-text-wrap" collection-repeat="item in predicciones | groupByDayMonthYear2"  item-height="getHeight(item)"   >
+                            <div class="item-text-wrap" collection-repeat="item in predicciones | filter: myFilter |groupByDayMonthYear2"  item-height="getHeight(item)"   >
 
                                 <div ng-if="item.tipodiv == 'fecha'" class="item item-balanced text-center item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>
                                 <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.liga)" >

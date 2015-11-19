@@ -35,15 +35,17 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
             if (racha[liga] === undefined) {
                 //  $http.get('ligas.json')
                 //  $http.get('http://localhost:8080/ligas/'+liga)
-              //  $http.get(myconf.url + 'ligas/'+ liga)
-                $http.get('https://nodejs-rachas.rhcloud.com/ligas/'+liga)
+              //  $http.get(myconf.url + 'ligas/'+ liga)  http://localhost:8080/ligas/italia2
+                  $http.get('https://nodejs-rachas.rhcloud.com/ligas/'+liga)
+                // $http.get('http://localhost:8080/ligas/'+liga)
                     .success(function (data) {
                         racha[liga] = data;
+
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;
-                        racha[liga].difGolFiltered =          angular.copy(racha[liga].difGol);
-                        racha[liga].difPuntosFiltered =       angular.copy(racha[liga].difPuntos);
                         racha[liga].casaFiltered =            angular.copy(racha[liga].casa);
                         racha[liga].fueraFiltered =           angular.copy(racha[liga].fuera);
+
+                        racha[liga].difPuntosFiltered =       angular.copy(racha[liga].difPuntos);
                         racha[liga].difPuntosCasaFiltered =   angular.copy(racha[liga].difPuntosCasa);
                         racha[liga].difPuntosFueraFiltered =  angular.copy(racha[liga].difPuntosFuera);
 
@@ -51,14 +53,6 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                         racha[liga].golFueraRateFiltered =  angular.copy(racha[liga].golFueraRate);
                         racha[liga].golRateFiltered =       angular.copy(racha[liga].golRate);
 
-
-
-                        racha[liga].listaEquipos = [];
-                        racha[liga].listaPartidos = [];
-                        for ( var equipo in data.clasificacion){
-                            racha[liga].listaEquipos.push(equipo);
-                            racha[liga].listaPartidos.push(equipo+'-'+ data.rival[data.ultima][equipo] );
-                        }
 
                         deferred.resolve(racha);
                     }).error(function (msg, code) {
