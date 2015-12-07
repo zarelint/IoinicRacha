@@ -2,12 +2,7 @@
 
 app.controller('vipCtrl', function (myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
-    // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
-
-    //  $http.get('prediccion.json').
-   // $http.get('http://localhost:8080/prediccionVip').
-
-      $http.get('https://nodejs-rachas.rhcloud.com/prediccionVip').
+   $http.get(myconf.url+'/prediccionVip').
         success(function(data) {
             $scope.predicciones =  data.pred;
             $scope.ratesLigasX =  data.ratesLigasX;
@@ -25,7 +20,6 @@ app.controller('vipCtrl', function (myconf,LigaService, $state, $scope, $http,$i
             });
             $scope.listaFechas = keys;
         });
-
 
 
     /*

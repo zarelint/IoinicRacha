@@ -7,23 +7,14 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl', function (  $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
-    //console.log($stateParams.myParam);
+app.controller('detailMatchCtrl', function ( $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+    $scope.stateChanging = false;
 
-/*    $scope.loadingIndicator = $ionicLoading.show({
-        content: 'Loading Data',
-        animation: 'fade-in',
-        showBackdrop: false,
-        maxWidth: 200,
-        showDelay: 500
+
+    $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
     });
-    $timeout(function () {
-        $ionicLoading.hide();
-    }, 2000);*/
-     $ionicHistory.nextViewOptions({
-                        disableAnimate: true,
-                        disableBack: true
-     });
 
     $scope.ir = function(destino){
         $state.go(destino);
@@ -93,7 +84,15 @@ app.controller('detailMatchCtrl', function (  $stateParams, LigaService, $state,
 
 
     // Cargar datos Liga si es que fuese necesario
-    LigaService.getliga(ligaSelected ).then(function(data) {
+    LigaService.getliga(ligaSelected).then(function(data) {
+/*
+        $ionicLoading.show({
+            template: '<ion-spinner icon="spiral"></ion-spinner>'
+        });
+*/
+
+
+
         $scope.racha = data;
 
 
@@ -115,7 +114,7 @@ app.controller('detailMatchCtrl', function (  $stateParams, LigaService, $state,
         corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
         corteJornadaEquipo(detailMatch.equipo2,detailMatch.jornada);
         // $ionicLoading.hide();
-
+        $scope.stateChanging = true;
     });
 
     $scope.coloreacelda = function coloreacelda(valor) {

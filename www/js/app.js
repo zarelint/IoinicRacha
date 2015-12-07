@@ -4,9 +4,8 @@ var accessToken = "";
 var clientId = '321359984550-9otvkbcpbk6kj52e4i5oih5mkrdamnlp.apps.googleusercontent.com';
 var clientSecret = "BilFKZS3JiNAkgqk8PobtnUX";
 
-
 var app=angular.module('app', ['ionic','angular.filter'])
-    .run(function($ionicPlatform, $window, $location, AuthenticationFactory) {
+    .run(function($ionicPlatform, $window, $location, AuthenticationFactory,$rootScope, $ionicLoading) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -20,6 +19,13 @@ var app=angular.module('app', ['ionic','angular.filter'])
         }
       });
 
+    $rootScope.$on('loading:show', function() {
+        $ionicLoading.show({template: '<ion-spinner ></ion-spinner>'})
+    });
+
+    $rootScope.$on('loading:hide', function() {
+        $ionicLoading.hide()
+    });
 
 /*        // when the page refreshes, check if the user is already logged in
         AuthenticationFactory.check();
@@ -55,9 +61,10 @@ var app=angular.module('app', ['ionic','angular.filter'])
             $ionicConfigProvider.scrolling.jsScrolling(false);
         }
     }).constant("myconf", {
-       // "url": "https://rachanode-jvillajos.c9users.io/"
-        "url": "'https://nodejs-rachas.rhcloud.com/"
-        
+       // "url": "https://rachanode-jvillajos.c9users.io"
+        // "url": "http://localhost:8080"
+         "url": "https://nodejs-rachas.rhcloud.com"
+
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
@@ -83,7 +90,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
                     'ligas': {
                         templateUrl: "templates/ligas.html",
                         controller: 'LigasCtrl',
-                        cache: false
+                        cache: true
                     }
                 }
             })
@@ -95,7 +102,8 @@ var app=angular.module('app', ['ionic','angular.filter'])
                         controller: 'historialCtrl',
                         access: {
                             requiredLogin: true
-                        }
+                        },
+                        cache: true
                     }
                 }
             })
@@ -105,7 +113,8 @@ var app=angular.module('app', ['ionic','angular.filter'])
                 views: {
                     'vip': {
                         templateUrl: "templates/vip.html",
-                        controller: 'vipCtrl'
+                        controller: 'vipCtrl',
+                        cache: true
                     }
                 }
             })
@@ -119,7 +128,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
                 templateUrl: 'templates/detail/detailRates.html',
                 controller: 'detailRatesCtrl',
                 params: {myParam: null},
-                cache: false
+                cache: true
             }).state('detailMatch', {
                 url: '/detailMatch',
                 templateUrl: 'templates/detail/detailMatch_points.html',
@@ -288,3 +297,18 @@ app.filter('groupByDayMonthYear2', function($parse) {
     });
 
 });
+app.config(function($httpProvider) {
+    $httpProvider.interceptors.push(function($rootScope) {
+        return {
+            request: function(config) {
+                $rootScope.$broadcast('loading:show')
+                return config
+            },
+            response: function(response) {
+                $rootScope.$broadcast('loading:hide')
+                return response
+            }
+        }
+    })
+});
+

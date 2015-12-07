@@ -1,18 +1,25 @@
 'use strict';
 
 
-app.controller('historialCtrl', function (myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
-    //Tener un servidor propio permiter usar datos procesados y actualizados
-    // $http.get('http://nodejs-rachas.rhcloud.com/prediccion',{ cache: true}).
+app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
-    //  $http.get('prediccion.json').
-    // $http.get('http://localhost:8080/prediccion/1').
-     $http.get('https://nodejs-rachas.rhcloud.com/prediccion/1').
-        success(function(data) {
-            $scope.predicciones =  data.pred;
-            $scope.ratesLigasX =  data.ratesLigasX;
-            $scope.ratesLigas1 =  data.ratesLigas1;
+    $scope.doRefresh = function () {
+        HistoricoService.getdata(true).then(function(items){
+            $scope.predicciones =  items.data.pred;
+            $scope.ratesLigasX =   items.data.ratesLigasX;
+            $scope.ratesLigas1 =   items.data.ratesLigas1;
         });
+
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+    };
+
+    HistoricoService.getdata(false).then(function(items){
+        $scope.predicciones =  items.data.pred;
+        $scope.ratesLigasX =   items.data.ratesLigasX;
+        $scope.ratesLigas1 =   items.data.ratesLigas1;
+    });
+
 
 
     $scope.getHeight = function (check) {

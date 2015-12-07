@@ -26,21 +26,18 @@ app.factory('detailMatch', function() {
 
 
 app.factory('LigaService', function(myconf,$http, $log, $q) {
+
     var racha = {};
+
 
     return {
         getliga: function(liga) {
             var deferred = $q.defer();
 
             if (racha[liga] === undefined) {
-                //  $http.get('ligas.json')
-                //  $http.get('http://localhost:8080/ligas/'+liga)
-              //  $http.get(myconf.url + 'ligas/'+ liga)  http://localhost:8080/ligas/italia2
-                  $http.get('https://nodejs-rachas.rhcloud.com/ligas/'+liga)
-                // $http.get('http://localhost:8080/ligas/'+liga)
+                 $http.get(myconf.url+'/ligas/'+liga)
                     .success(function (data) {
                         racha[liga] = data;
-
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;
                         racha[liga].casaFiltered =            angular.copy(racha[liga].casa);
                         racha[liga].fueraFiltered =           angular.copy(racha[liga].fuera);
@@ -76,5 +73,28 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
             return rangoJornadas + ' partidos ' + tipo;
         }
     }
+
 });
 
+app.factory('HistoricoService', function($http,myconf,$q){
+    var items = [];
+
+    return {
+        getdata: function getdata(pullRefresh){
+            var deferred = $q.defer();
+            if(pullRefresh == false  && window.localStorage.getItem("prediccion") !== null  ) {
+                console.log('de mememoria');
+                items = JSON.parse(window.localStorage.getItem("prediccion"));
+                deferred.resolve(items);
+            }else{
+                console.log('pulling');
+                $http.get(myconf.url + '/prediccion/1').success(function(data) {
+                    window.localStorage.setItem("prediccion", JSON.stringify(data));
+                    items = data;
+                    deferred.resolve(items);
+                });
+            }
+            return deferred.promise;
+        }
+    }
+});

@@ -7,32 +7,33 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailRatesCtrl', function ($stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
-    //console.log($stateParams.myParam);
+app.controller('detailRatesCtrl', function ($stateParams, LigaService, $state, $scope, $ionicHistory) {
 
     $scope.algodesc = LigaService.getAlgo($stateParams.myParam);
     $scope.rate=$stateParams.myParam[2];
 
 
-    //$scope.rates=$stateParams.myParam[0];
+    function getRates (rates){
 
-    function getRates (dd){
         var ratesParsed = [];
+        var ratesCopy= []; //Avoid modify the original rates !!!
+        angular.copy(rates,ratesCopy);
         var pleno = false;
 
-        for (var index in dd ) {
-            if (dd[index] !== null){
-                if (dd[index].indexOf('R') > -1) {
+        for (var index in rates ) {
+            if (rates[index] !== null) {
+                if (rates[index].indexOf('R') > -1) {
                     pleno = true;
-                    dd[index] = dd[index].substring(1);
+                    ratesCopy[index] = rates[index].substring(1);
                 } else {
                     pleno = false;
                 }
+                ratesParsed.push({rate: ratesCopy[index], pleno: pleno});
             }
-            ratesParsed.push({rate: dd[index], pleno: pleno});
         }
         return ratesParsed;
     }
+
     $scope.rates=getRates ($stateParams.myParam[0]);
 
 

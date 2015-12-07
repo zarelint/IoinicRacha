@@ -9,18 +9,10 @@
  */
 app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
 
-
-
-    var ligaSelected ;
-
-
-    // $http.get('http://localhost:8080/listaligas').
-
-       $http.get('https://nodejs-rachas.rhcloud.com/listaligas').
-    //     $http.get('listaligas.json').
+    var ligaSelected;
+    $http.get(myconf.url +'/listaligas').
         success(function(data) {
             $scope.ligas = data;
-            
     });
 
     $scope.data = {};
