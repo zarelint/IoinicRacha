@@ -98,3 +98,27 @@ app.factory('HistoricoService', function($http,myconf,$q){
         }
     }
 });
+
+
+app.factory('VipService', function($http,myconf,$q){
+    var items = [];
+
+    return {
+        getdata: function getdata(pullRefresh){
+            var deferred = $q.defer();
+            if(pullRefresh == false  && window.localStorage.getItem("prediccionVIP") !== null  ) {
+                console.log('de mememoria');
+                items = JSON.parse(window.localStorage.getItem("prediccionVIP"));
+                deferred.resolve(items);
+            }else{
+                console.log('pulling');
+                $http.get(myconf.url+'/prediccionVip').success(function(data) {
+                    window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
+                    items = data;
+                    deferred.resolve(items);
+                });
+            }
+            return deferred.promise;
+        }
+    }
+});

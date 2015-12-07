@@ -1,14 +1,15 @@
 'use strict';
 
-app.controller('vipCtrl', function (myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
-   $http.get(myconf.url+'/prediccionVip').
-        success(function(data) {
-            $scope.predicciones =  data.pred;
-            $scope.ratesLigasX =  data.ratesLigasX;
-            $scope.ratesLigas1 =  data.ratesLigas1;
-            var keys = Object.keys(data.pred);
-            //todo esto falla para las fechas en agost
+
+
+    $scope.doRefresh = function () {
+        VipService.getdata(true).then(function(items){
+            $scope.predicciones =  items.pred;
+            $scope.ratesLigasX =  items.ratesLigasX;
+            $scope.ratesLigas1 =  items.ratesLigas1;
+            var keys = Object.keys(items.pred);
             keys.sort(function (item1, item2) {
                 var date1 = new Date(item1);
                 var date2 = new Date(item2);
@@ -21,7 +22,26 @@ app.controller('vipCtrl', function (myconf,LigaService, $state, $scope, $http,$i
             $scope.listaFechas = keys;
         });
 
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+    };
 
+    VipService.getdata(false).then(function(items){
+        $scope.predicciones =  items.pred;
+        $scope.ratesLigasX =  items.ratesLigasX;
+        $scope.ratesLigas1 =  items.ratesLigas1;
+        var keys = Object.keys(items.pred);
+        keys.sort(function (item1, item2) {
+            var date1 = new Date(item1);
+            var date2 = new Date(item2);
+            if (date1 < date2)
+                return -1;
+            if (date1 > date2)
+                return 1;
+            return 0;
+        });
+        $scope.listaFechas = keys;
+    });
     /*
      * if given group is the selected group, deselect it
      * else, select the given group

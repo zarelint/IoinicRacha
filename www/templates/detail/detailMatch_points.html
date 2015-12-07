@@ -24,7 +24,7 @@
                 <div class="item ">
                     <div class="row row-center">
                         <div class="row row-center row-tam2" >
-                            <!--<ion-scroll  direction="x" class="myScroll"  style="width: 140px">-->
+                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
 
                             <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[0]][$index],filtroAnimo)" class="item "
                                   ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
@@ -32,7 +32,7 @@
 
                                 <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFiltered[selection[0]][$index] }}</div>
                             </div>
-                            <!--</ion-scroll>-->
+                           </ion-scroll>
                         </div>
                     </div>
 
@@ -40,12 +40,14 @@
 
                     <div class="row row-center">
                         <div class="row row-tam2" >
+                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
+                                <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index],filtroAnimo)" class="item "
+                                      ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
+                                      ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
+                                    <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index]}}   </div>
+                                </div>
+                            </ion-scroll>
 
-                            <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index],filtroAnimo)" class="item "
-                                  ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
-                                  ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
-                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index]}}   </div>
-                            </div>
                         </div>
                     </div>
 
@@ -55,31 +57,30 @@
                 </div>
 
                 <div class="item">
-                    <!--             <div class="text-left">Casa o Fuera</div>
-                <!--               <div class="text-center">{{selection[0]}} / {{selection[1]}} </div>
-                               <div class="text-center">{{dificultadSelec0Casa}} / {{dificultadSelec1Fuera}}  </div>-->
+
 
                     <div class="row row-center">
                         <div class="row row-tam2" >
-
+                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
                             <div  ng-class="scoreClass(p)" class="item"
                                   ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
                                   ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
 
                                 <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosCasaFiltered[selection[0]][$index]}}</div>
                             </div>
-
+                            </ion-scroll>
                         </div>
                     </div>
                     <div class="spacer"></div>
                     <div class="row row-center">
                         <div class="row row-tam2 " >
-
+                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
                             <div  ng-class="scoreClass(p)" class="item"
                                   ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
                                   ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">
                                 <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].difPuntosFueraFiltered[selection[1]][$index]}}   </div>
                             </div>
+                            </ion-scroll>
                         </div>
                     </div>
 
