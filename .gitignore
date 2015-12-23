@@ -5,7 +5,6 @@
 platforms/
 plugins/
 .c9/
-.idea/
 www/lib
 engine/
 www/config.xml

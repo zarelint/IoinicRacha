@@ -5,9 +5,9 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
 
     $scope.doRefresh = function () {
         HistoricoService.getdata(true).then(function(items){
-            $scope.predicciones =  items.data.pred;
-            $scope.ratesLigasX =   items.data.ratesLigasX;
-            $scope.ratesLigas1 =   items.data.ratesLigas1;
+            $scope.predicciones =  items.pred;
+            $scope.ratesLigasX =   items.ratesLigasX;
+            $scope.ratesLigas1 =   items.ratesLigas1;
         });
 
         //Stop the ion-refresher from spinning
@@ -15,9 +15,9 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
     };
 
     HistoricoService.getdata(false).then(function(items){
-        $scope.predicciones =  items.data.pred;
-        $scope.ratesLigasX =   items.data.ratesLigasX;
-        $scope.ratesLigas1 =   items.data.ratesLigas1;
+        $scope.predicciones =  items.pred;
+        $scope.ratesLigasX =   items.ratesLigasX;
+        $scope.ratesLigas1 =   items.ratesLigas1;
     });
 
 

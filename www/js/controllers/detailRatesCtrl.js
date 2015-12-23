@@ -28,7 +28,7 @@ app.controller('detailRatesCtrl', function ($stateParams, LigaService, $state, $
                 } else {
                     pleno = false;
                 }
-                ratesParsed.push({rate: ratesCopy[index], pleno: pleno});
+                ratesParsed.push({jornada:index, rate: ratesCopy[index], pleno: pleno});
             }
         }
         return ratesParsed;

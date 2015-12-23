@@ -18,7 +18,7 @@
         </div>
             <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item.rate!== null ">
                 <div class="row pegar" ng-class="{ 'text-success': !item.pleno }">
-                    <div class="col">{{ $index}}</div>
+                    <div class="col">{{ item.jornada}}</div>
                     <div class="col">{{item.rate}}</div>
                 </div>
             </div>
