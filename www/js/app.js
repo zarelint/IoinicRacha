@@ -63,7 +63,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
     }).constant("myconf", {
        // "url": "https://rachanode-jvillajos.c9users.io"
         // "url": "http://localhost:8080"
-        "url": "https://nodejs-rachas.rhcloud.com"
+        "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
@@ -103,7 +103,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
                         access: {
                             requiredLogin: true
                         },
-                        cache: true
+                        cache: false
                     }
                 }
             })
@@ -236,12 +236,11 @@ var  memoize = function(func, hasher) {
 };
 
 
-app.filter('groupByDayMonthYear2', function($parse) {
-
-    var dividers = {},item,liga;
-    var asociame = {};
+app.filter('groupByDayMonthYear2', function() {
 
     return memoize(function(input) {
+        var asociame = {};
+        var dividers = {},item,liga;
         if (!input || !input.length) return;
 
         var output = [], currentDate;
@@ -297,6 +296,30 @@ app.filter('groupByDayMonthYear2', function($parse) {
     });
 
 });
+
+app.filter('startsWithLetter', function () {
+
+    return memoize(function (items, checked) {
+        var filtered = [];
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if ( checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
+                if (item.real === true){
+                    filtered.push(item);
+                }
+
+            }else{
+               // if (item.real === false){
+                    filtered.push(item);
+                //}
+            }
+        }
+
+
+        return filtered;
+    });
+});
+
 app.config(function($httpProvider) {
     $httpProvider.interceptors.push(function($rootScope) {
         return {

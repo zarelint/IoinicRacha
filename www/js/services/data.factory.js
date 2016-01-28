@@ -63,7 +63,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
         },
         getAlgo: function getDescAlgo(myParam) {
             var rangoJornadas =myParam[1][Object.keys(myParam[1])[0]].rangoJornadas;
-            if (Object.keys(myParam[1]==='casaIgualdad') && rangoJornadas=== undefined){
+            if ( Object.keys(myParam[1])[0]==='casaIgualdad' && rangoJornadas=== undefined){
                 rangoJornadas= 'Todos los'
             }
             var tipo='';

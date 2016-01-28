@@ -21,16 +21,14 @@
     min-height: 100%;
 
 }
-.letra-pred{
-    font-size: 11px;
-}
+
 
 .even-row{background: rgba(244, 244, 244, 0.51)  }
 
 
 .texto-blanco{
     color: white;
-    font-weight: bold;
+    font-size: 120%;
 }
 .texto-celda2 {
     text-align: center;

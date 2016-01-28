@@ -5,7 +5,7 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
 
     $scope.doRefresh = function () {
         HistoricoService.getdata(true).then(function(items){
-            $scope.predicciones =  items.pred;
+            $scope.predicciones =   items.pred
             $scope.ratesLigasX =   items.ratesLigasX;
             $scope.ratesLigas1 =   items.ratesLigas1;
         });
@@ -96,13 +96,18 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
         };
 
         $scope.aciertos={};
+
+
         $scope.myFilter = function(item) {
-            if ( $scope.aciertos.checked){
+
+            if ( $scope.aciertos.checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
                 return item.real === true;
             }else{
-                return item.real === false;
+               return item.real !== true;
             }
         };
+
+
 
          $scope.verEncuentro = function(item) {
 

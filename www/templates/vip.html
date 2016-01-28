@@ -1,4 +1,4 @@
-<ion-view title="vip"   >
+<ion-view title="Predicciones"   >
     <ion-content >
 
         <ion-refresher on-refresh="doRefresh()"></ion-refresher>
@@ -6,21 +6,30 @@
 
                <div ng-repeat="group in listaFechas">
 
-                    <ion-item
+                    <ion-item class="pegar"
                                  ng-click="toggleGroup(group)"
-                                 ng-class="{active: isGroupShown(group)}">
-                           <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
-                           &nbsp;
-                           {{group}}
-                    </ion-item>
+                                 ng-class="{active: isGroupShown(group)}" >
+                            <div class="row row-center ">
+                                <div class="col col-10 text-center  ">
+                                    <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                                </div>
+                                <div class="col">{{group}}</div>
+                            </div>
 
+
+                   </ion-item>
+                   <ion-item   ng-show=" isGroupShown(group)" class="item-dark pegar texto-blanco row row-center item-text-wrap">
+                       <div class="col col-20">Jornada</div>
+                       <div class="col ">Liga</div>
+                       <div>Aciertos</div>
+                   </ion-item >
                     <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 
 
-                            <ion-item class="item-dark pegar texto-blanco row row-center" ng-click="ver(liga)" >
-                                <div class="col col-70">  {{ liga }} / {{val[0].jornada}}  </div>
-
-                                <div class="col2 "> <b>{{val[0].rate}}%</b>  </div>
+                            <ion-item class="item-dark pegar texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
+                                <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
+                                <div class="col ">  {{ val[0].liga }}   </div>
+                                <div> {{val[0].rate}}%  </div>
                             </ion-item>
 
 

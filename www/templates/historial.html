@@ -1,26 +1,45 @@
-<ion-view title="Historico"  cache-view="true" >
+<ion-view title="Historial"  cache-view="false" >
             <ion-content  >
 
                 <ion-refresher on-refresh="doRefresh()"></ion-refresher>
                 <ion-list>
+                    <label class="item item-input item-dark item-select  ">
+                        <div class="item-text-wrap input-label col ">
+                            Seleccionar liga:
+                        </div>
+                        <div class="col">
+                            <select ng-model="data.selectedindex"
 
+                                    ng-options="value for (key, value) in ligas| orderBy:'toString()' "
+                                    ng-change="changedliga()">
+                            </select>
+                        </div>
+                    </label>
                             <div class="item item-dark  col  "  >
-                                <div class="row row-center ">
-                                    <div class="col col-75 ">
-                                         Aciertos/Fallos
+                                <div class="row row-center text-right ">
+                                    <div class="col   ">
+                                         Fallados
                                     </div>
-                                    <div class="col  ">
+                                    <div class="col text-center   ">
                                         <label class="toggle">
-                                            <input type="checkbox" ng-model="aciertos.checked">
+                                            <input type="checkbox" ng-model="aciertos.checked"  >
                                             <div class="track">
                                                 <div class="handle"></div>
                                             </div>
                                         </label>
                                     </div>
+                                    <div class="col text-left ">
+                                        Acertados
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="item-text-wrap" collection-repeat="item in predicciones | filter: myFilter |groupByDayMonthYear2"  item-height="getHeight(item)"   >
+                            <div class="item-text-wrap" collection-repeat="item in  predicciones | filter: myFilter                     | groupByDayMonthYear2"  item-height="getHeight(item)"   >
+<!--
+                             <div class="item-text-wrap" collection-repeat="item in predicciones| startsWithLetter: aciertos.checked   | groupByDayMonthYear2"  item-height="getHeight(item)"   >
+                             <div class="item-text-wrap" collection-repeat="item in predicciones| filter: myFilter                     | groupByDayMonthYear2"  item-height="getHeight(item)"
+
+ >-->
 
                                 <div ng-if="item.tipodiv == 'fecha'" class="item item-balanced text-center item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>
                                 <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.liga)" >
@@ -28,7 +47,8 @@
                                     <div class="col2 "> <b>{{item.rate}}%</b>  </div>
                                 </div>
 
-                                <div  ng-if="item.tipodiv == null" class="item  row row-center" ng-click="verEncuentro(item)"   >
+
+                                <div  ng-if="item.tipodiv == null" class="item   row row-center" ng-click="verEncuentro(item)"  >
                                         <div class="col col-20 ">  {{item.hora}}              </div>
                                         <div class="col col-60  ">  {{item.encuentro}}         </div>
                                         <div class="col col-10">    <b>{{item.prediccion}}</b>  </div>
