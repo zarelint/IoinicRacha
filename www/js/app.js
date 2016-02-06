@@ -62,8 +62,8 @@ var app=angular.module('app', ['ionic','angular.filter'])
         }
     }).constant("myconf", {
        // "url": "https://rachanode-jvillajos.c9users.io"
-        // "url": "http://localhost:8080"
-        "url": "http://nodejs-rachas.rhcloud.com"
+        "url": "http://localhost:8080"
+        // "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {

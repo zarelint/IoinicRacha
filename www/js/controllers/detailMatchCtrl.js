@@ -7,7 +7,7 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl', function ( $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl', function ( $timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
     $scope.stateChanging = false;
 
 
@@ -20,8 +20,24 @@ app.controller('detailMatchCtrl', function ( $stateParams, LigaService, $state, 
         $state.go(destino);
          //$state.go('tabs.tips');
     };
-
+    $scope.abrev = function (name) {
+        return name.substr(0,9);
+    };
+    $scope.scrollIzq = function(scroll_name) {
+        var resto = 250-$ionicScrollDelegate.getScrollPosition().right;
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollTo(resto, 0);
+    };
+    $scope.scrollDch = function(scroll_name) {
+        var resto = 250-$ionicScrollDelegate.getScrollPosition().left;
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollBy(resto, 0);
+    };
     $scope.back = detailMatch.from;
+
+    // Simulate a login delay. Remove this and replace with your login
+    $timeout(function() {
+        $scope.scrollDch('todos-scroll');
+    }, 1000);
+
 
 
     // inicializar controles
