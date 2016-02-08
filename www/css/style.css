@@ -99,7 +99,9 @@ height: 100% ;
 .borde {
     border: 2px solid #8AC007;
 }
-
+.notplay {
+    border: 1px solid;
+}
 .circle-singleline {
     width: 30px;
     height: 30px;
