@@ -1,127 +1,169 @@
-<ion-view title="Analisis por Goles"  >
+<ion-view title="Only Goals"  >
 
     <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="ir('{{back}}')"  ><i class="icon ion-arrow-left-c" ></i> Back</button>
-    </ion-nav-buttons>
-    
-    <ion-nav-buttons side="right">
-      <button class="button"  ng-click="ir('detailMatch')" >
-          Puntos
-      </button>
+        <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
     </ion-nav-buttons>
 
-    <ion-content>
+
+    <ion-nav-buttons side="right">
+        <button class="button" ng-click="compareDialog.show()">
+            <div><i class="icon ion-ios-help-outline" ></i></div>
+        </button>
+
+        <button class="button" ng-click="ir('detailMatch')">
+            Goles
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content ng-show="stateChanging" >
 
         <div class="list  ">
-            <div class="item text-center item-divider">
-                {{selection[0]}} / {{selection[1]}}
+
+            <div class="item  item-divider pegar">
+                <div class="row pegar">
+                    <div class="col col-offset-10 text-center">{{selection[0]}}</div>
+                    <div class="col text-center"> <i class="ion-minus-round" ></i></div>
+                    <div class="col text-center"> {{selection[1]}}</div>
+                    <div class="col col-10"></div>
+                </div>
             </div>
-            <div class="list list-inset ">
-                <div class="item text-center item-divider">
-                    Casa & Fuera
-                </div>
-                <div class="item ">
-                    <div class="row row-center">
-                        <div class="row row-center row-tam2" >
-                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
-
-                            <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[0]][$index],filtroAnimo)" class="item "
-                                  ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
-                                  ng-if="   $index > 0 && racha[ligaSelected].calendarioFiltered[selection[0]][$index]!== null " >
-
-                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].golRateFiltered[selection[0]][$index] }}</div>
+            <div class="list list ">
+                <div class="item pegar item-divider">
+                    <div class="row  pegar">
+                        <div class="col pegar">
+                            <div class="buttons pegar ">
+                                <button class="button  button-small" ng-click="scrollIzq('todos-scroll')">
+                                    <i class="icon ion-ios-rewind"></i>
+                                </button>
                             </div>
-                            </ion-scroll>
+                        </div>
+                        <div class="col pegar text-center col-center">Todos los partidos</div>
+                        <div class="col pegar text-right">
+                            <div class="buttons pegar ">
+                                <button class="button  button-small" ng-click="scrollDch('todos-scroll')">
+                                    <i class="icon ion-ios-fastforward"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="spacer"></div>
-
-                    <div class="row row-center">
-                        <div class="row row-tam2" >
-                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
-                            <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFiltered[selection[1]][$index],filtroAnimo)" class="item "
-                                  ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
-                                  ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
-                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].golRateFiltered[selection[1]][$index]}}   </div>
-                            </div>
-                            </ion-scroll>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="item text-center item-divider">
-                    Casa O Fuera
-                </div>
+                <div class="item pegar bh">
+                    <div class="row pegar">&nbsp&nbsp</div>
+                    <div class="row pegar">
+                        <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+                                <div class="row row-center row-tam2" >
+                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  style="width: 250px">
 
-                <div class="item">
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golRateFiltered[selection[0]][$index],filtroAnimo)" class="item "
+                                              ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
+                                              ng-if="   $index > 0 && racha[ligaSelected].calendarioFiltered[selection[0]][$index]!== null " >
 
-
-                    <div class="row row-center">
-                        <div class="row row-tam2" >
-                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
-                            <div  ng-class="scoreClass(p)" class="item"
-                                  ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
-                                  ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
-
-                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].golCasaRateFiltered[selection[0]][$index]}}</div>
+                                            <div ng-class="coloreacelda(p,fromFilter)"> {{racha[ ligaSelected ].golRateFiltered[selection[0]][$index] }}</div>
+                                        </div>
+                                    </ion-scroll>
+                                </div>
                             </div>
-                            </ion-scroll>
                         </div>
                     </div>
                     <div class="spacer"></div>
-                    <div class="row row-center">
-                        <div class="row row-tam2 " >
-                            <ion-scroll  direction="x" class="myScroll"  style="width: 300px">
-                            <div  ng-class="scoreClass(p)" class="item"
-                                  ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
-                                  ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">
-                                <div ng-class="coloreacelda(p)"> {{racha[ ligaSelected ].golFueraRateFiltered[selection[1]][$index]}}   </div>
+                    <div class="row pegar ">
+                        <div class="col col-10 pegar peq ">&nbsp&nbsp{{abrev(selection[1])}}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+                                <div class="row row-tam2" >
+                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  style="width: 250px">
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golRateFiltered[selection[1]][$index],filtroAnimo)" class="item "
+                                              ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
+                                              ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
+                                            <div ng-class="coloreacelda(p,fromFilter)"> {{racha[ ligaSelected ].golRateFiltered[selection[1]][$index]}}   </div>
+                                        </div>
+                                    </ion-scroll>
+
+                                </div>
                             </div>
-                            </ion-scroll>
                         </div>
                     </div>
+                    <div class="row pegar">&nbsp&nbsp</div>
+                </div>
+                <div class="item pegar item-divider">
+                    <div class="row  pegar">
+                        <div class="col pegar">
+                            <div class="buttons pegar ">
+                                <button class="button  button-small" ng-click="scrollIzq('casa-scroll')">
+                                    <i class="icon ion-ios-rewind"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col pegar text-center col-center">Casa/Fuera</div>
+                        <div class="col pegar text-right">
+                            <div class="buttons pegar ">
+                                <button class="button  button-small" ng-click="scrollDch('casa-scroll')" >
+                                    <i class="icon ion-ios-fastforward"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item pegar bh">
+                    <div class="row pegar">&nbsp&nbsp</div>
+                    <div class="row pegar">
+                        <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+                                <div class="row row-tam2" >
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golCasaRateFiltered[selection[0]][$index],filtroAnimo)" class="item"
+                                              ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
+                                              ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
 
+                                            <div ng-class="coloreacelda(p,fromFilter)"> {{racha[ ligaSelected ].golCasaRateFiltered[selection[0]][$index]}}</div>
+                                        </div>
+                                    </ion-scroll>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="row pegar ">
+                        <div class="col col-10 pegar peq ">&nbsp&nbsp{{abrev(selection[1])}}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+                                <div class="row row-tam2 " >
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golFueraRateFiltered[selection[1]][$index],filtroAnimo)" class="item"
+                                              ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
+                                              ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">
+                                            <div ng-class="coloreacelda(p,fromFilter)"> {{racha[ ligaSelected ].golFueraRateFiltered[selection[1]][$index]}}   </div>
+                                        </div>
+                                    </ion-scroll>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pegar">&nbsp&nbsp</div>
                 </div>
 
-            </div>
-            <div class="list list-inset">
+
+
                 <div class="item text-center item-divider">
-                    Filtros
-                </div>
-                <div class="item   text-center  " ng-if = " algodesc !==''">
-                    {{algodesc}}
-                </div>
-
-                <label class="item item-input item-select  ">
-                    <div class="item-text-wrap input-label col ">
-                        Indice Desiguldad {{selection[0]}}
+                    <div  ng-if ="   algodesc !==''   ">
+                        Filtros: {{algodesc}}
                     </div>
-                    <select class=" borde"  ng-model="data.selectedindexEquipo0" ng-change="changedIgualdadEquipo(selection[0],'Equipo0')">
-                        <option ng-repeat="(key3, value3) in igualdad" value="{{key3}}">{{value3}}</option>
-                    </select>
-                </label>
 
-                <label class="item item-input item-select">
-                    <div class="item-text-wrap col input-label">
-                        <div>Indice Desiguldad</div>
-                        <div> {{selection[1]}}</div>
-
-                    </div>
-                    <select   ng-model="data.selectedindexEquipo1" ng-change="changedIgualdadEquipo(selection[1],'Equipo1')">
-                        <option ng-repeat="(key4, value4) in igualdad" value="{{key4}}">{{value4}}</option>
-                    </select>
-                </label>
+                </div>
 
 
-                <div class="item  col">
+
+                <div class="item bh col">
                     <div class="row row-center ">
-                        <div class="col col-75 ">
+                        <div class="col texto-blanco col-75 ">
                             Filtro Resultados Emocionales
                         </div>
                         <div class="col  ">
                             <label class="toggle">
-                                <input type="checkbox" ng-model="filtroAnimo.checked">
+                                <input type="checkbox" ng-model="filtroAnimo.checked"   >
                                 <div class="track">
                                     <div class="handle"></div>
                                 </div>
@@ -129,10 +171,23 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="item  bh col">
+                    <div class="row row-center ">
+                        <div class="col texto-blanco col-75 ">
+                            Filtro HCP
+                        </div>
+                        <div class="col  ">
+                            <label class="toggle">
+                                <input type="checkbox" ng-model="filtroHCP.checked" ng-change="filtrarHCP()">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </ion-content>
 
 </ion-view>

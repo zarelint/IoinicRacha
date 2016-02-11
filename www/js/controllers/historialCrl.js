@@ -20,7 +20,24 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
         $scope.ratesLigas1 =   items.ratesLigas1;
     });
 
+    var ligaSelected;
+    $http.get(myconf.url +'/listaligas').
+    success(function(data) {
 
+        $scope.ligas = data;
+
+    });
+    $scope.data = {};
+    $scope.data.selectedindex = null;
+    $scope.changedliga = function() {
+
+        ligaSelected = $scope.data.selectedindex;
+        $scope.ligaSelected = ligaSelected;
+
+
+
+
+    };
 
     $scope.getHeight = function (check) {
         if (check.tipodiv !== undefined) {
@@ -98,17 +115,24 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
         $scope.aciertos={};
 
 
+
         $scope.myFilter = function(item) {
 
             if ( $scope.aciertos.checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
                 return item.real === true;
             }else{
-               return item.real !== true;
+                return item.real !== true;
             }
         };
 
+        $scope.myFilterliga = function(item) {
 
-
+            if ($scope.data.selectedindex === null) {
+                return true;
+            } else {
+                return item.liga === $scope.data.selectedindex;
+            }
+        };
          $scope.verEncuentro = function(item) {
 
              var liga= item.tipo;

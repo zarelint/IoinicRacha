@@ -7,8 +7,9 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl', function ( $timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl', function ( $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
     $scope.stateChanging = false;
+
     // Simulate a login delay. Remove this and replace with your login
     $timeout(function() {
         $scope.scrollDch('todos-scroll');
@@ -25,7 +26,7 @@ app.controller('detailMatchCtrl', function ( $timeout, $ionicScrollDelegate, $st
          //$state.go('tabs.tips');
     };
     $scope.abrev = function (name) {
-        return name.substr(0,9);
+        return name.substr(0,6)+'...';
     };
     $scope.scrollIzq = function(scroll_name) {
         var resto = 250-$ionicScrollDelegate.getScrollPosition().right;
@@ -62,12 +63,12 @@ app.controller('detailMatchCtrl', function ( $timeout, $ionicScrollDelegate, $st
     var corteJornadaEquipo  = function corteJornadaEquipo(equipo,jornada) {
 
         // Clear previous filters
-/*        $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
+        $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
         $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
         $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
         $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
         $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosCasa[equipo]);
-        $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);*/
+        $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);
 
 
 
@@ -173,6 +174,7 @@ console.log('')
     };
 
 
+
     // Cargar datos Liga si es que fuese necesario
     LigaService.getliga(ligaSelected).then(function(data) {
         $scope.racha = data;
@@ -191,6 +193,16 @@ console.log('')
         $scope.stateChanging = true;
     });
 
+
+    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
+        scope: $scope,
+        animation: 'slide-in-up',
+        cerrar: function(){
+            $scope.compareDialog.hide();
+        }
+    }).then(function(modal) {
+        $scope.compareDialog = modal;
+    });
 
     $scope.coloreacelda = function coloreacelda(valor,fromFilter) {
 
@@ -216,7 +228,7 @@ console.log('')
 
             corteJornadaEquipoFiltradoFuera(detailMatch.equipo2,detailMatch.jornada);
             corteJornadaEquipoFiltradoCasa(detailMatch.equipo1,detailMatch.jornada);
-            $scope.scrollIzq('todos-scroll');
+            $scope.scrollDch('todos-scroll');
         }else{
             $scope.changedIgualdadEquipo($scope.selection[1],null);
             $scope.changedIgualdadEquipo($scope.selection[0],null);

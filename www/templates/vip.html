@@ -19,9 +19,9 @@
 
                    </ion-item>
                    <ion-item   ng-show=" isGroupShown(group)" class="item-dark pegar texto-blanco row row-center item-text-wrap">
-                       <div class="col col-20">Jornada</div>
-                       <div class="col ">Liga</div>
-                       <div>Aciertos</div>
+                       <div class="cold">Jornada</div>
+                       <div class="col text-center ">Liga</div>
+                       <div class="col text-right">Aciertos</div>
                    </ion-item >
                     <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 

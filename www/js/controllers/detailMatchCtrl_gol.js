@@ -7,20 +7,37 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function (  $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
-    //console.log($stateParams.myParam);
+app.controller('detailMatchCtrl_gol', function ( $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+    $scope.stateChanging = false;
 
- $ionicHistory.nextViewOptions({
-                    disableAnimate: true,
-                    disableBack: true
-                });
+    // Simulate a login delay. Remove this and replace with your login
+    $timeout(function() {
+        $scope.scrollDch('todos-scroll');
+    }, 1000);
 
-$scope.ir = function(destino){
-    $state.go(destino);
-     //$state.go('tabs.tips');
-};
 
-$scope.back = detailMatch.from; 
+    $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+    });
+
+    $scope.ir = function(destino){
+        $state.go(destino);
+        //$state.go('tabs.tips');
+    };
+    $scope.abrev = function (name) {
+        return name.substr(0,6)+'...';
+    };
+    $scope.scrollIzq = function(scroll_name) {
+        var resto = 250-$ionicScrollDelegate.getScrollPosition().right;
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollTo(resto, 0);
+    };
+    $scope.scrollDch = function(scroll_name) {
+        var resto = 250-$ionicScrollDelegate.getScrollPosition().left;
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollBy(resto, 0);
+    };
+    $scope.back = detailMatch.from;
+
 
 
     // inicializar controles
@@ -31,8 +48,8 @@ $scope.back = detailMatch.from;
     $scope.data.selectedindexEquipo0 = 1;
     $scope.data.selectedindexEquipo1 = 1;
     $scope.filtroAnimo={};
+    $scope.filtroHCP={};
     $scope.selection=[];
-    
 
 
     //Selecionar Equipos
@@ -42,19 +59,9 @@ $scope.back = detailMatch.from;
     var ligaSelected = detailMatch.liga;
     $scope.ligaSelected= ligaSelected;
 
+// cortar el array de puntos porque esta relleno hasta el final.
     var corteJornadaEquipo  = function corteJornadaEquipo(equipo,jornada) {
 
-        // Clear previous filters
-        $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
-        $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
-        $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
-        $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosCasa[equipo]);
-        $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);
-
-         $scope.racha[ligaSelected].golCasaRateFiltered[equipo] =   angular.copy( $scope.racha[ligaSelected].golCasaRate[equipo]);
-         $scope.racha[ligaSelected].golFueraRateFiltered[equipo] =  angular.copy( $scope.racha[ligaSelected].golFueraRate[equipo]);
-         $scope.racha[ligaSelected].golRateFiltered[equipo] =       angular.copy( $scope.racha[ligaSelected].golRate[equipo]);
 
         var indextobedeleted = [];
         // get index to be deleted
@@ -76,54 +83,165 @@ $scope.back = detailMatch.from;
             $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
-            $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
-            $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
 
+            $scope.racha[ligaSelected].golCasaRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            $scope.racha[ligaSelected].golFueraRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
 
-         $scope.racha[ligaSelected].golCasaRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
-         $scope.racha[ligaSelected].golFueraRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
-         $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
     };
 
 
+    var corteJornadaEquipoFiltradoFuera  = function corteJornadaEquipoFiltrado(equipo,jornada) {
+
+        var indextobedeleted = [];
+        // get index to be deleted
+        for (var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo]) {
+            if (indexjornada > jornada) {
+                indextobedeleted.push(indexjornada);
+            }
+        }
+
+        //sort index in descent order
+        indextobedeleted.sort(function (a, b) {
+            return b - a
+        });
+
+        var cont = 0;
+        for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+
+            $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            $scope.racha[ligaSelected].golFueraRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+
+            cont++;
+        }
+
+
+    };
+    var corteJornadaEquipoFiltradoCasa  = function corteJornadaEquipoFiltrado(equipo,jornada) {
+
+        var indextobedeleted = [];
+        // get index to be deleted
+        for (var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo]) {
+            if (indexjornada > jornada) {
+                indextobedeleted.push(indexjornada);
+            }
+        }
+
+        //sort index in descent order
+        indextobedeleted.sort(function (a, b) {
+            return b - a
+        });
+
+        var cont = 0;
+        for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+            $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+
+            cont++;
+        }
+        console.log('')
+
+    };
+    var corteJornadaEquipoFiltrado  = function corteJornadaEquipoFiltrado(equipo,jornada) {
+
+        var indextobedeleted = [];
+        // get index to be deleted
+        for (var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo]) {
+            if (indexjornada > jornada) {
+                indextobedeleted.push(indexjornada);
+            }
+        }
+
+        //sort index in descent order
+        indextobedeleted.sort(function (a, b) {
+            return b - a
+        });
+
+        var cont = 0;
+        for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+            $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
+            cont++;
+        }
+        console.log('')
+
+    };
+
+
+
     // Cargar datos Liga si es que fuese necesario
-    LigaService.getliga(ligaSelected ).then(function(data) {
+    LigaService.getliga(ligaSelected).then(function(data) {
         $scope.racha = data;
+        //Como saber en la jornada que se enfrentaron para mostralo bien ?
         var jorMatch =  $scope.racha[ligaSelected].jornadabymatch[detailMatch.equipo1+'-'+detailMatch.equipo2];
+
+
+
         $scope.dificultadSelec0 =  $scope.racha[ligaSelected].golRate[$scope.selection[0]][jorMatch];
         $scope.dificultadSelec1 =  $scope.racha[ligaSelected].golRate[$scope.selection[1]][jorMatch];
 
         $scope.dificultadSelec0Casa =  $scope.racha[ligaSelected].golCasaRate[$scope.selection[0]][jorMatch];
         $scope.dificultadSelec1Fuera =  $scope.racha[ligaSelected].golFueraRate[$scope.selection[1]][jorMatch];
 
-        $scope.dificultadSelec1Casa =  $scope.racha[ligaSelected].golCasaRate[$scope.selection[1]][jorMatch];
-        $scope.dificultadSelec0Fuera =  $scope.racha[ligaSelected].golFueraRate[$scope.selection[0]][jorMatch];
 
+        // cortar el array de puntos porque esta relleno hasta el final.
         corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
         corteJornadaEquipo(detailMatch.equipo2,detailMatch.jornada);
+        $scope.stateChanging = true;
     });
 
 
-    $scope.goBack = function() {
+    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
+        scope: $scope,
+        animation: 'slide-in-up',
+        cerrar: function(){
+            $scope.compareDialog.hide();
+        }
+    }).then(function(modal) {
+        $scope.compareDialog = modal;
+    });
 
+    $scope.coloreacelda = function coloreacelda(valor,fromFilter) {
 
-         // $ionicHistory.backView().stateParams = {liga:detailMatch.liga};
-          $ionicHistory.goBack();
-    //---
-        
-        
-        
-    };
-
-    $scope.coloreacelda = function coloreacelda(valor) {
+        if (fromFilter){
+            return "texto-celda2";
+        }
 
         if (valor ==='x'){
             return "texto-celda-black"
         }else{
             return "texto-celda2"
         }
+    };
+    $scope.filtrarHCP = function filtroHCP() {
+
+        if ($scope.filtroHCP.checked){
+            $scope.changedIgualdadEquipo($scope.selection[1],$scope.dificultadSelec1);
+            $scope.changedIgualdadEquipo($scope.selection[0],$scope.dificultadSelec0);
+            $scope.changedIgualdadEquipoCasaFuera($scope.selection[0],$scope.selection[1],$scope.dificultadSelec0Casa,$scope.dificultadSelec1Fuera);
+
+            corteJornadaEquipoFiltrado(detailMatch.equipo2,detailMatch.jornada);
+            corteJornadaEquipoFiltrado(detailMatch.equipo1,detailMatch.jornada);
+
+            corteJornadaEquipoFiltradoFuera(detailMatch.equipo2,detailMatch.jornada);
+            corteJornadaEquipoFiltradoCasa(detailMatch.equipo1,detailMatch.jornada);
+            $scope.scrollDch('todos-scroll');
+        }else{
+            $scope.changedIgualdadEquipo($scope.selection[1],null);
+            $scope.changedIgualdadEquipo($scope.selection[0],null);
+            $scope.changedIgualdadEquipoCasaFuera($scope.selection[0],$scope.selection[1],null,null);
+
+            // cortar el array de puntos porque esta relleno hasta el final.
+            corteJornadaEquipo(detailMatch.equipo2,detailMatch.jornada);
+            corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
+            $scope.scrollDch('todos-scroll');
+
+        }
+    };
+    $scope.goBack = function() {
+        $ionicHistory.goBack();
     };
     $scope.scoreClass = function scoreClass(scores) {
         var clase= 'blanco';
@@ -161,21 +279,10 @@ $scope.back = detailMatch.from;
         return clase;
     };
 
-    $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,tipo) {
-        var filterValue = null;
-        if (tipo ==='Equipo0'){
-            filterValue = $scope.igualdad[$scope.data.selectedindexEquipo0];
-        }else{
-            filterValue = $scope.igualdad[$scope.data.selectedindexEquipo1];
-        }
-
+    $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,filterValue) {
         // Clear previous filters
-        $scope.racha[ligaSelected].calendarioFiltered[equipo] =  angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].difPuntosFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].difPuntos[equipo]);
-        $scope.racha[ligaSelected].casaFiltered[equipo] =           angular.copy($scope.racha[ligaSelected].casa[equipo]);
-        $scope.racha[ligaSelected].fueraFiltered[equipo] =          angular.copy($scope.racha[ligaSelected].fuera[equipo]);
-        $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosCasa[equipo]);
-        $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo] =   angular.copy($scope.racha[ligaSelected].difPuntosFuera[equipo]);
+        $scope.racha[ligaSelected].calendarioFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
+        $scope.racha[ligaSelected].golRateFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].golRate[equipo]);
 
         if (filterValue !== null){ // si selecciona null no filtramos y salimos
 
@@ -183,7 +290,8 @@ $scope.back = detailMatch.from;
             // get index to be deleted
             for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
                 var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
-                /*                if (value > filterValue || value < -filterValue) {
+                /*
+                 if (value > filterValue || value < -filterValue) {
                  indextobedeleted.push(indexjornada);
                  }*/
                 if (filterValue > 0){
@@ -206,13 +314,8 @@ $scope.back = detailMatch.from;
             indextobedeleted.sort( function(a,b){return b-a} );
             var cont=0;
             for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
-
-                $scope.racha[ligaSelected].calendarioFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].casaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].fueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
-                $scope.racha[ligaSelected].difPuntosFueraFiltered[equipo].splice(indextobedeleted[i]-cont, 1);
+                $scope.racha[ligaSelected].calendarioFiltered[equipo][indextobedeleted[i]]=null;
+                $scope.racha[ligaSelected].golRateFiltered[equipo][indextobedeleted[i]]=null;
 
                 cont++;
             }
@@ -223,7 +326,93 @@ $scope.back = detailMatch.from;
 
     };
 
+    $scope.changedIgualdadEquipoCasaFuera = function changedIgualdadEquipoCASA(equipoCasa,equipoFuera,filterValueCasa,filterValueFuera) {
 
+        //clear
+        $scope.racha[ligaSelected].casaFiltered[equipoCasa] =            angular.copy($scope.racha[ligaSelected].casa[equipoCasa]);
+        $scope.racha[ligaSelected].fueraFiltered[equipoFuera] =           angular.copy($scope.racha[ligaSelected].fuera[equipoFuera]);
+        $scope.racha[ligaSelected].golCasaRateFiltered[equipoCasa] =   angular.copy($scope.racha[ligaSelected].golCasaRate[equipoCasa]);
+        $scope.racha[ligaSelected].golFueraRateFiltered[equipoFuera] =  angular.copy($scope.racha[ligaSelected].golFueraRate[equipoFuera]);
+
+
+        if (filterValueCasa !== null) { // si selecciona null no filtramos y salimos
+
+            var indextobedeleted = [];
+            // get index to be deleted
+            for (var indexjornada in $scope.racha[ligaSelected].golCasaRate[equipoCasa]) {
+                var value = $scope.racha[ligaSelected].golCasaRate[equipoCasa][indexjornada];
+                /*
+                 if (value > filterValue || value < -filterValue) {
+                 indextobedeleted.push(indexjornada);
+                 }*/
+                if (filterValueCasa > 0) {
+                    if (value > filterValueCasa || value < 0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValueCasa < 0) {
+                    if (value < filterValueCasa || value > 0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValueCasa === 0) {
+                    if (value !== filterValueCasa) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+            }
+            //sort index in descent order
+            indextobedeleted.sort(function (a, b) {
+                return b - a
+            });
+            var cont = 0;
+            for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+                $scope.racha[ligaSelected].casaFiltered[equipoCasa][indextobedeleted[i]]=null;
+                $scope.racha[ligaSelected].golCasaRateFiltered[equipoCasa][indextobedeleted[i]]=null;
+                cont++;
+            }
+        }
+
+        if (filterValueFuera !== null){
+            indextobedeleted = [];
+            // get index to be deleted
+            for (  indexjornada in $scope.racha[ligaSelected].golFueraRate[equipoFuera] ) {
+                value = $scope.racha[ligaSelected].golFueraRate[equipoFuera][indexjornada];
+
+                if (filterValueFuera > 0){
+                    if (value > filterValueFuera || value <0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValueFuera < 0){
+                    if (value < filterValueFuera || value >0) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+                if (filterValueFuera === 0){
+                    if (value !== filterValueFuera ) {
+                        indextobedeleted.push(indexjornada);
+                    }
+                }
+            }
+            //sort index in descent order
+            indextobedeleted.sort( function(a,b){return b-a} );
+            cont=0;
+            for ( i = indextobedeleted.length - 1; i >= 0; i -= 1) {
+                //$scope.racha[ligaSelected].fueraFiltered[equipoFuera].splice(indextobedeleted[i]-cont, 1);
+                //$scope.racha[ligaSelected].difPuntosFueraFiltered[equipoFuera].splice(indextobedeleted[i]-cont, 1);
+
+                $scope.racha[ligaSelected].fueraFiltered[equipoFuera][indextobedeleted[i]]=null;
+                $scope.racha[ligaSelected].golFueraRateFiltered[equipoFuera][indextobedeleted[i]]=null;
+                cont++;
+            }
+        }
+
+
+
+
+
+    };
 
 
 

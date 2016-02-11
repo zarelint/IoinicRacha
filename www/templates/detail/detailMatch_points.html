@@ -1,11 +1,15 @@
-<ion-view title="Analisis por Puntos"  >
+<ion-view title="Points+Goals"  >
 
     <ion-nav-buttons side="left">
         <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
     </ion-nav-buttons>
-    
-    
+
+
     <ion-nav-buttons side="right">
+        <button class="button" ng-click="compareDialog.show()">
+             <div><i class="icon ion-ios-help-outline" ></i></div>
+        </button>
+
       <button class="button" ng-click="ir('detailMatch_gol')">
           Goles
       </button>
@@ -14,8 +18,14 @@
     <ion-content ng-show="stateChanging" >
 
         <div class="list  ">
-            <div class="item text-center item-divider">
-                {{selection[0]}} / {{selection[1]}}
+
+            <div class="item  item-divider pegar">
+                <div class="row pegar">
+                    <div class="col col-offset-10 text-center">{{selection[0]}}</div>
+                    <div class="col text-center"> <i class="ion-minus-round" ></i></div>
+                    <div class="col text-center"> {{selection[1]}}</div>
+                    <div class="col col-10"></div>
+                </div>
             </div>
             <div class="list list ">
                 <div class="item pegar item-divider">
@@ -37,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item pegar">
+                <div class="item pegar bh">
                     <div class="row pegar">&nbsp&nbsp</div>
                     <div class="row pegar">
                         <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
@@ -96,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item pegar">
+                <div class="item pegar bh">
                     <div class="row pegar">&nbsp&nbsp</div>
                     <div class="row pegar">
                         <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
@@ -104,7 +114,7 @@
                             <div class="row row-center">
                                 <div class="row row-tam2" >
                                     <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
-                                        <div  ng-class="scoreClass(p)" class="item"
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosCasaFiltered[selection[0]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
                                               ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
 
@@ -122,7 +132,7 @@
                             <div class="row row-center">
                                 <div class="row row-tam2 " >
                                     <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
-                                        <div  ng-class="scoreClass(p)" class="item"
+                                        <div  ng-class="scoreClass2(p,racha[ ligaSelected ].difPuntosFueraFiltered[selection[1]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
                                               ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">
                                             <div ng-class="coloreacelda(p,fromFilter)"> {{racha[ ligaSelected ].difPuntosFueraFiltered[selection[1]][$index]}}   </div>
@@ -134,61 +144,12 @@
                     </div>
                     <div class="row pegar">&nbsp&nbsp</div>
                 </div>
-                <div class="card">
-                        <div class="row row-center pegar">
-                            <div class="col col-10"></div>
-                                <div class="row-tam2">
-                                    <div class="victoria">
-                                        &nbsp&nbsp
-                                    </div>
-                                </div>
-                            <div class="col ">Win</div>
 
-                            <div class="col ">odds range</div><div class="col col-20 col-center">[0-20]</div>
-                            <div class="col col-10"></div>
-                        </div>
-                        <div class="row row-center pegar">
-                            <div class="col col-10"></div>
-                            <div class="row-tam2">
-                                <div class="empate">
-                                    &nbsp&nbsp
-                                </div>
-                            </div>
-                            <div class="col ">Draw</div>
-
-                            <div class="col "> odds in favor</div><div class="col col-20 col-center">[+]</div>
-                            <div class="col col-10"></div>
-                        </div>
-                        <div class="row row-center pegar">
-                            <div class="col col-10"></div>
-                            <div class="row-tam2">
-                                <div class="derrota">
-                                    &nbsp&nbsp
-                                </div>
-                            </div>
-                            <div class="col">Loose</div>
-
-                            <div class="col"> odds against</div><div class="col col-20 col-center">[-]</div>
-                            <div class="col col-10"></div>
-                        </div>
-                    <div class="row row-center pegar">
-                        <div class="col col-10"></div>
-                        <div class="row-tam2">
-                            <div class="notplay">
-                                &nbsp&nbsp
-                            </div>
-                        </div>
-                        <div class="col">Not Played</div>
-
-                        <div class="col"></div><div class="col col-20 col-center"></div>
-                        <div class="col col-10"></div>
-                    </div>
-                </div>
 
 
                 <div class="item text-center item-divider">
                     <div  ng-if ="   algodesc !==''   ">
-                        {{algodesc}}
+                        Filtros: {{algodesc}}
                     </div>
 
                 </div>
@@ -213,9 +174,9 @@
                         </select>
                 </label>-->
 
-                <div class="item  col">
+                <div class="item bh col">
                     <div class="row row-center ">
-                        <div class="col col-75 ">
+                        <div class="col texto-blanco col-75 ">
                             Filtro Resultados Emocionales
                         </div>
                         <div class="col  ">
@@ -228,9 +189,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="item  col">
+                <div class="item  bh col">
                     <div class="row row-center ">
-                        <div class="col col-75 ">
+                        <div class="col texto-blanco col-75 ">
                             Filtro HCP
                         </div>
                         <div class="col  ">

@@ -23,6 +23,19 @@
 }
 .peq{
     font-size: 9px;
+    color: white;
+}
+.adic-modal .modal {
+    min-height: 0 !important;
+}
+ .bh{
+    background-color: #444;
+}
+.adic-popup {
+
+    top: 50%;
+    bottom: 20%;
+    background-color: #ffffff;
 }
 
 .even-row{background: rgba(244, 244, 244, 0.51)  }
@@ -152,3 +165,4 @@ body {
     /*the default item padding*/
     padding: 15px;
 }
+
