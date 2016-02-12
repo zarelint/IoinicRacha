@@ -1,15 +1,20 @@
 'use strict';
 
 
-app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('historialCtrl', function (HistoricoService, myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
     $scope.doRefresh = function () {
+        //clear all data
+        LigaService.clearAll();
+
         HistoricoService.getdata(true).then(function(items){
-            $scope.predicciones =   items.pred
+            $scope.predicciones =   items.pred;
             $scope.ratesLigasX =   items.ratesLigasX;
             $scope.ratesLigas1 =   items.ratesLigas1;
         });
-
+        LigaService.getListaLigas(true).then(function(items){
+            $scope.ligas = items;
+        });
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
     };
@@ -21,22 +26,20 @@ app.controller('historialCtrl', function ( HistoricoService, myconf, LigaService
     });
 
     var ligaSelected;
-    $http.get(myconf.url +'/listaligas').
-    success(function(data) {
 
-        $scope.ligas = data;
-
+    LigaService.getListaLigas(false).then(function(items){
+        $scope.ligas = items;
     });
+/*    $http.get(myconf.url +'/listaligas').
+    success(function(data) {
+        $scope.ligas = data;
+    });*/
+    //define data to store liga in combo
     $scope.data = {};
     $scope.data.selectedindex = null;
     $scope.changedliga = function() {
-
         ligaSelected = $scope.data.selectedindex;
         $scope.ligaSelected = ligaSelected;
-
-
-
-
     };
 
     $scope.getHeight = function (check) {

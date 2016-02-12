@@ -1,13 +1,13 @@
 
-<ion-view title="Ligas"   >
+<ion-view title="Ligas"  >
 
 
 
     <ion-content >
 
-        <div class="list ">
+        <div class="list">
 
-        <label class="item item-input item-dark item-select  ">
+            <label class="item item-input item-dark item-select  ">
             <div class="item-text-wrap input-label col ">
                 Seleccionar liga:
             </div>
@@ -19,13 +19,11 @@
                 </select>
             </div>
         </label>
-
             <div class="item  item-dark text-center col  "  ng-show="ligaSelected !== undefined ">
 
                     Partidos de la Jornada {{racha[ligaSelected].ultima}}
 
             </div>
-
 
             <div class="item item-dark  col  "  ng-show="ligaSelected !== undefined ">
                 <div class="row row-center ">
@@ -51,50 +49,48 @@
             </div>
 
 
-       <div class="pegar" ng-repeat="part in  racha[ligaSelected].listaPartidos" ng-click="irPartido(part)" ng-show="!filtroAnimo.checked" >
-                        <div class="button-outline button button-block">{{part}}  </div>
-       </div>
-           
 
-       <div ng-show="filtroAnimo.checked" class="row pegar " ng-repeat="equipo in  racha[ligaSelected].listaEquipos"   ng-if="$index % 2 === 0">
+    <div class="pegar " ng-repeat="part in  racha[ligaSelected].listaPartidos" ng-click="irPartido(part)" ng-show="!filtroAnimo.checked" >
+        <div class=" button button-block">{{part}}  </div>
+    </div>
 
 
-           <div class="col col-50    pegar" ng-if="$index < racha[ligaSelected].listaEquipos.length">
+    <div ng-show="filtroAnimo.checked" class="row pegar " ng-repeat="equipo in  racha[ligaSelected].listaEquipos"   ng-if="$index % 2 === 0">
 
-                    <label class="checkbox  button-outline button button-block "   ng-class="{'button-dark': racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked }" >
+        <div class="col col-50    pegar" ng-if="$index < racha[ligaSelected].listaEquipos.length">
 
-                                   <input id="{{racha[ligaSelected].listaEquipos[$index]}}"   ng-show=false
-                                          type="checkbox"
-                                          ng-disabled="selection.length==2 && !racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked"
-                                          ng-model="racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked"
-                                          ng-change="selecionarEquipo(racha[ligaSelected].listaEquipos[$index])"
-                                          ng-checked="selection.indexOf(racha[ligaSelected].listaEquipos[$index]) > -1">
+            <label class="checkbox   button button-block "   ng-class="{'button-dark': racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked }" >
 
-                               {{racha[ligaSelected].listaEquipos[$index]}}
+                <input id="{{racha[ligaSelected].listaEquipos[$index]}}"   ng-show=false
+                       type="checkbox"
+                       ng-disabled="selection.length==2 && !racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked"
+                       ng-model="racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index]].checked"
+                       ng-change="selecionarEquipo(racha[ligaSelected].listaEquipos[$index])"
+                       ng-checked="selection.indexOf(racha[ligaSelected].listaEquipos[$index]) > -1">
 
-                       </label>
-                   </div>
-           <div class="col col-50  pegar" ng-if="$index < racha[ligaSelected].listaEquipos.length">
+                {{racha[ligaSelected].listaEquipos[$index]}}
 
-                         <label class="checkbox   button-outline button-block  button"  ng-if="$index + 1 < racha[ligaSelected].listaEquipos.length" ng-class="{'button-dark': racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked }" >
-
-                                       <input id="{{racha[ligaSelected].listaEquipos[$index+1]}}"   ng-show=false
-                                              type="checkbox"
-                                              ng-disabled="selection.length==2 && !racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked"
-                                              ng-model="racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked"
-                                              ng-change="selecionarEquipo(racha[ligaSelected].listaEquipos[$index+1])"
-                                              ng-checked="selection.indexOf(racha[ligaSelected].listaEquipos[$index+1]) > -1">
-                             {{racha[ligaSelected].listaEquipos[$index+1]}}
-                         </label>
-
-
-                  </div>
-     <!--      <div class="   pegar" >
-               <label class="checkbox  button-block  button"   >
-                   <a class="icon-right ion-chevron-right "></a>
-               </label>
-           </div>-->
+            </label>
         </div>
+        <div class="col col-50    pegar" ng-if="$index < racha[ligaSelected].listaEquipos.length">
+
+            <label class="checkbox    button-block  button"  ng-if="$index + 1 < racha[ligaSelected].listaEquipos.length" ng-class="{'button-dark': racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked }" >
+
+                <input id="{{racha[ligaSelected].listaEquipos[$index+1]}}"   ng-show=false
+                       type="checkbox"
+                       ng-disabled="selection.length==2 && !racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked"
+                       ng-model="racha[ ligaSelected ].calendarioFiltered[racha[ligaSelected].listaEquipos[$index+1]].checked"
+                       ng-change="selecionarEquipo(racha[ligaSelected].listaEquipos[$index+1])"
+                       ng-checked="selection.indexOf(racha[ligaSelected].listaEquipos[$index+1]) > -1">
+                {{racha[ligaSelected].listaEquipos[$index+1]}}
+            </label>
+
+
+        </div>
+
+    </div>
+
+
 
        </div>
 

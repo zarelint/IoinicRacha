@@ -103,7 +103,7 @@ var app=angular.module('app', ['ionic','angular.filter'])
                         access: {
                             requiredLogin: true
                         },
-                        cache: false
+                        cache: true
                     }
                 }
             })

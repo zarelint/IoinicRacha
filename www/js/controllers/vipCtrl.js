@@ -5,6 +5,9 @@ app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $sco
 
 
     $scope.doRefresh = function () {
+        //clear all data
+        LigaService.clearAll();
+
         VipService.getdata(true).then(function(items){
             $scope.predicciones =  items.pred;
             $scope.ratesLigasX =  items.ratesLigasX;
@@ -22,8 +25,11 @@ app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $sco
             $scope.listaFechas = keys;
         });
 
+
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
+
+
     };
 
     VipService.getdata(false).then(function(items){
@@ -85,7 +91,7 @@ app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $sco
         }
         $state.go('detailMatch', {myParam: detailMatch});
         //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
-        // $location.path("/detailRates");
+        // $location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
     };
     // si el Password is not set redirigo  a la pantalla de login
 

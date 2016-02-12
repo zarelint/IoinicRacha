@@ -10,6 +10,7 @@
 app.controller('detailMatchCtrl', function ( $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
     $scope.stateChanging = false;
 
+
     // Simulate a login delay. Remove this and replace with your login
     $timeout(function() {
         $scope.scrollDch('todos-scroll');

@@ -10,10 +10,11 @@
 app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
 
     var ligaSelected;
-    $http.get(myconf.url +'/listaligas').
-        success(function(data) {
-            $scope.ligas = data;
+
+    LigaService.getListaLigas(false).then(function(items){
+        $scope.ligas = items;
     });
+
 
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];

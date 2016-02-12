@@ -28,14 +28,18 @@ app.factory('detailMatch', function() {
 app.factory('LigaService', function(myconf,$http, $log, $q) {
 
     var racha = {};
-
+    var items = [];
 
     return {
+        clearAll: function(){
+            window.localStorage.clear();
+        },
         getliga: function(liga) {
             var deferred = $q.defer();
 
-            if (racha[liga] === undefined) {
-                 $http.get(myconf.url+'/ligas/'+liga)
+            //Si no esta guardado haz llamada
+            if (racha[liga] === undefined && window.localStorage.getItem(liga) == null ) {
+                $http.get(myconf.url+'/ligas/'+liga)
                     .success(function (data) {
                         racha[liga] = data;
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;
@@ -50,16 +54,23 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                         racha[liga].golFueraRateFiltered =  angular.copy(racha[liga].golFueraRate);
                         racha[liga].golRateFiltered =       angular.copy(racha[liga].golRate);
 
+                        window.localStorage.setItem(liga, JSON.stringify(racha));
+
 
                         deferred.resolve(racha);
                     }).error(function (msg, code) {
-                        deferred.reject(msg);
-                        $log.error(msg, code);
-                    });
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
             }else{
+                if (window.localStorage.getItem(liga) !== null){
+                    racha = JSON.parse(window.localStorage.getItem(liga));
+                }
                 deferred.resolve(racha);
             }
             return deferred.promise;
+
+
         },
         getAlgo: function getDescAlgo(myParam) {
             var rangoJornadas =myParam[1][Object.keys(myParam[1])[0]].rangoJornadas;
@@ -76,6 +87,21 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                 tipo ='Todos los partidos '
             }
             return tipo +rangoJornadas;
+        },
+        getListaLigas: function getListaLigas(pullRefresh){
+                    var deferred = $q.defer();
+                    if(pullRefresh == false  && window.localStorage.getItem("listaligas") !== null  ) {
+                        items = JSON.parse(window.localStorage.getItem("listaligas"));
+                        deferred.resolve(items);
+                    }else{
+                        $http.get(myconf.url + '/listaligas').success(function(data) {
+                            window.localStorage.setItem("listaligas", JSON.stringify(data));
+                            items = data;
+                            deferred.resolve(items);
+                        });
+                    }
+                    return deferred.promise;
+
         }
     }
 
@@ -88,11 +114,10 @@ app.factory('HistoricoService', function($http,myconf,$q){
         getdata: function getdata(pullRefresh){
             var deferred = $q.defer();
             if(pullRefresh == false  && window.localStorage.getItem("prediccion") !== null  ) {
-                console.log('de mememoria');
                 items = JSON.parse(window.localStorage.getItem("prediccion"));
                 deferred.resolve(items);
             }else{
-                console.log('pulling');
+                //console.log('pulling');
                 $http.get(myconf.url + '/prediccion/1').success(function(data) {
                     window.localStorage.setItem("prediccion", JSON.stringify(data));
                     items = data;
@@ -112,11 +137,10 @@ app.factory('VipService', function($http,myconf,$q){
         getdata: function getdata(pullRefresh){
             var deferred = $q.defer();
             if(pullRefresh == false  && window.localStorage.getItem("prediccionVIP") !== null  ) {
-                console.log('de mememoria');
+
                 items = JSON.parse(window.localStorage.getItem("prediccionVIP"));
                 deferred.resolve(items);
-            }else{
-                console.log('pulling');
+            }else{ //pull
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;
