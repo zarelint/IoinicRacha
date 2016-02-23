@@ -33,9 +33,8 @@
                             </ion-item>
 
 
-                        <!--ng-class-odd="'even-row'"-->
-                            <ion-item   class="item-text-wrap pegar"  ng-repeat="predLiga in val"   >
-                                <div class="row row-center"  ng-click="verEncuentro(predLiga)">
+                            <ion-item   class="item-text-wrap  pegar" ng-click="verEncuentro(predLiga)" ng-repeat="predLiga in val"   >
+                                <div class="row row-center"  >
                                     <div class="col col-20">  {{predLiga.hora}}              </div>
                                     <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
                                     <div class="col col-10 " >   <b>{{predLiga.prediccion}}</b>  </div>

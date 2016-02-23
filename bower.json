@@ -5,7 +5,8 @@
     "ionic": "driftyco/ionic-bower#master"
   },
   "dependencies": {
-    "angular-filter": "~0.5.7",
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "angular-http-auth": "~1.2.3",
+    "ngstorage": "~0.3.10"
   }
 }

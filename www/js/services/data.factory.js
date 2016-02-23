@@ -151,3 +151,24 @@ app.factory('VipService', function($http,myconf,$q){
         }
     }
 });
+
+/*
+app.factory ('StorageService', function ($localStorage) {
+    $localStorage = $localStorage.$default({
+        things: []
+    });
+    var getAll = function () {
+        return $localStorage.things;
+    };
+    var add = function (thing) {
+        $localStorage.things.push(thing);
+    };
+    var remove = function (thing) {
+        $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
+    };
+    return {
+        getAll: getAll,
+        add: add,
+        remove: remove
+    };
+});*/

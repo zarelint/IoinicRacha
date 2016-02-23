@@ -61,7 +61,8 @@
             accessToken= parameterMap.access_token;
 
             var email, password;
-
+          //  https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=ya29.igJ0Ie8KO5UxfsVDWeCyAJZpy-wFxHMUmFa2RFYd0FoY4sl4DcEoXU4qyofGnab3tmNCi2A
+           //sub: "112882507293155588376" (id)
             // Get user google mail,password
             getJSON('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' +accessToken
                     , function(data) {

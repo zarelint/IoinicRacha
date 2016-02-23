@@ -6,7 +6,7 @@
 
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
     <title></title>
- <!--<base href="/IoinicRacha/www/" />-->
+
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -17,35 +17,30 @@
 
     <!-- ionic/angularjs js -->
    <script src="lib/ionic/js/ionic.bundle.js"></script>
-  <!--   <script src="http://code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
+   <!--  <script src="http://code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
 
 
+     <!-- http-auth-interceptor to automatically detect login required-->
+      <script src="lib/angular-http-auth/src/http-auth-interceptor.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+      <script src="cordova.js"></script>
       <script src="lib/moment/min/moment.min.js"></script>
+
     <!-- your app's js -->
-
-
-    <script src="js/app.js"></script>
-
-
-    <script src="js/services/auth.factory.js"></script>
-    <script src="js/controllers/LigasCtrl.js"></script>
-    <script src="js/controllers/detailRatesCtrl.js"></script>
-    <script src="js/controllers/detailMatchCtrl.js"></script>
-    <script src="js/controllers/detailMatchCtrl_gol.js"></script>
-    <script src="js/controllers/vipCtrl.js"></script>
-    <script src="js/controllers/historialCrl.js"></script>
-    <script src="js/controllers/LoginCtrl.js"></script>
-    <script src="js/services/data.factory.js"></script>
-
-
-<!--    <script src="lib/underscore/underscore.js"></script>
-    <script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
-    <script src="lib/jquery/dist/jquery.js"></script>-->
-
-      <script src="lib/angular-filter/dist/angular-filter.min.js"></script>
-
+      <script src="lib/ngstorage/ngStorage.min.js"></script>
+      <script src="js/app.js"></script>
+      <script src="js/services/data.factory.js"></script>
+      <script src="js/services/auth.factory.js"></script>
+      <script src="js/controllers/appCtrl.js"></script>
+      <script src="js/controllers/LigasCtrl.js"></script>
+      <script src="js/controllers/detailRatesCtrl.js"></script>
+      <script src="js/controllers/detailMatchCtrl.js"></script>
+      <script src="js/controllers/detailMatchCtrl_gol.js"></script>
+      <script src="js/controllers/vipCtrl.js"></script>
+      <script src="js/controllers/historialCrl.js"></script>
+      <script src="js/controllers/LoginCtrl.js"></script>
+      <script src="js/services/google_login.js"></script>
+      <script src="js/services/SocialAuthService.js"></script>
 
 
   </head>

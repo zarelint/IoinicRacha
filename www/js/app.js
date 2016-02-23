@@ -1,10 +1,11 @@
 'use strict';
 var requestToken = "";
 var accessToken = "";
-var clientId = '321359984550-9otvkbcpbk6kj52e4i5oih5mkrdamnlp.apps.googleusercontent.com';
-var clientSecret = "BilFKZS3JiNAkgqk8PobtnUX";
+var clientId = '321359984550-m4anb6go34atbmpdajk9s3n6t02l36pj.apps.googleusercontent.com';
+var clientSecret = "vtlJYgza2qDfosVITSKTWe6J";
 
-var app=angular.module('app', ['ionic','angular.filter'])
+var app=angular.module('app',
+    ['ionic', 'http-auth-interceptor','ngStorage'])
     .run(function($ionicPlatform, $window, $location, AuthenticationFactory,$rootScope, $ionicLoading) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -53,20 +54,35 @@ var app=angular.module('app', ['ionic','angular.filter'])
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
-    
 
     .config(function($ionicConfigProvider) {
           $ionicConfigProvider.navBar.alignTitle('center');
-        if (!ionic.Platform.isIOS()) {
-            $ionicConfigProvider.scrolling.jsScrolling(false);
-        }
+        // Use native scrolling on Android
+        if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
          // "url": "https://rachanode-jvillajos.c9users.io"
-         //  "url": "http://localhost:8080"
-         "url": "http://nodejs-rachas.rhcloud.com"
+         "url": "http://localhost:8080"
+        // "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
+/*
+        $httpProvider.interceptors.push(function ($q) {
+            return {
+                'response': function (response) {
+                    if (response.status === 401) {
+                        console.log("Response 401");
+                    }
+                    return response || $q.when(response);
+                },
+                'responseError': function (rejection) {
+                    if (rejection.status === 401) {
+                        console.log("Response Error 401");
+                    }
+                    return $q.reject(rejection);
+                }
+            };
+        });*/
 
         $httpProvider.interceptors.push('TokenInterceptor');
 
@@ -82,7 +98,8 @@ var app=angular.module('app', ['ionic','angular.filter'])
             .state('tabs', {
                 url: "/tab",
                 abstract: true,
-                templateUrl: "templates/tabs.html"
+                templateUrl: "templates/tabs.html",
+                controller: 'AppCtrl'
             })
             .state('tabs.ligas', {
                 url: "/ligas",
@@ -118,11 +135,11 @@ var app=angular.module('app', ['ionic','angular.filter'])
                     }
                 }
             })
-            .state('login', {
+    /*        .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
-            })
+            })*/
             .state('detailRates', {
                 url: '/detailRates',
                 templateUrl: 'templates/detail/detailRates.html',
@@ -320,6 +337,7 @@ app.filter('startsWithLetter', function () {
     });
 });
 
+/*
 app.config(function($httpProvider) {
     $httpProvider.interceptors.push(function($rootScope) {
         return {
@@ -334,4 +352,5 @@ app.config(function($httpProvider) {
         }
     })
 });
+*/
 

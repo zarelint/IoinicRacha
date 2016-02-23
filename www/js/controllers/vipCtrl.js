@@ -1,9 +1,7 @@
 'use strict';
 
-app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function ($ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     //Tener un servidor propio permiter usar datos procesados y actualizados
-
-
     $scope.doRefresh = function () {
         //clear all data
         LigaService.clearAll();
@@ -94,9 +92,6 @@ app.controller('vipCtrl', function (VipService, myconf,LigaService, $state, $sco
         // $location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
     };
     // si el Password is not set redirigo  a la pantalla de login
-
-
-
 
     //NO hay accessToken
     if(accessToken === "" || !accessToken) {
