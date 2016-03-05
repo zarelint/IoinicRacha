@@ -101,6 +101,6 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
           $scope.comparar();
     }
   };
-    console.log( 'token: '+accessToken);
+
 
 });

@@ -2,7 +2,8 @@ app.controller('AppCtrl', function(
     $rootScope,
     $scope,
     $ionicModal,
-    googleLogin
+    googleLogin,
+    timeStorage
     ) {
 
     // Create the login modal that we will use later
@@ -50,7 +51,13 @@ app.controller('AppCtrl', function(
     // Handle the login required event raised by the authService
     $scope.$on('event:auth-loginRequired', function() {
         console.log('handling event:auth-loginRequired  ...');
-        $scope.loginModal.show();
+        //La primera vez mostramos un modal con explicaciones
+        if ( timeStorage.firstTime() ){
+            $scope.loginModal.show();
+        }else{
+            googleLogin.startLogin();
+        }
+
     });
 
     // Handle the login confirmed event raised by the authService

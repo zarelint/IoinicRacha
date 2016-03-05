@@ -45,6 +45,14 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
         }
         return $localStorage[key];
     };
+    timeStorage.firstTime = function () {
+        if (timeStorage.get('google_id_token') === undefined){
+            return true;
+        }else{
+            return false;
+        }
+    };
+
     return timeStorage;
 }]);
 
@@ -73,7 +81,7 @@ app.factory('googleLogin', [
             url = url.substring(url.indexOf('?') + 1, url.length);
             return url.replace('code=', '').replace('#','');
         };
-        //get access_token
+
         /**
          * @param {string} options.client_id    A token that may be used to obtain a new access token.
          * @param {string} options.redirect_uri      The remaining lifetime of the access token.
@@ -221,7 +229,9 @@ app.factory('googleLogin', [
                     $log.info('Access Token :' + access_token);
 
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
-                    context.getUserInfo(access_token, def);
+
+                    def.resolve(data.data.id_token);
+                    // context.getUserInfo(access_token, def);
                 } else {
                     def.reject({error: 'Access Token Not Found'});
                 }
@@ -250,19 +260,7 @@ app.factory('googleLogin', [
                 def.resolve(user);
             });
         };
-        service.getUserFriends = function () {
-            var access_token = this.access_token;
-            var http = $http({
-                url: 'https://www.googleapis.com/plus/v1/people/me/people/visible',
-                method: 'GET',
-                params: {
-                    access_token: access_token
-                }
-            });
-            http.then(function (data) {
-                console.log(data);
-            });
-        };
+
 
 
         service.startLogin = function () {

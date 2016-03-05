@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('vipCtrl', function ($ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+
     //Tener un servidor propio permiter usar datos procesados y actualizados
     $scope.doRefresh = function () {
         //clear all data
@@ -115,7 +116,7 @@ app.controller('vipCtrl', function ($ionicModal,VipService, myconf,LigaService, 
 
  }
 
-
+    //googleLogin.startLogin();
 
 
 });

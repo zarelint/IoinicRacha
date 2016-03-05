@@ -16,9 +16,31 @@
                             <li><i class="icon ion-star energized"></i> View Your Liked Posts</li>
                         </ul>
                         <button class="button button-block button-positive button-outline icon-left ion-social-instagram-outline" ng-click="loginToInstagram()">Login with Instagram</button>
+                        <h3 class="padding">This view tries to log-in with Google+</h3>
+                        <br/>
+                        <div ng-show="showGoogleLogin"  class="padding">You're logged out. Please, log-in again</div>
+                        <button ng-show="showGoogleLogin" class="button button-assertive button-block padding" ng-click="login()">
+                            Google+ login!
+                        </button>
+                        <h4 class="padding" ng-hide="showGoogleLogin">Sorry, you cannot login with Google+</h4>
+                        <br/>
+
                     </div>
                 </div>
             </div>
         </div>
     </ion-content>
 </ion-modal-view>
+<!--
+<ion-view title="Login">
+    <ion-content>
+        <h3 class="padding">This view tries to log-in with Google+</h3>
+        <br/>
+        <div ng-show="showGoogleLogin"  class="padding">You're logged out. Please, log-in again</div>
+        <button ng-show="showGoogleLogin" class="button button-assertive button-block padding" ng-click="login()">
+            Google+ login!
+        </button>
+        <h4 class="padding" ng-hide="showGoogleLogin">Sorry, you cannot login with Google+</h4>
+        <br/>
+    </ion-content>
+</ion-view>-->

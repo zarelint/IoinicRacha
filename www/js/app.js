@@ -1,12 +1,10 @@
 'use strict';
-var requestToken = "";
+
 var accessToken = "";
-var clientId = '321359984550-m4anb6go34atbmpdajk9s3n6t02l36pj.apps.googleusercontent.com';
-var clientSecret = "vtlJYgza2qDfosVITSKTWe6J";
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage'])
-    .run(function($ionicPlatform, $window, $location, AuthenticationFactory,$rootScope, $ionicLoading) {
+    .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -20,33 +18,6 @@ var app=angular.module('app',
         }
       });
 
-    $rootScope.$on('loading:show', function() {
-        $ionicLoading.show({template: '<ion-spinner ></ion-spinner>'})
-    });
-
-    $rootScope.$on('loading:hide', function() {
-        $ionicLoading.hide()
-    });
-
-/*        // when the page refreshes, check if the user is already logged in
-        AuthenticationFactory.check();
-        $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
-            if ((nextRoute.access && nextRoute.access.requiredLogin) && !AuthenticationFactory.isLogged) {
-                $location.path("/login");
-            } else {
-// check if user object exists else fetch it. This is incase of a page refresh
-                if (!AuthenticationFactory.user) AuthenticationFactory.user = $window.sessionStorage.user;
-                if (!AuthenticationFactory.userRole) AuthenticationFactory.userRole = $window.sessionStorage.userRole;
-            }
-        });
-        $rootScope.$on('$routeChangeSuccess', function(event, nextRoute, currentRoute) {
-            $rootScope.showMenu = AuthenticationFactory.isLogged;
-            $rootScope.role = AuthenticationFactory.userRole;
-// if the user is already logged in, take him to the home page
-            if (AuthenticationFactory.isLogged == true && $location.path() == '/login') {
-                $location.path('/');
-            }
-        });*/
     })
 
     .config(function($httpProvider) {
@@ -61,33 +32,13 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
          // "url": "https://rachanode-jvillajos.c9users.io"
-         "url": "http://localhost:8080"
-        // "url": "http://nodejs-rachas.rhcloud.com"
+        //"url": "http://localhost:8080"
+         "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
-/*
-        $httpProvider.interceptors.push(function ($q) {
-            return {
-                'response': function (response) {
-                    if (response.status === 401) {
-                        console.log("Response 401");
-                    }
-                    return response || $q.when(response);
-                },
-                'responseError': function (rejection) {
-                    if (rejection.status === 401) {
-                        console.log("Response Error 401");
-                    }
-                    return $q.reject(rejection);
-                }
-            };
-        });*/
-
+        //añadir el idtoken en todas las request
         $httpProvider.interceptors.push('TokenInterceptor');
-
-         //$locationProvider.html5Mode(true).hashPrefix('!');
-         //$locationProvider.html5Mode(true);
 
       // Ionic uses AngularUI Router which uses the concept of states
       // Learn more here: https://github.com/angular-ui/ui-router
@@ -101,67 +52,65 @@ var app=angular.module('app',
                 templateUrl: "templates/tabs.html",
                 controller: 'AppCtrl'
             })
-            .state('tabs.ligas', {
-                url: "/ligas",
-                views: {
-                    'ligas': {
-                        templateUrl: "templates/ligas.html",
-                        controller: 'LigasCtrl',
-                        cache: true
+                .state('tabs.ligas', {
+                    url: "/ligas",
+                    views: {
+                        'ligas': {
+                            templateUrl: "templates/ligas.html",
+                            controller: 'LigasCtrl',
+                            cache: true
+                        }
                     }
-                }
-            })
-            .state('tabs.historial', {
-                url: "/historial",
-                views: {
-                    'historial': {
-                        templateUrl: "templates/historial.html",
-                        controller: 'historialCtrl',
-                        access: {
-                            requiredLogin: true
-                        },
-                        cache: true
+                })
+                .state('tabs.historial', {
+                    url: "/historial",
+                    views: {
+                        'historial': {
+                            templateUrl: "templates/historial.html",
+                            controller: 'historialCtrl',
+                            access: {
+                                requiredLogin: true
+                            },
+                            cache: true
+                        }
                     }
-                }
-            })
-
-            .state('tabs.vip', {
-                url: "/vip",
-                views: {
-                    'vip': {
-                        templateUrl: "templates/vip.html",
-                        controller: 'vipCtrl',
-                        cache: true
+                })
+                .state('tabs.vip', {
+                    url: "/vip",
+                    views: {
+                        'vip': {
+                            templateUrl: "templates/vip.html",
+                            controller: 'vipCtrl',
+                            cache: true
+                        }
                     }
-                }
-            })
-    /*        .state('login', {
+                })
+            .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
-            })*/
-            .state('detailRates', {
+            })
+            .state('detailRates',       {
                 url: '/detailRates',
                 templateUrl: 'templates/detail/detailRates.html',
                 controller: 'detailRatesCtrl',
                 params: {myParam: null},
                 cache: true
-            }).state('detailMatch', {
+            })
+            .state('detailMatch',       {
                 url: '/detailMatch',
                 templateUrl: 'templates/detail/detailMatch_points.html',
                 controller: 'detailMatchCtrl',
                 params: {myParam: null},
                 cache: false
-            }).state('detailMatch_gol', {
+            })
+            .state('detailMatch_gol',   {
                 url: '/detailMatch_gol',
                 templateUrl: 'templates/detail/detailMatch_gol.html',
                 controller: 'detailMatchCtrl_gol',
                 params: {myParam: null},
                 cache: false
-            })
-            
-            ;
-
+            });
 
 
         //Pagina por defecto si no hay match
@@ -193,7 +142,7 @@ var app=angular.module('app',
         }
     });
 
-app.filter('orderByKey', function () {
+/*app.filter('orderByKey', function () {
     return function(obj, field, reverse) {
         var arr=[];
         console.log(field);
@@ -203,9 +152,9 @@ app.filter('orderByKey', function () {
         if(reverse) arr.reverse();
         return arr;
     };
-});
+});*/
 
-app.filter('orderObjectBy', function() {
+/*app.filter('orderObjectBy', function() {
     return function(items, field, reverse) {
         var filtered = [];
         angular.forEach(items, function(item) {
@@ -217,7 +166,7 @@ app.filter('orderObjectBy', function() {
         if(reverse) filtered.reverse();
         return filtered;
     };
-});
+});*/
 
 app.filter('groupBy', function ($timeout) {
     return function (data, key) {
@@ -314,43 +263,22 @@ app.filter('groupByDayMonthYear2', function() {
 
 });
 
-app.filter('startsWithLetter', function () {
-
-    return memoize(function (items, checked) {
-        var filtered = [];
-        for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            if ( checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
-                if (item.real === true){
-                    filtered.push(item);
-                }
-
-            }else{
-               // if (item.real === false){
-                    filtered.push(item);
-                //}
-            }
-        }
-
-
-        return filtered;
-    });
-});
 
 /*
 app.config(function($httpProvider) {
     $httpProvider.interceptors.push(function($rootScope) {
         return {
             request: function(config) {
-                $rootScope.$broadcast('loading:show')
+                $rootScope.$broadcast('loading:show');
                 return config
             },
             response: function(response) {
-                $rootScope.$broadcast('loading:hide')
+                $rootScope.$broadcast('loading:hide');
                 return response
             }
         }
     })
 });
 */
+
 
