@@ -63,7 +63,7 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
         detailMatch.from = 'tabs.ligas';
         detailMatch.algodesc ='';
         $scope.selection=[];
-        $state.go('detailMatch', {myParam: detailMatch});
+        $state.go('detailMatch_gol', {myParam: detailMatch});
 
     };
 
@@ -78,7 +78,7 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
       detailMatch.from = 'tabs.ligas';
       detailMatch.algodesc ='';
       $scope.selection=[];
-      $state.go('detailMatch', {myParam: detailMatch});
+      $state.go('detailMatch_gol', {myParam: detailMatch});
   };
 
   /**

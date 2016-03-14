@@ -1,8 +1,9 @@
 'use strict';
 
 
-app.controller('historialCtrl', function (HistoricoService, myconf, LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
-
+app.controller('historialCtrl', function (HistoricoService, myconf, LigaService, $state, $scope,
+                                          $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch,$injector) {
+    //$scope.property.Choices.splice(0, 0, {"id":"0","Name":"Richard"});
     $scope.doRefresh = function () {
         //clear all data
         LigaService.clearAll();
@@ -154,42 +155,12 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
              }else if (liga.indexOf('dobles') > -1){
                  detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]);
              }
-             $state.go('detailMatch', {myParam: detailMatch});
+             $injector.get('$ionicLoading').show();
+             $state.go('detailMatch_gol', {myParam: detailMatch});
+
              //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
              // $location.path("/detailRates");
          };
-    // si el Password is not set redirigo  a la pantalla de login
-
-
-
-        //NO hay accessToken
-        if(accessToken === "" || !accessToken) {
-
-            // intento  buscarlo en la cache
-            if( window.localStorage.getItem("access_token") !== null) {
-                accessToken = window.localStorage.getItem("access_token");
-                console.log( 'Se detecta el accessToken '+accessToken);
-                //todo temporal para que siempre me lo pida en futuros si esta cadudcado pedir un resfres con esto
-                window.localStorage.removeItem("access_token");
-            }else{
-                //desahila marcha atras
-                $ionicHistory.nextViewOptions({
-                    disableAnimate: true
-                   // , disableBack: true
-                });
-
-                // Si no encuentra token redirecciono al login
-               // $location.path("/login");
-            }
-
-
-
-        }
-
-
-
-
-        $scope.status = "Making it this far means you are signed in";
 
 
 });

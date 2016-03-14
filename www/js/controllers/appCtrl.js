@@ -55,7 +55,8 @@ app.controller('AppCtrl', function(
         if ( timeStorage.firstTime() ){
             $scope.loginModal.show();
         }else{
-            googleLogin.startLogin();
+            //$scope.loginModal.show();
+           googleLogin.startLogin();
         }
 
     });

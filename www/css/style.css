@@ -31,12 +31,21 @@
  .bh{
     background-color: #444;
 }
-.adic-popup {
 
+.adic-popup {
     top: 50%;
     bottom: 20%;
     background-color: #ffffff;
 }
+
+
+/*.spinner svg {
+    width: 90% !important;
+    height: 285px !important;
+}*/
+
+
+
 
 .even-row{background: rgba(244, 244, 244, 0.51)  }
 
@@ -169,3 +178,5 @@ body {
 .scroll-content{
     background-color:#444;
 }
+
+

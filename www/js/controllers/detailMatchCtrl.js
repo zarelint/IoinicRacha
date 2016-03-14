@@ -178,7 +178,8 @@ console.log('')
 
     // Cargar datos Liga si es que fuese necesario
     LigaService.getliga(ligaSelected).then(function(data) {
-        $scope.racha = data;
+
+        $scope.racha =  data;
         //Como saber en la jornada que se enfrentaron para mostralo bien ?
        var jorMatch =  $scope.racha[ligaSelected].jornadabymatch[detailMatch.equipo1+'-'+detailMatch.equipo2];
 

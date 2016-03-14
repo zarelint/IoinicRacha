@@ -11,13 +11,11 @@ app.factory('TokenInterceptor',
     return {
       request: function(config) {
         $injector.get('$ionicLoading').show();
-
         // Handle adding the id_token for prediccionVip api requests
-        if (config.url.indexOf('prediccionVip') === 0) {
+        if (config.url.indexOf('prediccionVip') !== -1) {
           config.params = config.params || {};
-          config.params.id_token = timeStorage.get('google_id_token'); // jshint ignore:line
+          config.params.access_token = timeStorage.get('google_access_token');
         }
-
         return config;
       },
       requestError: function(rejection) {
@@ -30,11 +28,12 @@ app.factory('TokenInterceptor',
       },
       responseError: function(rejection) {
         hideLoadingModalIfNecessary();
-        if (rejection.status === 400  &&
-            rejection.data.meta.error_type === 'OAuthParameterException') { // jshint ignore:line
-          console.log('detected what appears to be an Instagram auth error...');
+/*        console.log('interceptor.js:responseError' + JSON.stringify(rejection));
+        if (rejection.status === 400  ) { // jshint ignore:line
+          console.log('detected what appears to be an  auth error...'+rejection.data.error_description);
           rejection.status = 401; // Set the status to 401 so that angular-http-auth inteceptor will handle it
-        }
+        }*/
+        rejection.status = 401;
         return $q.reject(rejection);
       }
     };

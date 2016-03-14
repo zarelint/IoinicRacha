@@ -1,12 +1,3 @@
-app.factory('dataFactory', function($http) {
-    /** https://docs.angularjs.org/guide/providers **/
-    var urlBase = 'http://localhost:8080/api/v1/products';
-    var _prodFactory = {};
-    _prodFactory.getProducts = function() {
-        return $http.get(urlBase);
-    };
-    return _prodFactory;
-});
 
 /**
  * Paratido a analizar
@@ -25,14 +16,19 @@ app.factory('detailMatch', function() {
 
 
 
-app.factory('LigaService', function(myconf,$http, $log, $q) {
+app.factory('LigaService', function(myconf,$http, $log, $q ) {
 
     var racha = {};
     var items = [];
 
     return {
         clearAll: function(){
-            window.localStorage.clear();
+           // window.localStorage.clear();
+            for ( var cache in window.localStorage){
+                if ( cache.indexOf('ngStorage') === -1){
+                    window.localStorage.removeItem(cache);
+                }
+            }
         },
         getliga: function(liga) {
             var deferred = $q.defer();
@@ -54,7 +50,9 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                         racha[liga].golFueraRateFiltered =  angular.copy(racha[liga].golFueraRate);
                         racha[liga].golRateFiltered =       angular.copy(racha[liga].golRate);
 
-                        window.localStorage.setItem(liga, JSON.stringify(racha));
+                       window.localStorage.setItem(liga, JSON.stringify(racha[liga]));
+
+                        // $localStorage[liga]= JSON.stringify(racha);
 
 
                         deferred.resolve(racha);
@@ -64,7 +62,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                 });
             }else{
                 if (window.localStorage.getItem(liga) !== null){
-                    racha = JSON.parse(window.localStorage.getItem(liga));
+                    racha[liga] = JSON.parse(window.localStorage.getItem(liga));
                 }
                 deferred.resolve(racha);
             }
@@ -95,6 +93,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q) {
                         deferred.resolve(items);
                     }else{
                         $http.get(myconf.url + '/listaligas').success(function(data) {
+                           // data.splice(0, 0, "All");
                             window.localStorage.setItem("listaligas", JSON.stringify(data));
                             items = data;
                             deferred.resolve(items);

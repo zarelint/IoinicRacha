@@ -22,6 +22,8 @@
                         <button ng-show="showGoogleLogin" class="button button-assertive button-block padding" ng-click="login()">
                             Google+ login!
                         </button>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
                         <h4 class="padding" ng-hide="showGoogleLogin">Sorry, you cannot login with Google+</h4>
                         <br/>
 

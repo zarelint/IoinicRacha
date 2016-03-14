@@ -29,11 +29,13 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
         var time = new Date().getTime();
         time = time + (hours * 1 * 60 * 60 * 1000);
         $localStorage[time_key] = time;
+
     };
     timeStorage.get = function (key) {
         this.cleanUp();
         var time_key = key + "_expire";
-        if (!$localStorage[time_key] || !$localStorage.refresh_token ) {
+        //if (!$localStorage[time_key] || !$localStorage.refresh_token ) {
+        if (!$localStorage[time_key]  ) {
             return false;
         }
         var expire = $localStorage[time_key] * 1;
@@ -58,24 +60,84 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
 
 
 app.factory('googleLogin', [
-    '$http', '$q', '$interval', '$log', 'timeStorage','$localStorage','authService',
+    '$http', '$q', '$interval', '$log', 'timeStorage','$localStorage','authService','SocialAuth','$ionicPlatform',
 
-    function ($http, $q, $interval, $log, timeStorage,$localStorage,authService) {
+    function ($http, $q, $interval, $log, timeStorage,$localStorage,authService,SocialAuth,$ionicPlatform) {
+        // Initialize params
         var service = {};
-
-        var configUpdater = function(config) {
-            config.params = config.params || {};
-            config.params.id_token = timeStorage.get('google_id_token');
-            return config;
-        };
-
         service.access_token = false;
         service.redirect_url = 'http://localhost:63342';
         service.client_id = '321359984550-s52im7bos3b1oo3567am4kt68dqm5ol1.apps.googleusercontent.com';
         service.secret = 'Rf_oATAMznD9yv5EinO8-bIO';
         service.scopes = 'https://www.googleapis.com/auth/userinfo.email';
-        var clientId = '321359984550-m4anb6go34atbmpdajk9s3n6t02l36pj.apps.googleusercontent.com';
+        // Fill config object
+        var configUpdater = function(config) {
+            config.params = config.params || {};
+            config.params.access_token = timeStorage.get('google_access_token');
+           // config.params.id_token = timeStorage.get('google_id_token');
+            return config;
+        };
+        // End init params
 
+
+
+        service.getAccessToken = function (def){
+            //Primer acceso [ pantalla pedir permiso]
+            var params = 'client_id=' + encodeURIComponent(service.client_id);
+            params += '&redirect_uri=' + encodeURIComponent(service.redirect_url);
+            params += '&response_type=code';
+            params += '&access_type=offline';
+            //params += '&prompt=consent';
+            params += '&scope=' + encodeURIComponent(service.scopes);
+            var authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+
+            var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
+            var context = this;
+
+            if (ionic.Platform.isWebView()) {
+                console.log('using in app browser');
+                win.addEventListener('loadstart', function (data) {
+                    console.log('load start');
+                    if (data.url.indexOf(context.redirect_url) === 0) {
+                        console.log('redirect url found ' + context.redirect_url);
+                        console.log('window url found ' + data.url);
+                        win.close();
+                        var url = data.url;
+                        var access_code = context.gulp(url, 'code');
+                        if (access_code) {
+                            context.validateToken(access_code, def);
+                        } else {
+                            def.reject({error: 'Access Code Not Found'});
+                        }
+                    }
+
+                });
+            } else {
+                console.log('InAppBrowser not found11');
+                var pollTimer = $interval(function () {
+                    try {
+                        console.log("google window url " + win.document.URL);
+                        if (win.document.URL.indexOf(context.redirect_url) === 0) {
+                            console.log('redirect url found');
+                            win.close();
+                            $interval.cancel(pollTimer);
+                            pollTimer = false;
+                            var url  = win.document.URL;
+                            $log.debug('Final URL ' + url);
+                           var access_code = context.gulp(url, 'code');
+                            if (access_code) {
+                                $log.info('Access Code: ' + access_code);
+                                context.validateToken(access_code, def);
+                            } else {
+                                def.reject({error: 'Access Code Not Found'});
+                            }
+                        }
+                    } catch (e) {
+                    }
+                }, 100);
+            }
+
+        };
 
         service.gulp = function (url, name) {
             url = url.substring(url.indexOf('?') + 1, url.length);
@@ -97,63 +159,40 @@ app.factory('googleLogin', [
                 authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
                 //service.getUserInfo(access_token, def);
             }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
+                console.log("usando refresh token");
                 service.refresh_token($localStorage.refresh_token, def);
-            }else { //Primer acceso [ pantalla pedir permiso]
-                var params = 'client_id=' + encodeURIComponent(options.client_id);
-                params += '&redirect_uri=' + encodeURIComponent(options.redirect_uri);
-                params += '&response_type=code';
-                params += '&access_type=offline';
-                //params += '&prompt=consent';
-                params += '&scope=' + encodeURIComponent(options.scopes);
-                var authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+            }else {
+               // service.getAccessToken(def);
+                $ionicPlatform.ready(function() {
+                    SocialAuth.isGooglePlusAvailable()
+                        .then(function (available) {
 
-                var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
-                var context = this;
+                            console.log("google plus availability is: " + available);
+                            if (available) {
 
-                if (ionic.Platform.isWebView()) {
-                    console.log('using in app browser');
-                    win.addEventListener('loadstart', function (data) {
-                        console.log('load start');
-                        if (data.url.indexOf(context.redirect_url) === 0) {
-                            console.log('redirect url found ' + context.redirect_url);
-                            console.log('window url found ' + data.url);
-                            win.close();
-                            var url = data.url;
-                            var access_code = context.gulp(url, 'code');
-                            if (access_code) {
-                                context.validateToken(access_code, def);
-                            } else {
-                                def.reject({error: 'Access Code Not Found'});
+                                var promise = SocialAuth.googlePlusLogin();
+                                promise.success(function (msg) {
+                                    // console.log('esto: '+msg.oauthToken);
+                                    //console.log("login success deberia estar aqui"+JSON.stringify(msg));
+                                    timeStorage.set('google_access_token', msg.oauthToken, 1);
+                                    // console.log('timeStorage: '+timeStorage.get('google_access_token'));
+                                    authService.loginConfirmed(null, configUpdater); //copy token into headers
+
+                                });
+                                promise.error(function (err) {
+                                    console.log("silent login failed: " + err);
+                                    console.log("trying access token by Auth...");
+                                    service.getAccessToken(def);
+                                });
                             }
-                        }
 
-                    });
-                } else {
-                    console.log('InAppBrowser not found11');
-                    var pollTimer = $interval(function () {
-                        try {
-                            console.log("google window url " + win.document.URL);
-                            if (win.document.URL.indexOf(context.redirect_url) === 0) {
-                                console.log('redirect url found');
+                        }, function (reason) {
+                            //get token via Auth2
+                            console.log("g+ no disponible try Auth2");
+                            service.getAccessToken(def);
+                        });
+                });
 
-                                win.close();
-
-                                $interval.cancel(pollTimer);
-                                pollTimer = false;
-                                var url = win.document.URL;
-                                $log.debug('Final URL ' + url);
-                                var access_code = context.gulp(url, 'code');
-                                if (access_code) {
-                                    $log.info('Access Code: ' + access_code);
-                                    context.validateToken(access_code, def);
-                                } else {
-                                    def.reject({error: 'Access Code Not Found'});
-                                }
-                            }
-                        } catch (e) {
-                        }
-                    }, 100);
-                }
             }
             return def.promise;
         };

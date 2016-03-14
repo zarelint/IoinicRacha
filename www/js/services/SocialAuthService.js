@@ -77,8 +77,10 @@ app.factory('SocialAuth', function($http, $q) {
         if(isGooglePlusAPIAvailableOrReject(deferred)){
             window.plugins.googleplus.login(
                 {
-                    'offline': true,
-                    'iOSApiKey': 'my_iOS_API_KEY_if_I_have_one'
+                    'offline': true//,
+                    //'iOSApiKey': 'my_iOS_API_KEY_if_I_have_one',//,//,
+                   //'scope' : 'https://www.googleapis.com/auth/userinfo.email',
+                   // 'webApiKey': '321359984550-vh5udemt0d08osfq4krrn6nos846g6oa.apps.googleusercontent.com'
                     // there is no API key for Android; you app is wired to the Google+ API by listing
                     // your package name in the google dev console and signing your apk
                 },
@@ -144,6 +146,7 @@ app.factory('SocialAuth', function($http, $q) {
                     deferred.resolve(obj);
                 },
                 function (err) {
+                    console.log("error silent login"+err);
                     deferred.reject(err);
                 }
             );

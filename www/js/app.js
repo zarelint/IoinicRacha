@@ -1,6 +1,6 @@
 'use strict';
 
-var accessToken = "";
+//var accessToken = "";
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage'])
@@ -16,6 +16,23 @@ var app=angular.module('app',
           // org.apache.cordova.statusbar required
           StatusBar.styleDefault();
         }
+
+          var ad_units = {
+              android : {
+                  banner : "221288",
+                  interstitial : "221289"
+              }
+          };
+          var adid =  ad_units.android ;
+// or, show a default banner at bottom
+          if(mMedia) mMedia.createBanner({
+              adId : adid.banner,
+              autoShow : true,
+              overlap : true,
+              position : mMedia.AD_POSITION.BOTTOM_CENTER
+          });
+
+
       });
 
     })
@@ -32,7 +49,7 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
          // "url": "https://rachanode-jvillajos.c9users.io"
-        //"url": "http://localhost:8080"
+        // "url": "http://localhost:8080"
          "url": "http://nodejs-rachas.rhcloud.com"
 
     })
@@ -142,31 +159,6 @@ var app=angular.module('app',
         }
     });
 
-/*app.filter('orderByKey', function () {
-    return function(obj, field, reverse) {
-        var arr=[];
-        console.log(field);
-        arr = Object.keys(obj)
-            .map(function (key) { return obj[key] })
-            .sort(function(a,b) { return a > b; } );
-        if(reverse) arr.reverse();
-        return arr;
-    };
-});*/
-
-/*app.filter('orderObjectBy', function() {
-    return function(items, field, reverse) {
-        var filtered = [];
-        angular.forEach(items, function(item) {
-            filtered.push(item);
-        });
-        filtered.sort(function (a, b) {
-            return (a[field] > b[field] ? 1 : -1);
-        });
-        if(reverse) filtered.reverse();
-        return filtered;
-    };
-});*/
 
 app.filter('groupBy', function ($timeout) {
     return function (data, key) {
@@ -186,6 +178,10 @@ app.filter('groupBy', function ($timeout) {
     };
 });
 
+app.constant('$ionicLoadingConfig', {
+    template: '<ion-spinner class="spinner-balanced"></ion-spinner>'
+});
+
 var has = function has(obj, key) {
     return obj != null && hasOwnProperty.call(obj, key);
 };
@@ -201,7 +197,6 @@ var  memoize = function(func, hasher) {
     return memoize;
 };
 
-
 app.filter('groupByDayMonthYear2', function() {
 
     return memoize(function(input) {
@@ -211,7 +206,7 @@ app.filter('groupByDayMonthYear2', function() {
 
         var output = [], currentDate;
         for (var i = 0, ii = input.length; i < ii && (item = input[i]); i++) {
-            currentDate = moment(item.fecha).format('DD MMM');
+            currentDate = moment(item.fecha).format('DD MMM YY');
             if (!asociame[currentDate]) {
                 asociame[currentDate] = {};
             }
@@ -264,21 +259,5 @@ app.filter('groupByDayMonthYear2', function() {
 });
 
 
-/*
-app.config(function($httpProvider) {
-    $httpProvider.interceptors.push(function($rootScope) {
-        return {
-            request: function(config) {
-                $rootScope.$broadcast('loading:show');
-                return config
-            },
-            response: function(response) {
-                $rootScope.$broadcast('loading:hide');
-                return response
-            }
-        }
-    })
-});
-*/
 
 

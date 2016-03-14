@@ -2,9 +2,10 @@
 
 app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
+
     //Tener un servidor propio permiter usar datos procesados y actualizados
     $scope.doRefresh = function () {
-        //clear all data
+        //clear all data  Forzaba esto porque sino no se cargan las ligas again
         LigaService.clearAll();
 
         VipService.getdata(true).then(function(items){
@@ -88,12 +89,13 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
         }else if (liga.indexOf('dobles') > -1){
             detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]);
         }
-        $state.go('detailMatch', {myParam: detailMatch});
+        $state.go('detailMatch_gol', {myParam: detailMatch});
         //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
         // $location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
     };
     // si el Password is not set redirigo  a la pantalla de login
 
+/*
     //NO hay accessToken
     if(accessToken === "" || !accessToken) {
 
@@ -114,8 +116,9 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
             // $location.path("/login");
         }
 
- }
 
+ }
+    */
     //googleLogin.startLogin();
 
 
