@@ -15,7 +15,7 @@
         </button>-->
     </ion-nav-buttons>
 
-    <ion-content ng-show="stateChanging" >
+    <ion-content ng-show="!loading" >
 
         <div class="list  ">
 
@@ -113,7 +113,7 @@
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2" >
-                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 250px">
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golCasaRateFiltered[selection[0]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
                                               ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
@@ -131,7 +131,7 @@
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2 " >
-                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 300px">
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 250px">
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golFueraRateFiltered[selection[1]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
                                               ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">

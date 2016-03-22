@@ -90,9 +90,10 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
             detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]);
         }
         $state.go('detailMatch_gol', {myParam: detailMatch});
-        //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
+        //$state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
         // $location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
     };
+
     // si el Password is not set redirigo  a la pantalla de login
 
 /*

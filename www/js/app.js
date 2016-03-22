@@ -4,7 +4,15 @@
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage'])
-    .run(function($ionicPlatform) {
+    .run(function($ionicPlatform,$rootScope) {
+/*        $rootScope.$on('$stateChangeStart',function(){
+         $rootScope.stateIsLoading = true;
+         });
+
+
+         $rootScope.$on('$stateChangeSuccess',function(){
+         $rootScope.stateIsLoading = false;
+         });*/
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -132,7 +140,7 @@ var app=angular.module('app',
 
         //Pagina por defecto si no hay match
 
-      $urlRouterProvider.otherwise('/tab/vip');
+      $urlRouterProvider.otherwise('/tab/historial');
 
 /*        $urlRouterProvider.otherwise(function($injector, $location){
             var state = $injector.get('$state');
@@ -179,7 +187,7 @@ app.filter('groupBy', function ($timeout) {
 });
 
 app.constant('$ionicLoadingConfig', {
-    template: '<ion-spinner class="spinner-balanced"></ion-spinner>'
+    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'
 });
 
 var has = function has(obj, key) {
@@ -257,7 +265,6 @@ app.filter('groupByDayMonthYear2', function() {
     });
 
 });
-
 
 
 

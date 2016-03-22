@@ -7,8 +7,9 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function ( $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
-    $scope.stateChanging = false;
+app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+
+    $scope.loading=true;
 
     // Simulate a login delay. Remove this and replace with your login
     $timeout(function() {
@@ -190,7 +191,9 @@ app.controller('detailMatchCtrl_gol', function ( $ionicModal,$timeout, $ionicScr
         corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
         corteJornadaEquipo(detailMatch.equipo2,detailMatch.jornada);
         $scope.stateChanging = true;
+        $scope.loading=false;
     });
+
 
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {

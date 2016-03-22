@@ -1,7 +1,12 @@
 <ion-view title="Historial"  cache-view="true" >
+<!--     <ion-content ng-show='loading'>
+     </ion-content>
+       <ion-content ng-show='!loading'>
+     -->
 
-    <ion-content >
-         <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+    <ion-content>
+        <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+
 
         <label class="item item-input item-dark item-select  ">
                         <div class="item-text-wrap input-label col ">
@@ -60,6 +65,7 @@
 
 
                 </ion-list>
+
 
 
     </ion-content>

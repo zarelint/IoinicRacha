@@ -66,6 +66,10 @@ app.controller('AppCtrl', function(
         console.log('handling event:auth-loginConfirmed...');
     });
 
+/*    //On nested view events are fired from Abstrad view, broadcasr events to childs views
+    $scope.$on('$ionicView.afterLeave', function(){
+        $rootScope.$broadcast('cerrar');
+    });*/
 
 });
 

@@ -1,9 +1,9 @@
 'use strict';
 
 
-app.controller('historialCtrl', function (HistoricoService, myconf, LigaService, $state, $scope,
+app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, LigaService, $state, $scope,
                                           $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch,$injector) {
-    //$scope.property.Choices.splice(0, 0, {"id":"0","Name":"Richard"});
+
     $scope.doRefresh = function () {
         //clear all data
         LigaService.clearAll();
@@ -31,10 +31,7 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
     LigaService.getListaLigas(false).then(function(items){
         $scope.ligas = items;
     });
-/*    $http.get(myconf.url +'/listaligas').
-    success(function(data) {
-        $scope.ligas = data;
-    });*/
+
     //define data to store liga in combo
     $scope.data = {};
     $scope.data.selectedindex = null;
@@ -118,8 +115,6 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
 
         $scope.aciertos={};
 
-
-
         $scope.myFilter = function(item) {
 
             if ( $scope.aciertos.checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
@@ -130,14 +125,28 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
         };
 
         $scope.myFilterliga = function(item) {
-
             if ($scope.data.selectedindex === null) {
                 return true;
             } else {
                 return item.liga === $scope.data.selectedindex;
             }
         };
+
+
+
+
+
+            /*
+                $scope.$on('cerrar', function(){
+                $scope.loading=false;
+                console.log('vista inactiva se quita el carte de loading')
+            });
+            */
+
          $scope.verEncuentro = function(item) {
+             $injector.get('$ionicLoading').show();
+             //$scope.loading=true;
+
 
              var liga= item.tipo;
              var ligaparsed= item.liga;
@@ -147,7 +156,7 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
              detailMatch.jornada = item.jornada;
              detailMatch.equipo1 = equipo1;
              detailMatch.equipo2 = equipo2;
-               detailMatch.from = 'tabs.historial';
+             detailMatch.from = 'tabs.historial';
              detailMatch.liga = ligaparsed;
 
              if (liga.indexOf('singles') > -1){
@@ -155,12 +164,12 @@ app.controller('historialCtrl', function (HistoricoService, myconf, LigaService,
              }else if (liga.indexOf('dobles') > -1){
                  detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]);
              }
-             $injector.get('$ionicLoading').show();
              $state.go('detailMatch_gol', {myParam: detailMatch});
-
-             //  $state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
-             // $location.path("/detailRates");
+             //$state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
+             //$location.path("/detailRates");
          };
+
+
 
 
 });
