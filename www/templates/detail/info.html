@@ -8,9 +8,9 @@
                         &nbsp&nbsp
                     </div>
                 </div>
-                <div class="col ">Win</div>
-
-                <div class="col ">odds range</div><div class="col col-20 col-center">[0-20]</div>
+                <div class="col ">{{ 'Victoria' | translate }}</div>
+                <div class="col ">{{ 'Igualdad' | translate }}</div><div class="col col-20 col-center">-10...10
+            </div>
                 <div class="col col-10"></div>
             </div>
             <div class="row row-center pegar">
@@ -20,9 +20,9 @@
                         &nbsp&nbsp
                     </div>
                 </div>
-                <div class="col ">Draw</div>
+                <div class="col ">{{ 'Empate' | translate }}</div>
 
-                <div class="col "> odds in favor</div><div class="col col-20 col-center">[+]</div>
+                <div class="col ">{{ 'A favor' | translate }}</div><div class="col col-20 col-center">[+]</div>
                 <div class="col col-10"></div>
             </div>
             <div class="row row-center pegar">
@@ -32,23 +32,41 @@
                         &nbsp&nbsp
                     </div>
                 </div>
-                <div class="col">Loose</div>
+                <div class="col">{{ 'Derrota' | translate }}</div>
 
-                <div class="col"> odds against</div><div class="col col-20 col-center">[-]</div>
+                <div class="col">{{ 'En contra' | translate }}</div><div class="col col-20 col-center">[-]</div>
                 <div class="col col-10"></div>
             </div>
-            <div class="row row-center pegar">
-                <div class="col col-10"></div>
-                <div class="row-tam2">
-                    <div class="notplay">
-                        &nbsp&nbsp
-                    </div>
+                 <div class="col"></div>
+
+                <div class="col text-center "><b>Ejemplos </b>
+
                 </div>
-                <div class="col">Not Played</div>
 
-                <div class="col"></div><div class="col col-20 col-center"></div>
-                <div class="col col-10"></div>
-            </div>
+                <div id="list">
+                    <ul>
+                        <li>{{ 'Partido muy igualado' | translate }}</li>
+
+
+                        <div class="row pegar">
+                            <div class="col text-center">Madrid-Barça = 0</div>
+                        </div>
+
+
+
+                        <li>{{ 'Partido muy desigual' | translate }}: España-Malta</li>
+                        <div class="row pegar">
+                            <div class="col">España =  10</div>
+                            <div class="col">Malta  = -10</div>
+                        </div>
+
+                    </ul>
+                </div>
+
+
+
+
+
         </div>
     </ion-modal-view>
 </div>

@@ -1,4 +1,4 @@
-<ion-view title='Historial' >
+<ion-view title="{{ 'Historial' | translate }}" >
 
     <ion-nav-buttons side="left">
         <button class="button button-clear" ng-click="goBack()"><i class="icon ion-arrow-left-c" ></i> Back</button>
@@ -12,8 +12,8 @@
         </div>
         <div class="item pegar ">
             <div class="row row-center pegar">
-                <div class="col">Jornada</div>
-                <div class="col">Aciertos</div>
+                <div class="col">{{ 'Jornada' | translate }}</div>
+                <div class="col">{{ 'Aciertos' | translate }}</div>
             </div>
         </div>
             <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item.rate!== null ">
@@ -25,7 +25,7 @@
 
             <div class="item pegar item-divider">
                 <div class="row pegar">
-                    <div class="col">Acierto Acumulado</div>
+                    <div class="col">{{ 'Acierto Acumulado' | translate }}</div>
                     <div class="col">{{ rate}}%</div>
                 </div>
             </div>

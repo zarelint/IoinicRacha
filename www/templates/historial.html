@@ -1,4 +1,4 @@
-<ion-view title="Historial"  cache-view="true" >
+<ion-view title="{{ 'Historial' | translate }}"  cache-view="true" >
 <!--     <ion-content ng-show='loading'>
      </ion-content>
        <ion-content ng-show='!loading'>
@@ -10,13 +10,13 @@
 
         <label class="item item-input item-dark item-select  ">
                         <div class="item-text-wrap input-label col ">
-                            Seleccionar liga:
+                              {{ 'Liga' | translate }}
                         </div>
                         <div class="col">
                             <select ng-model="data.selectedindex"
                                     ng-options="value for (key, value) in ligas| orderBy:'toString()' "
                                     ng-change="changedliga()">
-                                <option value="" >All leagues</option>
+                                <option value="" > {{ 'Todas' | translate }}</option>
                             </select>
                             <option value="" ></option>
                         </div>
@@ -25,7 +25,7 @@
                                 <div class="row row-center text-right ">
 
                                   <div class="col   ">
-                                         Fallados
+                                        {{ 'Fallos' | translate }}
                                     </div>
                                     <div class="col text-center   ">
                                         <label class="toggle toggle-balanced">
@@ -36,7 +36,7 @@
                                         </label>
                                     </div>
                                     <div class="col text-left ">
-                                        Acertados
+                                        {{ 'Aciertos' | translate }}
                                     </div>
                                 </div>
                             </div>
@@ -47,9 +47,9 @@
 
 
                                 <div ng-if="item.tipodiv == 'fecha'" class="item item-balanced text-center item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>
-                                <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.liga)" >
-                                    <div class="col col-70">  {{ item.liga }} / {{item.jornada}}  </div>
-                                    <div class="col2 "> <b>{{item.rate}}%</b>  </div>
+                                <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.tipo)" >
+                                    <div class="col col-70">{{ item.liga }} {{item.jornada}}</div>
+                                    <div> {{item.rate}}%  </div>
                                 </div>
 
 

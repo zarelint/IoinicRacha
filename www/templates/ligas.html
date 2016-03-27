@@ -1,5 +1,5 @@
 
-<ion-view title="Ligas"  >
+<ion-view title="{{ 'Ligas' | translate }}"  >
 
 
 
@@ -9,26 +9,27 @@
 
             <label class="item item-input item-dark item-select  ">
             <div class="item-text-wrap input-label col ">
-                Seleccionar liga:
+                {{ 'Liga' | translate }}
             </div>
             <div class="col">
                 <select ng-model="data.selectedindex"
 
                         ng-options="value for (key, value) in ligas| orderBy:'toString()' "
                         ng-change="changedliga()">
+                    <option value="" > {{ 'Todas' | translate }}</option>
                 </select>
             </div>
         </label>
             <div class="item  item-dark text-center col  "  ng-show="ligaSelected !== undefined ">
-
-                    Partidos de la Jornada {{racha[ligaSelected].ultima}}
+                {{ 'Partidos de la Jornada' | translate }}
+                     {{racha[ligaSelected].ultima}}
 
             </div>
 
             <div class="item item-dark  col  "  ng-show="ligaSelected !== undefined ">
                 <div class="row row-center ">
                     <div class="col col-75 ">
-                        Seleccion de equipos libre
+                        {{ 'Seleccion Individual' | translate }}
                     </div>
 
 

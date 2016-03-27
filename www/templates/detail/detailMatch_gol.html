@@ -1,4 +1,4 @@
-<ion-view title="Only Goals"  >
+<ion-view title="{{ 'Visor' | translate }}"  >
 
     <ion-nav-buttons side="left">
         <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
@@ -37,7 +37,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col pegar text-center col-center">Todos los partidos</div>
+                        <div class="col pegar text-center col-center">{{ 'Todos los partidos' | translate }}</div>
                         <div class="col pegar text-right">
                             <div class="buttons pegar ">
                                 <button class="button  button-small" ng-click="scrollDch('todos-scroll')">
@@ -96,7 +96,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col pegar text-center col-center">Casa/Fuera</div>
+                        <div class="col pegar text-center col-center">{{ 'Casa/Fuera' | translate }}</div>
                         <div class="col pegar text-right">
                             <div class="buttons pegar ">
                                 <button class="button  button-small" ng-click="scrollDch('casa-scroll')" >
@@ -159,7 +159,7 @@
                 <div class="item bh col">
                     <div class="row row-center ">
                         <div class="col texto-blanco col-75 ">
-                            Filtro Resultados Emocionales
+                            {{ 'Resultados Emocionales' | translate }}
                         </div>
                         <div class="col  ">
                             <label class="toggle">
@@ -174,7 +174,7 @@
                 <div class="item  bh col">
                     <div class="row row-center ">
                         <div class="col texto-blanco col-75 ">
-                            Filtro HCP
+                            {{ 'Partidos similares' | translate }}
                         </div>
                         <div class="col  ">
                             <label class="toggle">

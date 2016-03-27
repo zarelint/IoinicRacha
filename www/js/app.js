@@ -2,18 +2,28 @@
 
 //var accessToken = "";
 
+
 var app=angular.module('app',
-    ['ionic', 'http-auth-interceptor','ngStorage'])
-    .run(function($ionicPlatform,$rootScope) {
-/*        $rootScope.$on('$stateChangeStart',function(){
-         $rootScope.stateIsLoading = true;
-         });
-
-
-         $rootScope.$on('$stateChangeSuccess',function(){
-         $rootScope.stateIsLoading = false;
-         });*/
+    ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
+    .run(function($ionicPlatform,$translate,$rootScope) {
+ /*       $rootScope.changeLanguage = function() {
+            if(/[a-z]{2}_[A-Z]{2}/.test($translate.use())) {
+                $translate.fallbackLanguage($translate.use().split('_')[0]);
+            }
+        };*/
       $ionicPlatform.ready(function() {
+
+          if(typeof navigator.globalization !== "undefined") {
+              navigator.globalization.getPreferredLanguage(function(language) {
+                  $translate.use((language.value).split("-")[0]).then(function(data) {
+                      console.log("SUCCESS -> " + data);
+                  }, function(error) {
+                      console.log("ERROR -> " + error);
+                  });
+              }, null);
+          }
+          $translate.use("en");
+
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
 
@@ -40,7 +50,6 @@ var app=angular.module('app',
               position : mMedia.AD_POSITION.BOTTOM_CENTER
           });
 
-
       });
 
     })
@@ -50,7 +59,40 @@ var app=angular.module('app',
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
+    .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
+/*        $translateProvider.translations('en', {
+            hello_message: "Howdy",
+            goodbye_message: "Goodbye"
+        });
+        $translateProvider.translations('es', {
+            hello_message: "Hola",
+            goodbye_message: "Adios"
+        });
+        $translateProvider.preferredLanguage("en");
+        $translateProvider.fallbackLanguage("en");*/
+
+
+        $translateProvider
+            .useStaticFilesLoader({
+                prefix: 'locales/',
+                suffix: '.json'
+            })
+            .registerAvailableLanguageKeys(['en', 'de','es'], {
+                'en' : 'en', 'en_GB': 'en', 'en_US': 'en',
+                'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
+                'es' : 'es',
+                '*': 'en'
+            })
+           // .preferredLanguage('en')
+
+            .determinePreferredLanguage().fallbackLanguage('en')
+            .useSanitizeValueStrategy('escapeParameters');
+
+
+
+
+    })
     .config(function($ionicConfigProvider) {
           $ionicConfigProvider.navBar.alignTitle('center');
         // Use native scrolling on Android
@@ -249,7 +291,8 @@ app.filter('groupByDayMonthYear2', function() {
                     isDivider: true,
                     divider: liga,
                     tipodiv: 'liga',
-                    liga:asociame[fecha][liga][0].tipo,
+                    tipo:asociame[fecha][liga][0].tipo,
+                    liga:asociame[fecha][liga][0].liga,
                     rate:asociame[fecha][liga][0].rate,
                     jornada: asociame[fecha][liga][0].jornada
                 });

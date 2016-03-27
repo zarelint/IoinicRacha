@@ -31,10 +31,22 @@
  .bh{
     background-color: #444;
 }
+#list {
+    width: 85%;
+    margin-left: 25px;
+}
 
+#list ul li {
+    text-align: left;
+    list-style: disc;
+    margin: 5px 0;
+}
+.my-nav {
+    list-style-type: circle;
+}
 .adic-popup {
-    top: 50%;
-    bottom: 20%;
+    top: 30%;
+
     background-color: #ffffff;
 }
 

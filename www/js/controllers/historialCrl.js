@@ -42,9 +42,9 @@ app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, Li
 
     $scope.getHeight = function (check) {
         if (check.tipodiv !== undefined) {
-            return 30;
+            return 35;
         }else{
-            return 50;
+            return 55;
         }
     };
 
@@ -135,13 +135,6 @@ app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, Li
 
 
 
-
-            /*
-                $scope.$on('cerrar', function(){
-                $scope.loading=false;
-                console.log('vista inactiva se quita el carte de loading')
-            });
-            */
 
          $scope.verEncuentro = function(item) {
              $injector.get('$ionicLoading').show();
