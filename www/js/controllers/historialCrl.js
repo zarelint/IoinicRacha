@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, LigaService, $state, $scope,
+app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,HistoricoService, myconf, LigaService, $state, $scope,
                                           $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch,$injector) {
 
     $scope.doRefresh = function () {
@@ -35,6 +35,7 @@ app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, Li
     //define data to store liga in combo
     $scope.data = {};
     $scope.data.selectedindex = null;
+
     $scope.changedliga = function() {
         ligaSelected = $scope.data.selectedindex;
         $scope.ligaSelected = ligaSelected;
@@ -117,11 +118,14 @@ app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, Li
 
         $scope.myFilter = function(item) {
 
-            if ( $scope.aciertos.checked){// $scope.aciertos.checked === true: Devuelve solo los acertados
-                return item.real === true;
-            }else{
+            if ( $scope.aciertos.checked === undefined || $scope.aciertos.checked === ""  ){
+                return true;
+            }else if ($scope.aciertos.checked=== "false"){// $scope.aciertos.checked === true: Devuelve solo los acertados
                 return item.real !== true;
+            }else{
+                return item.real === true;
             }
+
         };
 
         $scope.myFilterliga = function(item) {
@@ -131,7 +135,6 @@ app.controller('historialCtrl', function ( $timeout,HistoricoService, myconf, Li
                 return item.liga === $scope.data.selectedindex;
             }
         };
-
 
 
 

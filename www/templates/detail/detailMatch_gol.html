@@ -1,19 +1,20 @@
 <ion-view title="{{ 'Visor' | translate }}"  >
+    <ion-nav-bar class="bar-dark">
 
-    <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
-    </ion-nav-buttons>
+        <ion-nav-buttons side="left">
+            <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="ion ion-android-arrow-back" ></i> </button>
+        </ion-nav-buttons>
+
+        <ion-nav-buttons side="right">
+            <button class="button" ng-click="compareDialog.show()">
+                <div><i class="icon ion-ios-help-outline" ></i></div>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
 
 
-    <ion-nav-buttons side="right">
-        <button class="button" ng-click="compareDialog.show()">
-            <div><i class="icon ion-ios-help-outline" ></i></div>
-        </button>
 
-<!--        <button class="button" ng-click="ir('detailMatch')">
-            Goles
-        </button>-->
-    </ion-nav-buttons>
+
 
     <ion-content ng-show="!loading" >
 

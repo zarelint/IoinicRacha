@@ -11,10 +11,15 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
     $scope.loading=true;
 
-    // Simulate a login delay. Remove this and replace with your login
-    $timeout(function() {
-        $scope.scrollDch('todos-scroll');
-    }, 1000);
+    $scope.$on('$ionicView.enter', function(){
+        // Simulate a login delay. Remove this and replace with your login
+        $timeout(function() {
+            $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);
+            $ionicScrollDelegate.$getByHandle('casa-scroll').scrollBottom(true);
+        }, 500);
+    });
+
+
 
 
     $ionicHistory.nextViewOptions({
@@ -142,7 +147,7 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
             cont++;
         }
-        console.log('')
+
 
     };
     var corteJornadaEquipoFiltrado  = function corteJornadaEquipoFiltrado(equipo,jornada) {
@@ -166,7 +171,7 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
             $scope.racha[ligaSelected].golRateFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
-        console.log('')
+
 
     };
 
@@ -241,7 +246,11 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
             corteJornadaEquipo(detailMatch.equipo1,detailMatch.jornada);
             $scope.scrollDch('todos-scroll');
 
+            $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);
+            $ionicScrollDelegate.$getByHandle('casa-scroll').scrollBottom(true);
         }
+
+
     };
     $scope.goBack = function() {
         $ionicHistory.goBack();

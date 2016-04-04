@@ -18,7 +18,7 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
 
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
-    $scope.data.selectedindex = 1;
+    $scope.data.selectedindex = null;
     $scope.data.selectedindex2 = 1;
     $scope.data.selectedindexEquipo0 = 1;
     $scope.data.selectedindexEquipo1 = 1;
@@ -32,7 +32,7 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
     };
 
     $scope.changedliga = function() {
-
+         console.log($scope.data.selectedindex)
         ligaSelected = $scope.data.selectedindex;
         $scope.ligaSelected = ligaSelected;
 

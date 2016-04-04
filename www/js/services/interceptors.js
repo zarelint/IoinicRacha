@@ -7,7 +7,7 @@ app.factory('TokenInterceptor',
         $injector.get('$ionicLoading').hide();
       }
     };
-
+    //$rootScope.$broadcast( 'loading:show' )
     return {
       request: function(config) {
         $injector.get('$ionicLoading').show();

@@ -1,63 +1,81 @@
 <ion-view title="{{ 'Historial' | translate }}"  cache-view="true" >
-<!--     <ion-content ng-show='loading'>
-     </ion-content>
-       <ion-content ng-show='!loading'>
-     -->
 
-    <ion-content>
+    <ion-header-bar class="bar-dark">
+        <h1 class="title"></h1>
+    </ion-header-bar>
+
+    <ion-header-bar class="bar bar-subheader   pegar"  >
+        <label class="item    item-input item-grey item-select  "  >
+
+           <div class="item-text-wrap input-label col texto-blanco ">
+               {{ 'Liga' | translate }}
+            </div>
+            <div class="col">
+                <select ng-model="data.selectedindex"
+                        ng-options="value for (key, value) in ligas| orderBy:'toString()' "
+                        ng-change="changedliga()">
+                   <option value="" > {{ 'Todas' | translate }}</option>
+                </select>
+     <!--     <option value="" >            {{ 'Liga' | translate }}</option>-->
+            </div>
+    </label>
+
+  </ion-header-bar>
+
+      <ion-header-bar class="bar bar-subheader  pegar"  >
+
+       <label class=" item  item-grey item-input item-select">
+           <div class="input-label texto-blanco">
+               <option >{{ 'Prediccion' | translate }}
+           </div>
+           <select  ng-model="aciertos.checked">
+               <option selected value="">{{ 'Todas' | translate }}</option>
+               <option value="false">{{ 'Fallos' | translate }}</option>
+               <option value="true">{{ 'Aciertos' | translate }}</option>
+           </select>
+
+       </label>
+
+
+    </ion-header-bar>
+
+
+    <ion-content  position-bars-and-content>
         <ion-refresher on-refresh="doRefresh()"></ion-refresher>
 
 
-        <label class="item item-input item-dark item-select  ">
-                        <div class="item-text-wrap input-label col ">
-                              {{ 'Liga' | translate }}
-                        </div>
-                        <div class="col">
-                            <select ng-model="data.selectedindex"
-                                    ng-options="value for (key, value) in ligas| orderBy:'toString()' "
-                                    ng-change="changedliga()">
-                                <option value="" > {{ 'Todas' | translate }}</option>
-                            </select>
-                            <option value="" ></option>
-                        </div>
-                    </label>
-        <div class="item item-dark  col  "  >
-                                <div class="row row-center text-right ">
 
-                                  <div class="col   ">
-                                        {{ 'Fallos' | translate }}
-                                    </div>
-                                    <div class="col text-center   ">
-                                        <label class="toggle toggle-balanced">
-                                            <input type="checkbox" ng-model="aciertos.checked"  >
-                                            <div class="track">
-                                                <div class="handle"></div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="col text-left ">
-                                        {{ 'Aciertos' | translate }}
-                                    </div>
-                                </div>
-                            </div>
-
-
-          <ion-list>
+          <ion-list >
                             <div class="item-text-wrap" collection-repeat="item in  predicciones | filter: myFilter |filter: myFilterliga                    | groupByDayMonthYear2"  item-height="getHeight(item)"   >
 
 
                                 <div ng-if="item.tipodiv == 'fecha'" class="item item-balanced text-center item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>
-                                <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.tipo)" >
+
+
+
+                                <div ng-if="item.tipodiv == 'liga'" class="item item-dark texto-blanco row row-center " ng-click="ver(item.tipo)"  on-swipe-right="ver(item.tipo)" >
+
+                                    <div class="country">
+                                        <img ng-src="img/flag_country/1.png">
+                                    </div>
+
                                     <div class="col col-70">{{ item.liga }} {{item.jornada}}</div>
-                                    <div> {{item.rate}}%  </div>
+                                    <div class="col col-20" >{{item.rate}}% </div>
+                                   <span class="more-info-match  ion ion-ios-arrow-right"></span>
                                 </div>
 
 
-                                <div  ng-if="item.tipodiv == null" class="item   row row-center" ng-click="verEncuentro(item)"  >
-                                        <div class="col col-20 ">  {{item.hora}}              </div>
-                                        <div class="col col-60  ">  {{item.encuentro}}         </div>
+                                <div  ng-if="item.tipodiv == null" class="item   row row-center" ng-click="verEncuentro(item)"  on-swipe-right="verEncuentro(item)">
+
+                                    <div class="col col-20 ">  <b>{{item.hora}} </b>            </div>
+                                      <div class="col col-60 item-pred "> <b> <span ng-bind-html="item.encuentro | addBall "></span></b> </div>
+                            <!--            <div class="col col-60  "> {{item.encuentro}}  </div>-->
+
                                         <div class="col col-10">    <b>{{item.prediccion}}</b>  </div>
-                                        <img ng-src="img/tick.png" ng-show="item.real">
+
+                                    <div class="col col-10"> <img ng-src="img/tick.png" ng-show="item.real">   </div>
+                           <!--         <span class="more-info-black  ion ion-ios-arrow-right"></span>-->
+
                                 </div>
 
                             </div>

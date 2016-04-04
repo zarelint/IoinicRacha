@@ -3,7 +3,7 @@ app.controller('AppCtrl', function(
     $scope,
     $ionicModal,
     googleLogin,
-    timeStorage
+    timeStorage,$cordovaAppRate
     ) {
 
     // Create the login modal that we will use later
@@ -70,6 +70,35 @@ app.controller('AppCtrl', function(
     $scope.$on('$ionicView.afterLeave', function(){
         $rootScope.$broadcast('cerrar');
     });*/
+
+    $scope.social_config = social_config;
+
+    $scope.bodShare = function( type ){
+        if (type == 'google')
+            window.open('https://plus.google.com/share?url='+social_config.url, '_system');
+        if (type == 'facebook')
+            window.open('https://www.facebook.com/sharer/sharer.php?u='+social_config.url, '_system');
+        if (type == 'twitter')
+            window.open('https://twitter.com/home?status='+social_config.description, '_system');
+        if (type == 'email')
+            window.open('mailto:?&subject='+social_config.title+'&body='+social_config.description, '_system');
+    };
+
+    $scope.rateOurApp = function(){
+  /*      $cordovaAppRate.navigateToAppStore().then(function (result) {
+        });
+        */
+        $cordovaAppRate.promptForRating(true).then(function (result) {
+                // success
+        });
+
+    };
+
+    $scope.contactUs = function(){
+        window.open('mailto:'+social_config.email+'?subject=Contacting from App (bod)', '_system');
+    }
+
+
 
 });
 

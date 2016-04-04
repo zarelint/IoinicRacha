@@ -1,3 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Abel);
+
+* {
+    font-family: 'Abel', sans-serif;
+}
 /* Empty. Add your own CSS if you like */
 .texto-celda {
     position: relative;
@@ -10,17 +15,22 @@
     font-stretch: condensed;
     font-weight: bold;
     width: 13px;
+    font-family: 'Abel', sans-serif;
 }
 .row-tam2{
-    line-height: 10px;
+    line-height: 15px;
     padding: 0;
 
 }
 .item{
     height: 100%;
     min-height: 100%;
-
+    font-size: 14px;
 }
+.item-pred{
+    font-size: 14px;
+}
+
 .peq{
     font-size: 9px;
     color: white;
@@ -46,7 +56,6 @@
 }
 .adic-popup {
     top: 30%;
-
     background-color: #ffffff;
 }
 
@@ -61,11 +70,10 @@
 
 .texto-blanco{
     color: white;
-
 }
 .texto-celda2 {
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     color: white;
     font-stretch: condensed;
     font-weight: bold;
@@ -73,7 +81,7 @@
 }
 .texto-celda-black {
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     color: black;
     font-stretch: condensed;
     font-weight: bold;
@@ -149,9 +157,6 @@ body {
     cursor: url('finger.png'), auto;
 }
 
-/*
- * http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
- */
 .list .item.item-accordion {
     line-height: 38px;
     padding-top: 0;
@@ -184,7 +189,121 @@ body {
     padding: 15px;
 }
 
-.scroll-content{
+/*Change all background color */
+*.scroll-content{
     background-color:#444;
+}
+
+/* Change side menu color to dark*/
+.menu-items{
+    font-family: 'Abel', sans-serif;
+    border: none;
+}
+.menu-items .item{
+    background: transparent;
+}
+.menu-items .item a{
+/*   padding: 12px 0;*/
+    text-decoration: none;
+    background: #000000;
+    color: #ffffff;
+    outline: none;
+
+}
+.menu-items i{
+    float: left;
+    width: 55px!important;
+}
+
+.menu-text{
+    float: left;
+    padding: 0!important;
+    margin: 0!important;
+}
+
+.menu-items{
+    background: #444;
+}
+
+/* change icon color*/
+.menu-items .ion{
+    padding: 0 20px;
+    font-size: 20px;
+    color: #ffffff;
+}
+.menu-items .ion2{
+    padding: 0 20px;
+    font-size: 20px;
+    color: #444;
+}
+/* adding image holder */
+.country img{
+    float: left;
+    padding: 0;
+    margin:0;
+    height: 20px;
+}
+
+
+.input-label{
+    font-size: 14px!important;
+}
+
+.title{
+    text-transform: uppercase;
+    font-family: 'Abel', sans-serif;
+}
+
+.more-info-match{
+    padding: 0;
+    color: #ffffff
+}
+.more-info-black{
+    padding: 0;
+    color: #000000
+}
+
+
+.button.button-block, .button.button-full {
+    margin: 5px;
+}
+
+
+/*.item.active.item-dark,
+.item.activated.item-dark,
+.item-complex.active.item-dark .item-content.item-dark,
+.item-complex.activated.item-dark .item-content.item-dark,
+.item.item-dark .item-content.active.item-dark,
+.item.item-dark .item-content.activated.item-dark
+{
+    background-color: #a6a9a9;
+
+}*/
+
+/*
+.pane, .view {
+    background-color: #444;
+}
+*/
+
+
+.item-select.item-grey select {
+    background: #000000;
+    color: #fff;
+}
+.item.item-grey {
+    background: #000000;
+    color: #fff;
+}
+
+
+.item.item-dark {
+    border-color: #111;
+    background-color: #000000;
+    color: #fff;
+}
+
+.item-select select{
+    max-width: 75%;
 }
 

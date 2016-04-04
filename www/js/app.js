@@ -1,16 +1,37 @@
 'use strict';
 
-//var accessToken = "";
+var social_config = {
+    url:         'https://play.google.com/store/apps/details?id=com.masteralb.bod',
+    title:       'Bet of the Day',
+    description: 'Bet of the Day , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries. http://bit.ly/betofftheday',
+    image:       '',
+    email:       'bod@masteralb.com'
+};
 
 
 var app=angular.module('app',
-    ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,$rootScope) {
- /*       $rootScope.changeLanguage = function() {
+    ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate', 'ngCordova'])
+    .run(function($ionicPlatform,$translate) {
+
+ /*
+        $rootScope.changeLanguage = function() {
             if(/[a-z]{2}_[A-Z]{2}/.test($translate.use())) {
                 $translate.fallbackLanguage($translate.use().split('_')[0]);
             }
-        };*/
+        };
+
+          $rootScope.$on( 'loading:show', function() {
+          $ionicLoading.show()
+          })
+
+          $rootScope.$on( 'loading:hide', function() {
+          $ionicLoading.hide()
+          })
+
+
+*/
+
+
       $ionicPlatform.ready(function() {
 
           if(typeof navigator.globalization !== "undefined") {
@@ -22,19 +43,25 @@ var app=angular.module('app',
                   });
               }, null);
           }
-          $translate.use("en");
+          $translate.use("es");
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
 
         if(window.cordova && window.cordova.plugins.Keyboard) {
-          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
         if(window.StatusBar) {
           // org.apache.cordova.statusbar required
           StatusBar.styleDefault();
         }
-
+          if (window.StatusBar) {
+              if (ionic.Platform.isAndroid()) {
+                  StatusBar.backgroundColorByHexString("#009688");
+              } else {
+                  StatusBar.styleLightContent();
+              }
+          }
           var ad_units = {
               android : {
                   banner : "221288",
@@ -42,7 +69,7 @@ var app=angular.module('app',
               }
           };
           var adid =  ad_units.android ;
-// or, show a default banner at bottom
+            // or, show a default banner at bottom
           if(mMedia) mMedia.createBanner({
               adId : adid.banner,
               autoShow : true,
@@ -59,18 +86,28 @@ var app=angular.module('app',
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
-    .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+    .config(function($cordovaAppRateProvider) {
+        document.addEventListener("deviceready", function () {
+// 2
+            var popupInfo = {};
+            popupInfo.title = "Rate YOUR APPTITLE";
+            popupInfo.message = "You like YOUR APPTITLE2? We would be glad if you share your experience with others. Thanks for your support!";
+            popupInfo.cancelButtonLabel = "No, thanks";
+            popupInfo.laterButtonLabel = "Remind Me Later";
+            popupInfo.rateButtonLabel = "Rate Now";
+            AppRate.preferences.customLocale = popupInfo;
 
-/*        $translateProvider.translations('en', {
-            hello_message: "Howdy",
-            goodbye_message: "Goodbye"
-        });
-        $translateProvider.translations('es', {
-            hello_message: "Hola",
-            goodbye_message: "Adios"
-        });
-        $translateProvider.preferredLanguage("en");
-        $translateProvider.fallbackLanguage("en");*/
+            var prefs = {
+                language: 'en',
+                appName: 'Bet of the day',
+                //iosURL: '<my_app_id>',
+                androidURL: 'market://details?id=com.masteralb.bod'
+            };
+
+            $cordovaAppRateProvider.setPreferences(prefs);
+       }, false);
+    })
+    .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
 
         $translateProvider
@@ -85,7 +122,6 @@ var app=angular.module('app',
                 '*': 'en'
             })
            // .preferredLanguage('en')
-
             .determinePreferredLanguage().fallbackLanguage('en')
             .useSanitizeValueStrategy('escapeParameters');
 
@@ -94,6 +130,7 @@ var app=angular.module('app',
 
     })
     .config(function($ionicConfigProvider) {
+        $ionicConfigProvider.tabs.position('bottom');
           $ionicConfigProvider.navBar.alignTitle('center');
         // Use native scrolling on Android
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
@@ -116,10 +153,11 @@ var app=angular.module('app',
             .state('tabs', {
                 url: "/tab",
                 abstract: true,
-                templateUrl: "templates/tabs.html",
+                templateUrl: "templates/menu.html",
                 controller: 'AppCtrl'
             })
-                .state('tabs.ligas', {
+
+            .state('tabs.ligas', {
                     url: "/ligas",
                     views: {
                         'ligas': {
@@ -247,8 +285,48 @@ var  memoize = function(func, hasher) {
     return memoize;
 };
 
-app.filter('groupByDayMonthYear2', function() {
 
+app.filter('addBall', function () {
+    return function (item) {
+        var equipos = item.split('/');
+        return equipos[0] +'&nbsp<i class="icon ion-ios-football"></i>&nbsp' + equipos[1];
+    };
+});
+app.directive('positionBarsAndContent', function($timeout) {
+
+    return {
+
+        restrict: 'AC',
+
+        link: function(scope, element) {
+
+            var offsetTop = 0;
+
+            // Get the parent node of the ion-content
+            var parent = angular.element(element[0].parentNode);
+
+            // Get all the headers in this parent
+            var headers = parent[0].getElementsByClassName('bar');
+
+            // Iterate through all the headers
+            for(var x=0;x<headers.length;x++)
+            {
+                // If this is not the main header or nav-bar, adjust its position to be below the previous header
+                if(x > 0) {
+                    headers[x].style.top = offsetTop + 'px';
+                }
+
+                // Add up the heights of all the header bars
+                offsetTop = offsetTop + headers[x].offsetHeight;
+            }
+
+            // Position the ion-content element directly below all the headers
+            element[0].style.top = offsetTop + 'px';
+
+        }
+    };
+});
+app.filter('groupByDayMonthYear2', function() {
     return memoize(function(input) {
         var asociame = {};
         var dividers = {},item,liga;

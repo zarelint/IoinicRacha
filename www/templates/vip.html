@@ -29,8 +29,16 @@
 
                             <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
                                 <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
-                                <div class="col ">  {{ val[0].liga }}   </div>
-                                <div > {{val[0].rate}}%  </div>
+                                    <div class="col ">
+                                        <div class="row pegar ">
+                                        <div class="country"><img ng-src="img/flag_country/1.png">&nbsp&nbsp</div>
+                                        {{ val[0].liga }}
+                                    </div>
+                                </div>
+                                <div>{{val[0].rate}}%
+                                    <span class="more-info-match  ion ion-ios-arrow-right"></span>
+                                </div>
+
                             </ion-item>
 
 
@@ -38,7 +46,7 @@
                                 <div class="row row-center"  >
                                     <div class="col col-20 text-center">  {{predLiga.hora}}              </div>
                                     <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
-                                    <div class="col text-center" >   <b>{{predLiga.prediccion}}</b>  </div>
+                                    <div class="col text-center" >   <b>{{predLiga.prediccion}} </b>  </div>
                                 </div>
                             </ion-item>
 
