@@ -13,10 +13,10 @@
   "Jornada":                  "Week",
   "Acierto Acumulado":        "Total",
   "Visor":                    "Visualizer",
-  "Partidos similares":       "Similar matches",
   "Resultados Emocionales":   "Emotional results",
-  "Todos los partidos":       "All Matches",
-  "Casa/Fuera":               "Home/Away",
+  "Partidos similares":       "Similar matches",
+  "Todos los partidos":       "All Matches ",
+  "Casa/Fuera":               "Home/Away ",
   "Victoria":                 "Victory",
   "Empate":                   "Draw",
   "Derrota":                  "Defeat",
@@ -25,5 +25,9 @@
   "En contra":                "odds against",
   "Pendiente":                "Not Played",
   "Partido muy igualado":     "Close Game, average of goals scored equal",
-  "Partido muy desigual":     "Match very uneven"
+  "Partido muy desigual":     "Match very uneven",
+  "Apoyanos":                 "Rate us",
+  "Apoyanos-2":               "We need your support, click OK, and send good comments, thank you very much!",
+  "usando resultados de":     "Using resuts from ",
+  "partidos":                 "matches"
 }

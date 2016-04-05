@@ -10,13 +10,14 @@ app.factory('detailMatch', function() {
     match.jornada = '';
     match.algodesc = '';
     match.from = '';
+    match.prediccion = '';
     return match;
 });
 
 
 
 
-app.factory('LigaService', function(myconf,$http, $log, $q ) {
+app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
 
     var racha = {};
     var items = [];
@@ -72,22 +73,26 @@ app.factory('LigaService', function(myconf,$http, $log, $q ) {
         },
         getAlgo: function getDescAlgo(myParam) {
             var rangoJornadas =myParam[1][Object.keys(myParam[1])[0]].rangoJornadas;
-
+console.log (rangoJornadas);
+            var texto_jornadas='';
             if (rangoJornadas=== undefined){
-                var rangoJornadas = '';
+                rangoJornadas = '';
+            }else{
+                texto_jornadas =  ', ' +rangoJornadas +' '+$translate.instant('partidos');
             }
 
             var tipo='';
             if (Object.keys(myParam[1])[0] === 'casaIgualdad'+rangoJornadas){
-                tipo ='Casa/Fuera '
+                tipo =$translate.instant('Casa/Fuera')
             }
             if (Object.keys(myParam[1])[0] === 'casafull'+rangoJornadas){
-                tipo ='Todos los partidos '
+                tipo =$translate.instant('Todos los partidos')
             }
             if (Object.keys(myParam[1])[0] === 'casa'+rangoJornadas){
-                tipo ='Casa/Fuera '
+                tipo =$translate.instant('Casa/Fuera')
             }
-            return tipo +rangoJornadas;
+
+            return $translate.instant('usando resultados de')+ tipo + texto_jornadas;
         },
         getListaLigas: function getListaLigas(pullRefresh){
                     var deferred = $q.defer();

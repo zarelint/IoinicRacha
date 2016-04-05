@@ -33,6 +33,8 @@ var app=angular.module('app',
 
 
       $ionicPlatform.ready(function() {
+          if( navigator && navigator.splashscreen )
+              navigator.splashscreen.hide();
 
           if(typeof navigator.globalization !== "undefined") {
               navigator.globalization.getPreferredLanguage(function(language) {
@@ -43,23 +45,39 @@ var app=angular.module('app',
                   });
               }, null);
           }
-          $translate.use("es");
+          $translate.use("en");
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
 
-        if(window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        }
-        if(window.StatusBar) {
-          // org.apache.cordova.statusbar required
-          StatusBar.styleDefault();
-        }
+            if(window.cordova && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            }
+ /*           if(window.StatusBar) {
+              // org.apache.cordova.statusbar required
+              StatusBar.styleDefault();
+            }
           if (window.StatusBar) {
               if (ionic.Platform.isAndroid()) {
                   StatusBar.backgroundColorByHexString("#009688");
               } else {
                   StatusBar.styleLightContent();
+              }
+          }*/
+
+          if(window.Connection) {
+
+              if(navigator.connection.type == Connection.NONE) {
+
+                  $ionicPopup.confirm({
+                          title: "Internet Disconnected"
+                      })
+
+                      .then(function(result) {
+                          if(!result) {
+                              ionic.Platform.exitApp();
+                          }
+                      });
               }
           }
           var ad_units = {
@@ -88,7 +106,7 @@ var app=angular.module('app',
     })
     .config(function($cordovaAppRateProvider) {
         document.addEventListener("deviceready", function () {
-// 2
+
             var popupInfo = {};
             popupInfo.title = "Rate YOUR APPTITLE";
             popupInfo.message = "You like YOUR APPTITLE2? We would be glad if you share your experience with others. Thanks for your support!";

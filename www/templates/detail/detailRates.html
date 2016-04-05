@@ -1,50 +1,41 @@
 <ion-view title="{{ 'Historial' | translate }}" >
 
-
-
     <ion-nav-bar class="bar-dark">
         <ion-nav-buttons side="left">
-            <button class="button button-clear" ng-click="goBack()"><i class="icon ion-arrow-left-c" ></i> Back</button>
-        </ion-nav-buttons>
-<!--        <ion-nav-buttons side="left">
-            <button class="button button-clear" ng-click="ir('{{back}}')" >  <i class="icon ion-arrow-left-c" ></i> Back</button>
-        </ion-nav-buttons>-->
-
-        <ion-nav-buttons side="right">
-            <button class="button" ng-click="compareDialog.show()">
-                <div><i class="icon ion-ios-help-outline" ></i></div>
-            </button>
+            <button class="button button-clear" ng-click="goBack()"><i class="ion ion-android-arrow-back" ></i> </button>
         </ion-nav-buttons>
     </ion-nav-bar>
+
+    <ion-header-bar class="bar bar-dark bar-subheader  pegar"  >
+        <div class="item item-divider text-center">
+            {{algodesc}}
+        </div>
+    </ion-header-bar>
+
+    <ion-header-bar class="bar bar-dark bar-subheader"  >
+            <div class="row row-center pegar">
+                <div class="col col-center text-center">{{ 'Jornada'  | translate }}</div>
+                <div class="col col-center text-center">{{ 'Aciertos' | translate }} / Total</div>
+            </div>
+    </ion-header-bar>
 
 
     <ion-content>
         <ion-list>
-        <div class="item item-divider text-center">
-            {{algodesc}}
-        </div>
-        <div class="item pegar ">
-            <div class="row row-center pegar">
-                <div class="col">{{ 'Jornada' | translate }}</div>
-                <div class="col">{{ 'Aciertos' | translate }}</div>
-            </div>
-        </div>
             <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index > 0 && item.rate!== null ">
                 <div class="row pegar" ng-class="{ 'text-success': !item.pleno }">
-                    <div class="col">{{ item.jornada}}</div>
-                    <div class="col">{{item.rate}}</div>
+                    <div class="col text-center">{{ item.jornada}}</div>
+                    <div class="col text-center">{{item.rate}}</div>
                 </div>
             </div>
-
-            <div class="item pegar item-divider">
-                <div class="row pegar">
-                    <div class="col">{{ 'Acierto Acumulado' | translate }}</div>
-                    <div class="col">{{ rate}}%</div>
-                </div>
-            </div>
-
         </ion-list>
-
     </ion-content>
+
+    <ion-footer-bar align-title="left" class="bar-dark">
+            <div class="row pegar">
+                <div class="col text-center">{{ 'Acierto Acumulado' | translate }}</div>
+                <div class="col text-center">{{ rate}}%</div>
+            </div>
+    </ion-footer-bar>
 
 </ion-view>

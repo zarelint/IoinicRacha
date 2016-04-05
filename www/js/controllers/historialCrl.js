@@ -154,6 +154,7 @@ app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,Hist
              detailMatch.equipo2 = equipo2;
              detailMatch.from = 'tabs.historial';
              detailMatch.liga = ligaparsed;
+             detailMatch.prediccion = item.prediccion;
 
              if (liga.indexOf('singles') > -1){
                  detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]);

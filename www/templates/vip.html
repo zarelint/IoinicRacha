@@ -1,12 +1,8 @@
 <ion-view title="{{ 'Predicciones' | translate }}"   >
     <ion-content >
-
         <ion-refresher on-refresh="doRefresh()"></ion-refresher>
-
         <ion-list>
-
                <div ng-repeat="group in listaFechas">
-
                     <ion-item class="pegar"
                                  ng-click="toggleGroup(group)"
                                  ng-class="{active: isGroupShown(group)}" >
@@ -16,15 +12,15 @@
                                 </div>
                                 <div class="col">{{group}}</div>
                             </div>
-
-
                    </ion-item>
+
                    <ion-item   ng-show=" isGroupShown(group)" class="item-balanced pegar texto-blanco row row-center item-text-wrap">
                        <div class="col col-20 text-center">{{ 'Jornada' | translate }}</div>
                        <div class="col">{{ 'Liga' | translate }}</div>
                        <div class="col text-right">{{ 'Aciertos' | translate }}</div>
                    </ion-item >
-                    <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
+
+                   <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 
 
                             <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
@@ -44,8 +40,9 @@
 
                             <ion-item   class="item-text-wrap  pegar" ng-click="verEncuentro(predLiga)" ng-repeat="predLiga in val"   >
                                 <div class="row row-center"  >
-                                    <div class="col col-20 text-center">  {{predLiga.hora}}              </div>
-                                    <div class="col col-60 ">  {{predLiga.encuentro}}         </div>
+                                    <div class="col col-20 text-center">  <b>{{predLiga.hora}}   </b>           </div>
+                                    <div class="col col-60 item-pred "> <b> <span ng-bind-html="predLiga.encuentro | addBall "></span></b> </div>
+                                  <!--  <div class="col col-60 ">  {{predLiga.encuentro}}         </div>-->
                                     <div class="col text-center" >   <b>{{predLiga.prediccion}} </b>  </div>
                                 </div>
                             </ion-item>
@@ -53,6 +50,7 @@
                     </div>
 
             </div>
+
         </ion-list>
 
 

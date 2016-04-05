@@ -62,6 +62,7 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
     $scope.selection[0] = detailMatch.equipo1;
     $scope.selection[1] = detailMatch.equipo2;
     $scope.algodesc= detailMatch.algodesc;
+    $scope.prediccion= detailMatch.prediccion;
     var ligaSelected = detailMatch.liga;
     $scope.ligaSelected= ligaSelected;
 

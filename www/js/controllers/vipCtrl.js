@@ -83,6 +83,7 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
         detailMatch.equipo1 = equipo1;
         detailMatch.equipo2 = equipo2;
         detailMatch.liga = ligaparsed;
+        detailMatch.prediccion = item.prediccion;
           detailMatch.from = 'tabs.vip';
         if (liga.indexOf('singles') > -1){
             detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]);

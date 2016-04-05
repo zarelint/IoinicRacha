@@ -3,7 +3,7 @@ app.controller('AppCtrl', function(
     $scope,
     $ionicModal,
     googleLogin,
-    timeStorage,$cordovaAppRate
+    timeStorage,$translate,$ionicPopup
     ) {
 
     // Create the login modal that we will use later
@@ -87,15 +87,41 @@ app.controller('AppCtrl', function(
     $scope.rateOurApp = function(){
   /*      $cordovaAppRate.navigateToAppStore().then(function (result) {
         });
-        */
+
         $cordovaAppRate.promptForRating(true).then(function (result) {
                 // success
         });
+        */
+        // A confirm dialog
+        $scope.showConfirm = function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: $translate.instant('Apoyanos'),
+                template: $translate.instant('Apoyanos-2')
+            });
 
+            confirmPopup.then(function(res) {
+                if(res) {
+                    window.open('https://play.google.com/store/apps/details?id=com.masteralb.bod', '_system')
+                }
+            });
+        };
+        $scope.showConfirm();
+/*        $ionicPopup.confirm({
+            title: "Rate this app",
+            template: "Apoyanos enviandonos tus comentarios y estrellas"
+        });
+        confirmPopup.then(function(res) {
+            if(res) {
+                console.log('You are sure');
+            } else {
+                console.log('You are not sure');
+            }
+        });*/
+        //window.open('https://play.google.com/store/apps/details?id=com.masteralb.bod', '_system');
     };
 
     $scope.contactUs = function(){
-        window.open('mailto:'+social_config.email+'?subject=Contacting from App (bod)', '_system');
+        window.open('mailto:'+social_config.email+'?subject=Contacting from Visual Betting', '_system');
     }
 
 
