@@ -1,82 +1,100 @@
-<div class="adic-modal">
+<ion-modal-view>
 
-    <ion-modal-view class="adic-popup">
+        <header class="bar bar-header bar-dark">
+            <h1 class="title">{{ 'Ayuda' | translate }}</h1>
+        </header>
 
+        <ion-content class="has-header">
 
-        <div class="cardx">
-            <div class="row row-center pegar">
-                <div class="col col-10"></div>
-                <div class="row-tam2">
-                    <div class="victoria">
-                        &nbsp&nbsp
+            <div class="card">
+                <div class="item item-divider text-center ">
+                    <b>{{ 'Partidos' | translate }}</b>
+                </div>
+                <div class="row row-center pegar">
+                    <div class="col col-10"></div>
+                    <div class="row-tam3">
+                        <div class="victoria">
+                            &nbsp&nbsp
+                        </div>
                     </div>
+                    <div class="col ">{{ 'Victoria' | translate }}</div>
+                    <div class="col ">{{ 'Igualdad' | translate }}</div>
+                    <div class="col col-20 col-center text-success">-10...10</div>
+                    <div class="col col-10"></div>
                 </div>
-                <div class="col ">{{ 'Victoria' | translate }}</div>
-                <div class="col ">{{ 'Igualdad' | translate }}</div><div class="col col-20 col-center">-10...10
-            </div>
-                <div class="col col-10"></div>
-            </div>
-            <div class="row row-center pegar">
-                <div class="col col-10"></div>
-                <div class="row-tam2">
-                    <div class="empate">
-                        &nbsp&nbsp
+                <div class="row row-center pegar">
+                    <div class="col col-10"></div>
+                    <div class="row-tam3">
+                        <div class="empate">
+                            &nbsp&nbsp
+                        </div>
                     </div>
-                </div>
-                <div class="col ">{{ 'Empate' | translate }}</div>
+                    <div class="col ">{{ 'Empate' | translate }}</div>
 
-                <div class="col ">{{ 'A favor' | translate }}</div><div class="col col-20 col-center">[+]</div>
-                <div class="col col-10"></div>
-            </div>
-            <div class="row row-center pegar">
-                <div class="col col-10"></div>
-                <div class="row-tam2">
-                    <div class="derrota">
-                        &nbsp&nbsp
+                    <div class="col ">{{ 'A favor' | translate }}</div><div class="col col-20 col-center">[+]</div>
+                    <div class="col col-10"></div>
+                </div>
+                <div class="row row-center pegar">
+                    <div class="col col-10"></div>
+                    <div class="row-tam3">
+                        <div class="derrota">
+                            &nbsp&nbsp
+                        </div>
                     </div>
-                </div>
-                <div class="col">{{ 'Derrota' | translate }}</div>
+                    <div class="col">{{ 'Derrota' | translate }}</div>
 
-                <div class="col">{{ 'En contra' | translate }}</div><div class="col col-20 col-center">[-]</div>
-                <div class="col col-10"></div>
+                    <div class="col">{{ 'En contra' | translate }}</div><div class="col col-20 col-center">[-]</div>
+                    <div class="col col-10"></div>
+                </div>
             </div>
-                 <div class="col"></div>
-
-                <div class="col text-center "><b>Ejemplos </b>
-
+            <div class="card">
+                <div class="item item-divider text-center ">
+                    <b> {{ 'Ejemplos' | translate }}</b>
                 </div>
 
-                <div id="list">
+
+                <div class="listaInfo">
                     <ul>
-                        <li>{{ 'Partido muy igualado' | translate }}</li>
-
-
+                        <li>{{ 'Partido igualado' | translate }}: Madrid-Barza</li>
                         <div class="row pegar">
-                            <div class="col text-center">Madrid-Barça = 0</div>
+                            <div class="col col-10"></div>
+                            <div class="col ">Madrid = <span style="color:red; font-weight: bold;">0</span> </div>
+                            <div class="col ">Barça  =  <span style="color:red; font-weight: bold;">0</span> </div>
                         </div>
 
-
-
-                        <li>{{ 'Partido muy desigual' | translate }}: España-Malta</li>
+                        <li>{{ 'Partido desigual' | translate }}:</span> España-Malta</li>
                         <div class="row pegar">
-                            <div class="col">España =  10</div>
-                            <div class="col">Malta  = -10</div>
+                            <div class="col col-10"></div>
+                            <div class="col ">España =  <span style="color:red; font-weight: bold;">10</span> </div>
+                            <div class="col ">Malta  =  <span style="color:red; font-weight: bold;">-10</span> </div>
                         </div>
 
                     </ul>
                 </div>
 
-              <div class="col"> Filtros</div>
-            <div class="col"> Resultados emocionales: cambia el color en base a lo esperado por el equipo, </div>
-            <div class="col"> HCP: solo deja los partidos de igualdad igual o menor a la estimada, </div>
+            </div>
+            <div class="card">
+                <div class="item item-divider text-center ">
+                    <b>{{ 'Filtros' | translate }}</b>
+                </div>
 
+                <div class="listaInfo">
+                    <ul>
+                        <li>{{ 'Resultados Emocionales' | translate }}</li>
+                        <div class="col">{{ 'emot-text' | translate }}</div>
 
+                        <li>{{ 'Partidos similares' | translate }}</li>
+                        <div class="col">{{ 'simil-text' | translate }} </div>
+                    </ul>
+                </div>
+            </div>
 
-        </div>
+        </ion-content>
+        <ion-footer-bar class="bar-dark" ng-click="closeModal()">
+            <h1 class="title">{{ 'Cerrar' | translate }}</h1>
+        </ion-footer-bar>
 
-
-    </ion-modal-view>
-</div>
+</ion-modal-view>
 
 
 

@@ -2,15 +2,15 @@
 
 var social_config = {
     url:         'https://play.google.com/store/apps/details?id=com.masteralb.bod',
-    title:       'Bet of the Day',
-    description: 'Bet of the Day , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries. http://bit.ly/betofftheday',
+    title:       'Visual Betting',
+    description: 'Visual Betting , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries. http://bit.ly/betofftheday',
     image:       '',
-    email:       'bod@masteralb.com'
+    email:       'vb@gmail.com'
 };
 
 
 var app=angular.module('app',
-    ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate', 'ngCordova'])
+    ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .run(function($ionicPlatform,$translate) {
 
  /*
@@ -19,14 +19,6 @@ var app=angular.module('app',
                 $translate.fallbackLanguage($translate.use().split('_')[0]);
             }
         };
-
-          $rootScope.$on( 'loading:show', function() {
-          $ionicLoading.show()
-          })
-
-          $rootScope.$on( 'loading:hide', function() {
-          $ionicLoading.hide()
-          })
 
 
 */
@@ -45,7 +37,7 @@ var app=angular.module('app',
                   });
               }, null);
           }
-          $translate.use("en");
+          $translate.use("es");
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -66,13 +58,10 @@ var app=angular.module('app',
           }*/
 
           if(window.Connection) {
-
               if(navigator.connection.type == Connection.NONE) {
-
                   $ionicPopup.confirm({
                           title: "Internet Disconnected"
                       })
-
                       .then(function(result) {
                           if(!result) {
                               ionic.Platform.exitApp();
@@ -104,27 +93,7 @@ var app=angular.module('app',
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     })
-    .config(function($cordovaAppRateProvider) {
-        document.addEventListener("deviceready", function () {
 
-            var popupInfo = {};
-            popupInfo.title = "Rate YOUR APPTITLE";
-            popupInfo.message = "You like YOUR APPTITLE2? We would be glad if you share your experience with others. Thanks for your support!";
-            popupInfo.cancelButtonLabel = "No, thanks";
-            popupInfo.laterButtonLabel = "Remind Me Later";
-            popupInfo.rateButtonLabel = "Rate Now";
-            AppRate.preferences.customLocale = popupInfo;
-
-            var prefs = {
-                language: 'en',
-                appName: 'Bet of the day',
-                //iosURL: '<my_app_id>',
-                androidURL: 'market://details?id=com.masteralb.bod'
-            };
-
-            $cordovaAppRateProvider.setPreferences(prefs);
-       }, false);
-    })
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
 
@@ -159,6 +128,7 @@ var app=angular.module('app',
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
+
         //añadir el idtoken en todas las request
         $httpProvider.interceptors.push('TokenInterceptor');
 
@@ -235,17 +205,9 @@ var app=angular.module('app',
                 cache: false
             });
 
-
-        //Pagina por defecto si no hay match
-
+        //Pagina por defecto
       $urlRouterProvider.otherwise('/tab/historial');
 
-/*        $urlRouterProvider.otherwise(function($injector, $location){
-            var state = $injector.get('$state');
-            state.go("tabs.primera", $location.search()); // here we get { query: ... }
-            console.log($location.path());
-            return $location.path();
-        });*/
 
     }).directive('dividerCollectionRepeat', function($parse) {
         return {
@@ -285,7 +247,8 @@ app.filter('groupBy', function ($timeout) {
 });
 
 app.constant('$ionicLoadingConfig', {
-    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'
+    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>',
+    duration:10000
 });
 
 var has = function has(obj, key) {

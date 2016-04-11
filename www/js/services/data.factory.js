@@ -17,7 +17,7 @@ app.factory('detailMatch', function() {
 
 
 
-app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
+app.factory('LigaService', function(myconf,$http, $log, $q,$translate,$timeout ) {
 
     var racha = {};
     var items = [];
@@ -36,7 +36,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
 
             //Si no esta guardado haz llamada
             if (racha[liga] === undefined && window.localStorage.getItem(liga) == null ) {
-                $http.get(myconf.url+'/ligas/'+liga)
+                $http.get(myconf.url+'/ligas/'+liga, { timeout: deferred.promise })
                     .success(function (data) {
                         racha[liga] = data;
                         racha[liga].calendarioFiltered =      angular.copy(racha[liga].calendario) ;
@@ -73,7 +73,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
         },
         getAlgo: function getDescAlgo(myParam) {
             var rangoJornadas =myParam[1][Object.keys(myParam[1])[0]].rangoJornadas;
-console.log (rangoJornadas);
+
             var texto_jornadas='';
             if (rangoJornadas=== undefined){
                 rangoJornadas = '';

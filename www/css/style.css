@@ -20,7 +20,10 @@
 .row-tam2{
     line-height: 15px;
     padding: 0;
-
+}
+.row-tam3{
+    line-height: 10px;
+    padding: 0;
 }
 .item{
     height: 100%;
@@ -41,12 +44,19 @@
  .bh{
     background-color: #444;
 }
-#list {
+
+ .bordeinfo{
+     border-radius: 20%;
+     box-shadow: #B3B3B3 19px 19px 19px;
+
+ }
+
+.listaInfo {
     width: 85%;
     margin-left: 25px;
 }
 
-#list ul li {
+.listaInfo ul li {
     text-align: left;
     list-style: disc;
     margin: 5px 0;
@@ -190,9 +200,11 @@ body {
 }
 
 /*Change all background color */
+/*
 *.scroll-content{
     background-color:#444;
 }
+*/
 
 /* Change side menu color to dark*/
 .menu-items{
@@ -285,11 +297,11 @@ body {
 
 }*/
 
-/*
+
 .pane, .view {
     background-color: #444;
 }
-*/
+
 
 
 .item-select.item-grey select {

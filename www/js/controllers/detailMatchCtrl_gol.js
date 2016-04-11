@@ -202,15 +202,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
 
 
-    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
-        scope: $scope,
-        animation: 'slide-in-up',
-        cerrar: function(){
-            $scope.compareDialog.hide();
-        }
-    }).then(function(modal) {
-        $scope.compareDialog = modal;
-    });
 
     $scope.coloreacelda = function coloreacelda(valor,fromFilter) {
 
@@ -427,7 +418,26 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
     };
 
-
-
+    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
+        scope: $scope,
+        animation: 'slide-in-up'//,
+/*        cerrar: function(){
+            $scope.infoDialog.hide();
+        }*/
+    }).then(function(modal) {
+        console.log('crear dialogo...');
+        $scope.infoDialog = modal;
+    });
+    $scope.openModal = function() {
+        $scope.infoDialog.show();
+    };
+    $scope.closeModal = function() {
+        $scope.infoDialog.hide();
+    };
+//Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+        console.log('cerrar dialogo...');
+        $scope.infoDialog.remove();
+    });
 
 });

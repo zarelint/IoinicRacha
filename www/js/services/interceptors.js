@@ -11,6 +11,8 @@ app.factory('TokenInterceptor',
     return {
       request: function(config) {
         $injector.get('$ionicLoading').show();
+
+
         // Handle adding the id_token for prediccionVip api requests
         if (config.url.indexOf('prediccionVip') !== -1) {
           config.params = config.params || {};

@@ -20,14 +20,22 @@
   "Victoria":                 "Victory",
   "Empate":                   "Draw",
   "Derrota":                  "Defeat",
-  "Rango igualdad":           "Equality range",
-  "A favor":                  "odds in favor",
-  "En contra":                "odds against",
+  "Igualdad":                 "Equality range",
+  "A favor":                  "Odds in favor",
+  "En contra":                "Odds against",
   "Pendiente":                "Not Played",
-  "Partido muy igualado":     "Close Game, average of goals scored equal",
-  "Partido muy desigual":     "Match very uneven",
+  "Partido igualado":         "A Close Game",
+  "Partido desigual":         "A unequal match",
   "Apoyanos":                 "Rate us",
   "Apoyanos-2":               "We need your support, click OK, and send good comments, thank you very much!",
   "usando resultados de":     "Using resuts from ",
-  "partidos":                 "matches"
+  "partidos":                 "matches",
+  "Ejemplos": "Examples equality coef",
+  "Filtros": "Filters",
+  "emot-text": "Change the color better or worse according to the expectations that had the team",
+  "simil-text": "Matches with equal or less equal coef",
+  "Cerrar": "Close",
+  "Ayuda":"Help",
+  "Partidos":"Matches"
+
 }

@@ -26,6 +26,8 @@ app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,Hist
         $scope.ratesLigas1 =   items.ratesLigas1;
     });
 
+
+
     var ligaSelected;
 
     LigaService.getListaLigas(false).then(function(items){
