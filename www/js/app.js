@@ -3,11 +3,10 @@
 var social_config = {
     url:         'https://play.google.com/store/apps/details?id=com.masteralb.bod',
     title:       'Visual Betting',
-    description: 'Visual Betting , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries. http://bit.ly/betofftheday',
+    description: 'Visual Betting , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries.',
     image:       '',
-    email:       'vb@gmail.com'
+    email:       'visualbetting@gmail.com'
 };
-
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
@@ -19,43 +18,31 @@ var app=angular.module('app',
                 $translate.fallbackLanguage($translate.use().split('_')[0]);
             }
         };
-
-
 */
 
-
-      $ionicPlatform.ready(function() {
+        $ionicPlatform.ready(function() {
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
 
           if(typeof navigator.globalization !== "undefined") {
               navigator.globalization.getPreferredLanguage(function(language) {
                   $translate.use((language.value).split("-")[0]).then(function(data) {
-                      console.log("SUCCESS -> " + data);
+                     // console.log("SUCCESS Language-> " + data);
+                      moment.locale($translate.proposedLanguage());
                   }, function(error) {
-                      console.log("ERROR -> " + error);
+                      //console.log("ERROR -> " + error);
                   });
               }, null);
           }
-          $translate.use("es");
+
+            //$translate.use("es");
+            moment.locale($translate.proposedLanguage());
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
-
             if(window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
- /*           if(window.StatusBar) {
-              // org.apache.cordova.statusbar required
-              StatusBar.styleDefault();
-            }
-          if (window.StatusBar) {
-              if (ionic.Platform.isAndroid()) {
-                  StatusBar.backgroundColorByHexString("#009688");
-              } else {
-                  StatusBar.styleLightContent();
-              }
-          }*/
 
           if(window.Connection) {
               if(navigator.connection.type == Connection.NONE) {
@@ -69,6 +56,7 @@ var app=angular.module('app',
                       });
               }
           }
+
           var ad_units = {
               android : {
                   banner : "221288",
@@ -96,24 +84,21 @@ var app=angular.module('app',
 
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
-
         $translateProvider
             .useStaticFilesLoader({
                 prefix: 'locales/',
                 suffix: '.json'
             })
-            .registerAvailableLanguageKeys(['en', 'de','es'], {
+            .registerAvailableLanguageKeys(['en','de','fr','it','es'], {
                 'en' : 'en', 'en_GB': 'en', 'en_US': 'en',
                 'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
+                'fr' : 'fr', 'fr-CA': 'fr', 'fr-FR': 'fr',
+                'it' : 'it', 'it-CH': 'it', 'it-IT': 'it',
                 'es' : 'es',
                 '*': 'en'
             })
-           // .preferredLanguage('en')
             .determinePreferredLanguage().fallbackLanguage('en')
             .useSanitizeValueStrategy('escapeParameters');
-
-
-
 
     })
     .config(function($ionicConfigProvider) {
@@ -122,9 +107,9 @@ var app=angular.module('app',
         // Use native scrolling on Android
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
-         // "url": "https://rachanode-jvillajos.c9users.io"
-        // "url": "http://localhost:8080"
-         "url": "http://nodejs-rachas.rhcloud.com"
+        //  "url": "https://rachanode-jvillajos.c9users.io"
+        //"url": "http://localhost:8080"
+        "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
@@ -247,8 +232,8 @@ app.filter('groupBy', function ($timeout) {
 });
 
 app.constant('$ionicLoadingConfig', {
-    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>',
-    duration:10000
+    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'
+    //,duration:10000
 });
 
 var has = function has(obj, key) {
@@ -315,7 +300,7 @@ app.filter('groupByDayMonthYear2', function() {
 
         var output = [], currentDate;
         for (var i = 0, ii = input.length; i < ii && (item = input[i]); i++) {
-            currentDate = moment(item.fecha).format('DD MMM YY');
+            currentDate = moment(item.fecha,'YYYY MM DD').format('DD MMM YYYY');
             if (!asociame[currentDate]) {
                 asociame[currentDate] = {};
             }
@@ -328,8 +313,8 @@ app.filter('groupByDayMonthYear2', function() {
 
         var fechaKeys =  Object.keys(asociame);
         fechaKeys.sort(function (item1, item2) {
-            var date1 = new Date(item1);
-            var date2 = new Date(item2);
+            var date1  =moment(item1, 'DD MMM YYYY').toDate();
+            var date2  =moment(item2, 'DD MMM YYYY').toDate();
             if (date1 < date2)
                 return 1;
             if (date1 > date2)
@@ -353,7 +338,8 @@ app.filter('groupByDayMonthYear2', function() {
                     tipo:asociame[fecha][liga][0].tipo,
                     liga:asociame[fecha][liga][0].liga,
                     rate:asociame[fecha][liga][0].rate,
-                    jornada: asociame[fecha][liga][0].jornada
+                    jornada: asociame[fecha][liga][0].jornada,
+                    flag_id: asociame[fecha][liga][0].flag_id
                 });
 
                 for (var index in asociame[fecha][liga]) {

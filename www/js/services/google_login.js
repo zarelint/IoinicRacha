@@ -47,28 +47,20 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
         }
         return $localStorage[key];
     };
-    timeStorage.firstTime = function () {
-        if (timeStorage.get('google_id_token') === undefined){
-            return true;
-        }else{
-            return false;
-        }
-    };
+
 
     return timeStorage;
 }]);
 
-
 app.factory('googleLogin', [
-    '$http', '$q', '$interval', '$log', 'timeStorage','$localStorage','authService','SocialAuth','$ionicPlatform',
-
-    function ($http, $q, $interval, $log, timeStorage,$localStorage,authService,SocialAuth,$ionicPlatform) {
+             '$http','$q', '$interval', '$log', 'timeStorage','$localStorage','authService',
+    function ($http, $q,      $interval, $log,   timeStorage,  $localStorage,  authService) {
         // Initialize params
         var service = {};
         service.access_token = false;
         service.redirect_url = 'http://localhost:63342';
-        service.client_id = '321359984550-s52im7bos3b1oo3567am4kt68dqm5ol1.apps.googleusercontent.com';
-        service.secret = 'Rf_oATAMznD9yv5EinO8-bIO';
+        service.client_id = '321359984550-m7cla0a172vi4t0ub7qg6qgfimg04pqp.apps.googleusercontent.com';
+        service.secret = 'JysHsCm7a9O-luWR_aKUNExg';
         service.scopes = 'https://www.googleapis.com/auth/userinfo.email';
         // Fill config object
         var configUpdater = function(config) {
@@ -77,17 +69,12 @@ app.factory('googleLogin', [
            // config.params.id_token = timeStorage.get('google_id_token');
             return config;
         };
-        // End init params
-
-
-
         service.getAccessToken = function (def){
             //Primer acceso [ pantalla pedir permiso]
             var params = 'client_id=' + encodeURIComponent(service.client_id);
             params += '&redirect_uri=' + encodeURIComponent(service.redirect_url);
             params += '&response_type=code';
             params += '&access_type=offline';
-            //params += '&prompt=consent';
             params += '&scope=' + encodeURIComponent(service.scopes);
             var authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
 
@@ -138,63 +125,9 @@ app.factory('googleLogin', [
             }
 
         };
-
         service.gulp = function (url, name) {
             url = url.substring(url.indexOf('?') + 1, url.length);
             return url.replace('code=', '').replace('#','');
-        };
-
-        /**
-         * @param {string} options.client_id    A token that may be used to obtain a new access token.
-         * @param {string} options.redirect_uri      The remaining lifetime of the access token.
-         * @param {string} options.scopes      The remaining lifetime of the access token.
-         */
-        service.authorize = function (options) {
-            var def = $q.defer();
-            var self = this;
-            var access_token = timeStorage.get('google_access_token');
-
-            if (access_token) {
-                $log.info('Direct Access Token :' + access_token);
-                authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
-                //service.getUserInfo(access_token, def);
-            }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
-                console.log("usando refresh token");
-                service.refresh_token($localStorage.refresh_token, def);
-            }else {
-               // service.getAccessToken(def);
-                $ionicPlatform.ready(function() {
-                    SocialAuth.isGooglePlusAvailable()
-                        .then(function (available) {
-
-                            console.log("google plus availability is: " + available);
-                            if (available) {
-
-                                var promise = SocialAuth.googlePlusLogin();
-                                promise.success(function (msg) {
-                                    // console.log('esto: '+msg.oauthToken);
-                                    //console.log("login success deberia estar aqui"+JSON.stringify(msg));
-                                    timeStorage.set('google_access_token', msg.oauthToken, 1);
-                                    // console.log('timeStorage: '+timeStorage.get('google_access_token'));
-                                    authService.loginConfirmed(null, configUpdater); //copy token into headers
-
-                                });
-                                promise.error(function (err) {
-                                    console.log("silent login failed: " + err);
-                                    console.log("trying access token by Auth...");
-                                    service.getAccessToken(def);
-                                });
-                            }
-
-                        }, function (reason) {
-                            //get token via Auth2
-                            console.log("g+ no disponible try Auth2");
-                            service.getAccessToken(def);
-                        });
-                });
-
-            }
-            return def.promise;
         };
 
         //Get new access_token  using a refresh_token ( no user ask)
@@ -247,7 +180,6 @@ app.factory('googleLogin', [
                     client_secret: this.secret,
                     redirect_uri: this.redirect_url,
                     grant_type: 'authorization_code'
-                    //, scope: ''
                 }
             });
             var context = this;
@@ -257,7 +189,7 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
-                $log.debug(data);
+                $log.info(data);
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
@@ -276,7 +208,6 @@ app.factory('googleLogin', [
                 }
             });
         };
-
         service.getUserInfo = function (access_token, def) {
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -300,7 +231,40 @@ app.factory('googleLogin', [
             });
         };
 
+        /**
+         * @param {string} options.client_id    A token that may be used to obtain a new access token.
+         * @param {string} options.redirect_uri      The remaining lifetime of the access token.
+         * @param {string} options.scopes      The remaining lifetime of the access token.
+         */
+        service.authorize = function (options) {
+            var def = $q.defer();
+            var self = this;
+            var access_token = timeStorage.get('google_access_token');
 
+            if (access_token) {
+                $log.info('Direct Access Token :' + access_token);
+                authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
+                //service.getUserInfo(access_token, def);
+            }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
+                console.log("usando refresh token");
+                service.refresh_token($localStorage.refresh_token, def);
+            }else {
+                if(typeof navigator.globalization !== "undefined") { //movil
+                    var promise = service.googlePlusLogin();
+                    promise.success(function (msg) {
+                        service.validateToken(msg.serverAuthCode, def);
+                    });
+                    promise.error(function (err) {
+                        //console.log("Google plus login failed: " + err);
+                        service.getAccessToken(def);
+                    });
+                }else{
+                    service.getAccessToken(def);
+                }
+
+            }
+            return def.promise;
+        };
 
         service.startLogin = function () {
             var def = $q.defer();
@@ -320,11 +284,6 @@ app.factory('googleLogin', [
         };
 
 
-        service.loginCancelled = function() {
-            // Let the authService know that login was cancelled so that the http buffer will be cleared.
-            authService.loginCancelled();
-        };
-
         service.logout = function() {
             var promise = ionic.Platform.isWebView() ? $http.post(LOGOUT_URL) : $http.jsonp(LOGOUT_URL);
             promise.error(function (data, status) {
@@ -339,12 +298,69 @@ app.factory('googleLogin', [
             return promise;
         };
 
-
-
         service.isLoggedIn = function() {
             return !!timeStorage.get('google_access_token');
         };
 
+        /**
+         * @brief Static method that attempts to log-in using Google+ auth API.
+         * This method returns a promise with success/error callbacks.
+         *
+         * @returns obj The success callback gets a JSON object with the following contents g.e.
+         *  obj.email        // 'eddyverbruggen@gmail.com'
+         *  obj.userId       // user id
+         *  obj.displayName  // 'Eddy Verbruggen'
+         *  obj.gender       // 'male' (other options are 'female' and 'unknown'
+         *  obj.imageUrl     // 'http://link-to-my-profilepic.google.com'
+         *  obj.givenName    // 'Eddy'
+         *  obj.middleName   // null (or undefined, depending on the platform)
+         *  obj.familyName   // 'Verbruggen'
+         *  obj.birthday     // '1977-04-22'
+         *  obj.ageRangeMin  // 21 (or null or undefined or a different number)
+         *  obj.ageRangeMax  // null (or undefined or a number)
+         *  obj.idToken
+         *  obj.oauthToken
+         */
+        service.googlePlusLogin = function() {
+            var deferred = $q.defer();
+            window.plugins.googleplus.login(
+                {
+                    'offline': true//,
+                    //'iOSApiKey': 'my_iOS_API_KEY_if_I_have_one',//,//,
+                    //'scope' : 'https://www.googleapis.com/auth/userinfo.email',
+                    , 'webClientId': '321359984550-m7cla0a172vi4t0ub7qg6qgfimg04pqp.apps.googleusercontent.com'
+                },
+                function (obj) {
+                    //console.log(JSON.stringify(obj));
+                    deferred.resolve(obj);
+                },
+                function (err) {
+                    console.log(JSON.stringify(err));
+                    deferred.reject(err);
+                }
+            );
+            //}
+
+            //get the promise object
+            var promise = deferred.promise;
+
+            //add success callback to the promise, and associate it with the RESOLVE call
+            promise.success = function(fn) {
+                return promise.then(function(response) {
+                    fn(response);
+                })
+            };
+
+            //add error callback to the promise, and associate it with the REJECT call
+            promise.error = function(fn) {
+                return promise.then(null, function(response) {
+                    fn(response);
+                })
+            };
+
+            //return the promise object
+            return promise;
+        };
 
         return service;
     }

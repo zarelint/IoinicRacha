@@ -51,6 +51,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate,$timeout )
                         racha[liga].golFueraRateFiltered =  angular.copy(racha[liga].golFueraRate);
                         racha[liga].golRateFiltered =       angular.copy(racha[liga].golRate);
 
+
                        window.localStorage.setItem(liga, JSON.stringify(racha[liga]));
 
                         // $localStorage[liga]= JSON.stringify(racha);
@@ -144,13 +145,21 @@ app.factory('VipService', function($http,myconf,$q){
         getdata: function getdata(pullRefresh){
             var deferred = $q.defer();
             if(pullRefresh == false  && window.localStorage.getItem("prediccionVIP") !== null  ) {
-
                 items = JSON.parse(window.localStorage.getItem("prediccionVIP"));
+
+                for (var dateIndex in items.pred){
+                    items.pred[moment(dateIndex,'YYYY MM DD').format('DD MMM dddd')]=items.pred[dateIndex];
+                    delete items.pred[dateIndex];
+                }
                 deferred.resolve(items);
             }else{ //pull
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;
+                    for (var dateIndex in items.pred){
+                        items.pred[moment(dateIndex,'YYYY MM DD').format('DD MMM dddd')]=items.pred[dateIndex];
+                        delete items.pred[dateIndex];
+                    }
                     deferred.resolve(items);
                 });
             }

@@ -3,9 +3,25 @@ app.controller('AppCtrl', function(
     $scope,
     $ionicModal,
     googleLogin,
-    timeStorage,$translate,$ionicPopup
+    authService,
+    timeStorage,
+    $translate,
+    $ionicPopup
     ) {
 
+    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
+        scope: $rootScope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        console.log('crear dialogo...');
+        $rootScope.infoDialog = modal;
+    });
+    $rootScope.openModal = function() {
+        $rootScope.infoDialog.show();
+    };
+    $rootScope.closeModal = function() {
+        $rootScope.infoDialog.hide();
+    };
 
 
     //Rate dialog
@@ -14,7 +30,6 @@ app.controller('AppCtrl', function(
             title: $translate.instant('Apoyanos'),
             template: $translate.instant('Apoyanos-2')
         });
-
         confirmPopup.then(function(res) {
             if(res) {
                 window.open('https://play.google.com/store/apps/details?id=com.masteralb.bod', '_system')
@@ -30,9 +45,11 @@ app.controller('AppCtrl', function(
         $scope.loginModal = modal;
     });
 
+
+
     // Triggered in the login modal to close it
     $scope.closeLogin = function() {
-      //  InstagramService.loginCancelled();
+      authService.loginCancelled();
         $scope.loginModal.hide();
     };
 
@@ -41,37 +58,29 @@ app.controller('AppCtrl', function(
         $scope.loginModal.remove();
     });
 
-    // Determine if the user is logged into Instagram
-    $scope.isLoggedIn = function() {
-    //    return InstagramService.isLoggedIn();
-    };
+
 
     // Open the login modal
     $scope.login = function() {
         $scope.loginModal.show();
     };
 
-    // Perform the logout action when the user invokes the logout link
-    $scope.logout = function() {
-       // InstagramService.logout();
-    };
-
 
     // Perform the OAuth login to GmailService
-    $scope.loginToInstagram = function() {
+    $scope.loginToGoogle = function() {
         $scope.loginModal.hide();
         googleLogin.startLogin();
-        // SocialAuth.login();
+
     };
 
     // Handle the login required event raised by the authService
     $scope.$on('event:auth-loginRequired', function() {
-        console.log('handling event:auth-loginRequired  ...');
+        console.log('AppCtrl: handling event:auth-loginRequired  ...');
+
         //La primera vez mostramos un modal con explicaciones
-        if ( timeStorage.firstTime() ){
-            $scope.loginModal.show();
+        if ( !timeStorage.get('google_id_token') ){
+          $scope.loginModal.show();
         }else{
-            //$scope.loginModal.show();
            googleLogin.startLogin();
         }
 

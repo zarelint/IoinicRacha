@@ -1,7 +1,10 @@
 'use strict';
 
-app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
+    $scope.filtrarDate = function(fecha) {
+        return moment(fecha,'DD MMM DDDD').isAfter(moment().subtract(1,'days'),'day');
+    };
 
     //Tener un servidor propio permiter usar datos procesados y actualizados
     $scope.doRefresh = function () {
@@ -13,15 +16,17 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
             $scope.ratesLigasX =  items.ratesLigasX;
             $scope.ratesLigas1 =  items.ratesLigas1;
             var keys = Object.keys(items.pred);
+
             keys.sort(function (item1, item2) {
-                var date1 = new Date(item1);
-                var date2 = new Date(item2);
+                var date1  =moment(item1, 'DD MMM dddd').toDate();
+                var date2  =moment(item2, 'DD MMM dddd').toDate();
                 if (date1 < date2)
                     return -1;
                 if (date1 > date2)
                     return 1;
                 return 0;
             });
+
             $scope.listaFechas = keys;
         });
 
@@ -37,15 +42,19 @@ app.controller('vipCtrl', function (googleLogin,$ionicModal,VipService, myconf,L
         $scope.ratesLigasX =  items.ratesLigasX;
         $scope.ratesLigas1 =  items.ratesLigas1;
         var keys = Object.keys(items.pred);
+
         keys.sort(function (item1, item2) {
-            var date1 = new Date(item1);
-            var date2 = new Date(item2);
+            var date1  =moment(item1, 'DD MMM dddd').toDate();
+            var date2  =moment(item2, 'DD MMM dddd').toDate();
+/*          var date1 = new Date(item1);
+            var date2 = new Date(item2);*/
             if (date1 < date2)
                 return -1;
             if (date1 > date2)
                 return 1;
             return 0;
         });
+
         $scope.listaFechas = keys;
     });
     /*

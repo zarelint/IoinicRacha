@@ -24,7 +24,19 @@
   "A favor": "En faveur",
   "En contra": "Contre",
   "Pendiente": "En attente",
-  "Partido muy igualado": "Parti très aligné, moyenne de Goles égales",
-  "Partido muy desigual": "Parti très inégale"
-
+  "Partido igualado": "Parti très aligné",
+  "Partido desigual": "Parti très inégale",
+  "Apoyanos": "Soutenez-nous",
+  "Apoyanos-2":"Nous avons besoin de votre soutien , cliquez sur OK , et envoyer de bons commentaires , je vous remercie beaucoup!",
+  "usando resultados de":     "en utilisant les résultats ",
+  "Partidos":                 "allumettes",
+  "Ejemplos": "Exemples d' égalité ",
+  "Filtros": "Filters",
+  "emot-text": "Changer la couleur meilleure ou pire selon les attentes qui avaient l'équipe",
+  "simil-text": "Matches avec coef égale ou moins égale",
+  "Cerrar": "Fermer",
+  "Ayuda":"aider",
+  "Reglas de oro": "Reglas de oro",
+  "No usar dobles":"Nunca jamas hacer apuestas multiples o combinadas",
+  "Apostar 30":"En una apuesta nunca jamas usar mas del 30% del presupuesto o de lo ganado anteriormente"
 }

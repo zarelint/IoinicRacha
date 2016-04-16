@@ -7,7 +7,7 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
 
     $scope.loading=true;
 
@@ -45,7 +45,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
     $scope.back = detailMatch.from;
 
 
-
     // inicializar controles
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
@@ -56,7 +55,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
     $scope.filtroAnimo={};
     $scope.filtroHCP={};
     $scope.selection=[];
-
 
     //Selecionar Equipos
     $scope.selection[0] = detailMatch.equipo1;
@@ -98,7 +96,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
             cont++;
         }
     };
-
 
     var corteJornadaEquipoFiltradoFuera  = function corteJornadaEquipoFiltrado(equipo,jornada) {
 
@@ -176,8 +173,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
     };
 
-
-
     // Cargar datos Liga si es que fuese necesario
     LigaService.getliga(ligaSelected).then(function(data) {
         $scope.racha = data;
@@ -199,8 +194,6 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
         $scope.stateChanging = true;
         $scope.loading=false;
     });
-
-
 
 
     $scope.coloreacelda = function coloreacelda(valor,fromFilter) {
@@ -418,26 +411,5 @@ app.controller('detailMatchCtrl_gol', function (  $injector, $ionicModal,$timeou
 
     };
 
-    $ionicModal.fromTemplateUrl('templates/detail/info.html', {
-        scope: $scope,
-        animation: 'slide-in-up'//,
-/*        cerrar: function(){
-            $scope.infoDialog.hide();
-        }*/
-    }).then(function(modal) {
-        console.log('crear dialogo...');
-        $scope.infoDialog = modal;
-    });
-    $scope.openModal = function() {
-        $scope.infoDialog.show();
-    };
-    $scope.closeModal = function() {
-        $scope.infoDialog.hide();
-    };
-//Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-        console.log('cerrar dialogo...');
-        $scope.infoDialog.remove();
-    });
 
 });

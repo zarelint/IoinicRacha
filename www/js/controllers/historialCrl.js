@@ -4,7 +4,9 @@
 app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,HistoricoService, myconf, LigaService, $state, $scope,
                                           $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch,$injector) {
 
+
     $scope.doRefresh = function () {
+
         //clear all data
         LigaService.clearAll();
 
@@ -137,6 +139,10 @@ app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,Hist
                 return item.liga === $scope.data.selectedindex;
             }
         };
+
+    $scope.myFilterDate = function(item) {
+            return new Date(item.fecha) < moment().subtract(3,'days');
+    };
 
 
 

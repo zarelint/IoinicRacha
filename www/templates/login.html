@@ -1,36 +1,29 @@
-<ion-modal-view id="login">
-    <ion-header-bar class="bar-transparent">
-        <div class="buttons">
-            <button class="button button-light button-clear button-icon button-right icon ion-close" ng-click="closeLogin()"></button>
-        </div>
-    </ion-header-bar>
+<ion-view class="welcome-view" cache-view="false">
+
     <ion-content scroll="false">
-        <div class="vertical-center-container">
-            <div class="vertical-center">
-                <div class="row light-bg">
-                    <div class="col">
-                        <h3 class="text-center">Login with Instagram to</h3>
-                        <ul class="text-center">
-                            <li><i class="icon ion-heart assertive"></i> Like Posts</li>
-                            <li><i class="icon ion-images"></i> View Your Feed</li>
-                            <li><i class="icon ion-star energized"></i> View Your Liked Posts</li>
-                        </ul>
-                        <button class="button button-block button-positive button-outline icon-left ion-social-instagram-outline" ng-click="loginToInstagram()">Login with Instagram</button>
-                        <h3 class="padding">This view tries to log-in with Google+</h3>
-                        <br/>
-                        <div ng-show="showGoogleLogin"  class="padding">You're logged out. Please, log-in again</div>
-                        <button ng-show="showGoogleLogin" class="button button-assertive button-block padding" ng-click="login()">
-                            Google+ login!
-                        </button>
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <div class="top-content row">
+            <div class="app-copy col col-top">
+              <h1 class="app-logo">
+                    Visual Betting
+                    </h1>
+                <p class="app-tagline">
+                        Para acceder a las predicciones necesitas logarte con tu cuenta de google<br>
+               </p>
 
-                        <h4 class="padding" ng-hide="showGoogleLogin">Sorry, you cannot login with Google+</h4>
-                        <br/>
-
-                    </div>
-                </div>
             </div>
         </div>
+        <div class="bottom-content row">
+            <div class="col col-bottom">
+                <a class="google-sign-out button button-block" ng-click="closeLogin()">
+
+                    <span class="btn-copy"><ion-icon name="add"></ion-icon>Cerrar</span>
+                </a>
+                <a class="google-sign-in button button-block" ng-click="loginToGoogle()">
+                    <span class="btn-copy">Sign in with Google</span>
+                </a>
+            </div>
+        </div>
+
     </ion-content>
-</ion-modal-view>
+</ion-view>
 
