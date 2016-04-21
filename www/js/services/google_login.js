@@ -82,12 +82,12 @@ app.factory('googleLogin', [
             var context = this;
 
             if (ionic.Platform.isWebView()) {
-                console.log('using in app browser');
+                $log.debug('using in app browser');
                 win.addEventListener('loadstart', function (data) {
-                    console.log('load start');
+                    $log.debug('load start');
                     if (data.url.indexOf(context.redirect_url) === 0) {
-                        console.log('redirect url found ' + context.redirect_url);
-                        console.log('window url found ' + data.url);
+                        $log.debug('redirect url found ' + context.redirect_url);
+                        $log.debug('window url found ' + data.url);
                         win.close();
                         var url = data.url;
                         var access_code = context.gulp(url, 'code');
@@ -100,12 +100,12 @@ app.factory('googleLogin', [
 
                 });
             } else {
-                console.log('InAppBrowser not found11');
+                $log.debug('InAppBrowser not found');
                 var pollTimer = $interval(function () {
                     try {
-                        console.log("google window url " + win.document.URL);
+                        $log.debug("google window url " + win.document.URL);
                         if (win.document.URL.indexOf(context.redirect_url) === 0) {
-                            console.log('redirect url found');
+                            $log.debug('redirect url found');
                             win.close();
                             $interval.cancel(pollTimer);
                             pollTimer = false;
@@ -113,7 +113,7 @@ app.factory('googleLogin', [
                             $log.debug('Final URL ' + url);
                            var access_code = context.gulp(url, 'code');
                             if (access_code) {
-                                $log.info('Access Code: ' + access_code);
+                                $log.debug('Access Code: ' + access_code);
                                 context.validateToken(access_code, def);
                             } else {
                                 def.reject({error: 'Access Code Not Found'});
@@ -132,7 +132,7 @@ app.factory('googleLogin', [
 
         //Get new access_token  using a refresh_token ( no user ask)
         service.refresh_token = function (refresh_token, def) {
-            $log.info('refresh_token: ' + refresh_token);
+            $log.debug('refresh_token: ' + refresh_token);
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v4/token',
                 method: 'POST',
@@ -159,7 +159,7 @@ app.factory('googleLogin', [
                 timeStorage.set('google_access_token', access_token, expires_in);
                 timeStorage.set('google_id_token', data.data.id_token, expires_in);
                 if (access_token) {
-                    $log.info('Access Token :' + access_token);
+                    $log.debug('Access Token :' + access_token);
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
                     context.getUserInfo(access_token, def);
                 } else {
@@ -169,7 +169,7 @@ app.factory('googleLogin', [
         };
         //get an access token and refresh_token from access_code
         service.validateToken = function (token, def) {
-            $log.info('Code: ' + token);
+            $log.debug('validateToken: code: ' + token);
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v4/token',
                 method: 'POST',
@@ -189,7 +189,7 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
-                $log.info(data);
+                $log.debug(data);
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
@@ -197,7 +197,7 @@ app.factory('googleLogin', [
                 timeStorage.set('google_access_token', access_token, expires_in);
                 timeStorage.set('google_id_token', data.data.id_token, expires_in);
                 if (access_token) {
-                    $log.info('Access Token :' + access_token);
+                    $log.debug('Access Token :' + access_token);
 
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
 
@@ -242,20 +242,21 @@ app.factory('googleLogin', [
             var access_token = timeStorage.get('google_access_token');
 
             if (access_token) {
-                $log.info('Direct Access Token :' + access_token);
+                $log.debug('Direct Access Token :' + access_token);
                 authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
                 //service.getUserInfo(access_token, def);
             }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
-                console.log("usando refresh token");
+                $log.debug("usando refresh token");
                 service.refresh_token($localStorage.refresh_token, def);
             }else {
                 if(typeof navigator.globalization !== "undefined") { //movil
                     var promise = service.googlePlusLogin();
                     promise.success(function (msg) {
+                        $log.debug("Google plus plugin success: " + msg.serverAuthCode);
                         service.validateToken(msg.serverAuthCode, def);
                     });
                     promise.error(function (err) {
-                        //console.log("Google plus login failed: " + err);
+                        $log.debug("Google plus login failed: " + err);
                         service.getAccessToken(def);
                     });
                 }else{
@@ -289,7 +290,7 @@ app.factory('googleLogin', [
             promise.error(function (data, status) {
                     // expect to get a 404 error on the desktop browser due to the nature of the response from Instagram
                     // The Instagram API doesn't officially have a logout function
-                    console.log('logout returned status:' + status);
+                    $log.debug('logout returned status:' + status);
                 })
                 .finally(function() {
                     delete $localStorage.accessToken;
@@ -331,11 +332,11 @@ app.factory('googleLogin', [
                     , 'webClientId': '321359984550-m7cla0a172vi4t0ub7qg6qgfimg04pqp.apps.googleusercontent.com'
                 },
                 function (obj) {
-                    //console.log(JSON.stringify(obj));
+                    $log.debug('Respuesta google plus: ' +JSON.stringify(obj));
                     deferred.resolve(obj);
                 },
                 function (err) {
-                    console.log(JSON.stringify(err));
+                    $log.debug('codigo error plugin google plus: ' +JSON.stringify(err));
                     deferred.reject(err);
                 }
             );

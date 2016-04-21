@@ -51,7 +51,7 @@
 
 
           <ion-list >
-                            <div class="item-text-wrap" collection-repeat="item in  predicciones | filter: myFilter |filter: myFilterliga |filter:myFilterDate        | groupByDayMonthYear2"  item-height="getHeight(item)"   >
+                            <div class="item-text-wrap" collection-repeat="item in  predicciones | filter: myFilter |filter: myFilterliga |filter:myFilterDate        | groupByDayMonthYear2"  item-width="100%" item-height="getHeight(item)"   >
 
 
                                 <div ng-if="item.tipodiv == 'fecha'" class="item item-balanced text-center item-divider ng-hide" ng-show="item.isDivider" ng-bind="item.divider"></div>

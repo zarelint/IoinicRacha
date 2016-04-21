@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $http,LigaService) {
+app.controller('LigasCtrl', function ( $log, detailMatch, $state, myconf, $scope, $http,LigaService) {
 
     var ligaSelected;
 
@@ -32,16 +32,12 @@ app.controller('LigasCtrl', function ( detailMatch, $state, myconf, $scope, $htt
     };
 
     $scope.changedliga = function() {
-         console.log($scope.data.selectedindex)
         ligaSelected = $scope.data.selectedindex;
         $scope.ligaSelected = ligaSelected;
 
         LigaService.getliga(ligaSelected).then(function(data) {
             $scope.racha = data;
         });
-        
-        
-        
     };
 
 

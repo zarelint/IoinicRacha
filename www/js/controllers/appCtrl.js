@@ -6,14 +6,14 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup
+    $ionicPopup,$log
     ) {
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
         scope: $rootScope,
         animation: 'slide-in-up'
     }).then(function(modal) {
-        console.log('crear dialogo...');
+        $log.debug('Crear dialogo modal help solo una vez...');
         $rootScope.infoDialog = modal;
     });
     $rootScope.openModal = function() {
@@ -75,7 +75,7 @@ app.controller('AppCtrl', function(
 
     // Handle the login required event raised by the authService
     $scope.$on('event:auth-loginRequired', function() {
-        console.log('AppCtrl: handling event:auth-loginRequired  ...');
+        $log.debug('AppCtrl: handling event:auth-loginRequired  ...');
 
         //La primera vez mostramos un modal con explicaciones
         if ( !timeStorage.get('google_id_token') ){
@@ -88,7 +88,7 @@ app.controller('AppCtrl', function(
 
     // Handle the login confirmed event raised by the authService
     $scope.$on('event:auth-loginConfirmed', function() {
-        console.log('handling event:auth-loginConfirmed...');
+        $log.debug('handling event:auth-loginConfirmed...');
     });
 
 /*    //On nested view events are fired from Abstrad view, broadcasr events to childs views

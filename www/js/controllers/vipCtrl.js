@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipService, myconf,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
     $scope.filtrarDate = function(fecha) {
         return moment(fecha,'DD MMM DDDD').isAfter(moment().subtract(1,'days'),'day');
@@ -46,8 +46,7 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
         keys.sort(function (item1, item2) {
             var date1  =moment(item1, 'DD MMM dddd').toDate();
             var date2  =moment(item2, 'DD MMM dddd').toDate();
-/*          var date1 = new Date(item1);
-            var date2 = new Date(item2);*/
+
             if (date1 < date2)
                 return -1;
             if (date1 > date2)
@@ -81,8 +80,13 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
         }
     };
 
-
+    // preppare and load ad resource in background, e.g. at begining of game level
+    //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );
     $scope.verEncuentro = function(item) {
+        // show the interstitial later, e.g. at end of game level
+
+        if(mMedia) mMedia.prepareInterstitial( {adId:'221289', autoShow:true} );
+
         var liga= item.tipo;
         var ligaparsed= item.liga;
         var equipos = item.encuentro.split('/');
@@ -93,7 +97,7 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
         detailMatch.equipo2 = equipo2;
         detailMatch.liga = ligaparsed;
         detailMatch.prediccion = item.prediccion;
-          detailMatch.from = 'tabs.vip';
+        detailMatch.from = 'tabs.vip';
         if (liga.indexOf('singles') > -1){
             detailMatch.algodesc = LigaService.getAlgo($scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]);
         }else if (liga.indexOf('dobles') > -1){

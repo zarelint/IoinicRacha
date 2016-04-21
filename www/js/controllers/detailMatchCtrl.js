@@ -146,7 +146,7 @@ app.controller('detailMatchCtrl', function ( $ionicModal,$timeout, $ionicScrollD
             $scope.racha[ligaSelected].difPuntosCasaFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
-console.log('')
+
 
     };
     var corteJornadaEquipoFiltrado  = function corteJornadaEquipoFiltrado(equipo,jornada) {
@@ -170,7 +170,7 @@ console.log('')
             $scope.racha[ligaSelected].difPuntosFiltered[equipo].splice(indextobedeleted[i] - cont, 1);
             cont++;
         }
-        console.log('')
+
 
     };
 

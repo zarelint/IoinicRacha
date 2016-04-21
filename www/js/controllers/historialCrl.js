@@ -87,7 +87,7 @@ app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,Hist
                 end = true;
             }
         }).error(function (err) {
-            console.log("Failed to download list items:", err);
+            $log.error("Failed to download list items:", err);
             end = true;
         }).finally(function () {
             $scope.$broadcast("scroll.infiniteScrollComplete");

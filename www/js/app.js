@@ -1,16 +1,19 @@
 'use strict';
 
 var social_config = {
-    url:         'https://play.google.com/store/apps/details?id=com.masteralb.bod',
+    url:         'https://play.google.com/store/apps/details?id=com.ionicframework.racha854942',
     title:       'Visual Betting',
     description: 'Visual Betting , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries.',
     image:       '',
     email:       'visualbetting@gmail.com'
 };
+if (!mMedia){
+    var mMedia = false;
+}
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate) {
+    .run(function($ionicPlatform,$translate,$log) {
 
  /*
         $rootScope.changeLanguage = function() {
@@ -35,7 +38,8 @@ var app=angular.module('app',
               }, null);
           }
 
-            //$translate.use("es");
+
+            //$translate.use("en");
             moment.locale($translate.proposedLanguage());
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -57,29 +61,32 @@ var app=angular.module('app',
               }
           }
 
-          var ad_units = {
+            var ad_units = {
               android : {
                   banner : "221288",
                   interstitial : "221289"
               }
           };
-          var adid =  ad_units.android ;
-            // or, show a default banner at bottom
-          if(mMedia) mMedia.createBanner({
-              adId : adid.banner,
-              autoShow : true,
-              overlap : true,
-              position : mMedia.AD_POSITION.BOTTOM_CENTER
-          });
+            var adid =  ad_units.android ;
+
+            //Show a default banner at bottom
+            if (mMedia) mMedia.createBanner({
+                adId: adid.banner,
+                autoShow: true,
+                overlap: false,
+                position: mMedia.AD_POSITION.BOTTOM_CENTER
+            });
+
 
       });
 
     })
 
-    .config(function($httpProvider) {
+    .config(function($httpProvider,$logProvider) {
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        $logProvider.debugEnabled(false);
     })
 
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
@@ -108,8 +115,8 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        //"url": "http://localhost:8080"
-        "url": "http://nodejs-rachas.rhcloud.com"
+        // "url": "http://localhost:8080"
+         "url": "http://nodejs-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
@@ -165,8 +172,7 @@ var app=angular.module('app',
                 })
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/login.html',
-                controller: 'LoginCtrl'
+                templateUrl: 'templates/login.html'
             })
             .state('detailRates',       {
                 url: '/detailRates',
@@ -175,13 +181,13 @@ var app=angular.module('app',
                 params: {myParam: null},
                 cache: true
             })
-            .state('detailMatch',       {
+/*            .state('detailMatch',       {
                 url: '/detailMatch',
                 templateUrl: 'templates/detail/detailMatch_points.html',
                 controller: 'detailMatchCtrl',
                 params: {myParam: null},
                 cache: false
-            })
+            })*/
             .state('detailMatch_gol',   {
                 url: '/detailMatch_gol',
                 templateUrl: 'templates/detail/detailMatch_gol.html',
@@ -191,7 +197,8 @@ var app=angular.module('app',
             });
 
         //Pagina por defecto
-      $urlRouterProvider.otherwise('/tab/historial');
+     $urlRouterProvider.otherwise('/tab/ligas');
+
 
 
     }).directive('dividerCollectionRepeat', function($parse) {
