@@ -125,11 +125,11 @@ app.factory('googleLogin', [
             }
 
         };
+        // get code from url redirection
         service.gulp = function (url, name) {
             url = url.substring(url.indexOf('?') + 1, url.length);
             return url.replace('code=', '').replace('#','');
         };
-
         //Get new access_token  using a refresh_token ( no user ask)
         service.refresh_token = function (refresh_token, def) {
             $log.debug('refresh_token: ' + refresh_token);
@@ -284,7 +284,6 @@ app.factory('googleLogin', [
             return def.promise;
         };
 
-
         service.logout = function() {
             var promise = ionic.Platform.isWebView() ? $http.post(LOGOUT_URL) : $http.jsonp(LOGOUT_URL);
             promise.error(function (data, status) {
@@ -329,7 +328,7 @@ app.factory('googleLogin', [
                     'offline': true//,
                     //'iOSApiKey': 'my_iOS_API_KEY_if_I_have_one',//,//,
                     //'scope' : 'https://www.googleapis.com/auth/userinfo.email',
-                    , 'webClientId': '321359984550-m7cla0a172vi4t0ub7qg6qgfimg04pqp.apps.googleusercontent.com'
+                    , 'webClientId': service.client_id
                 },
                 function (obj) {
                     $log.debug('Respuesta google plus: ' +JSON.stringify(obj));

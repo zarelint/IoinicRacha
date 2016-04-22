@@ -1,4 +1,5 @@
 {
+  "Apuestas Visuales":        "Visual Betting",
   "Fallos":                   "Failure",
   "Aciertos":                 "Succeed",
   "Prediccion":               "Predictions",
@@ -29,15 +30,15 @@
   "Apoyanos":                 "Rate us",
   "Apoyanos-2":               "We need your support, click OK, and send good comments, thank you very much!",
   "usando resultados de":     "Using resuts from ",
-  "Partidos":                 "matches",
-  "Ejemplos": "Equality Examples ",
-  "Filtros": "Filters",
-  "emot-text": "Change the color better or worse according to the expectations that had the team",
-  "simil-text": "Matches with equal or less equal coef",
-  "Cerrar": "Close",
-  "Ayuda":"Help",
-  "Partidos":"Matches",
-  "Reglas de oro": "Golden rules",
-  "No usar dobles":"Ever and ever do multiples bets",
-  "Apostar 30":"En una apuesta nunca jamas usar mas del 30% del presupuesto o de lo ganado anteriormente"
+  "Partidos":                 "Matches",
+  "Ejemplos":                 "Equality Examples ",
+  "Filtros":                  "Filters",
+  "emot-text":                "Change the color better or worse according to the expectations that had the team",
+  "simil-text":               "Matches with equal or less equal coef",
+  "Cerrar":                   "Close",
+  "Ayuda":                    "Help",
+  "Reglas de oro":            "Golden rules",
+  "No usar dobles":           "Never and ever do multiple bets",
+  "Apostar 30":               "Never use more than 30% of the budget or previusly won",
+  "Inicio":                   "Home"
 }

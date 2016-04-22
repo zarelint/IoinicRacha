@@ -32,7 +32,7 @@ app.controller('AppCtrl', function(
         });
         confirmPopup.then(function(res) {
             if(res) {
-                window.open('https://play.google.com/store/apps/details?id=com.masteralb.bod', '_system')
+                window.open(social_config.url, '_system')
             }
         });
     };

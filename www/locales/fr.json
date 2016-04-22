@@ -1,5 +1,5 @@
 {
-  "Apuestas Visuales": "Apuestas Visuales",
+  "Apuestas Visuales":  "Paris visuels",
   "Fallos":             "Echecs",
   "Aciertos":           "Succès",
   "Prediccion":         "Prédiction",
@@ -37,7 +37,8 @@
   "simil-text": "Matches avec un coef inférieur ou égal",
   "Cerrar": "Fermer",
   "Ayuda":"Aide",
-  "Reglas de oro": "Reglas de oro",
-  "No usar dobles":"Nunca jamas hacer apuestas multiples o combinadas",
-  "Apostar 30":"En una apuesta nunca jamas usar mas del 30% del presupuesto o de lo ganado anteriormente"
+  "Reglas de oro": "Règles d’or",
+  "No usar dobles":"Ne jamais faire de paris multiples ou combinés",
+  "Apostar 30":"Ne jamais faire un pari de plus de 30% de son budget ou du gain précédent",
+  "Inicio":"d'accueil"
 }

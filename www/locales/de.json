@@ -24,8 +24,8 @@
   "A favor":                 "Für",
   "En contra":               "Gegen",
   "Pendiente":               "Steigung",
-  "Partido igualado":    "Partei igualado, durchschnittlich Tore gleich",
-  "Partido desigual":    "Partei ungleichmäßig",
+  "Partido igualado":        "Partei igualado, durchschnittlich Tore gleich",
+  "Partido desigual":        "Partei ungleichmäßig",
   "Apoyanos":                 "Unterstützen Sie uns",
   "Apoyanos-2":               "Wir brauchen Ihre Unterstützung , klicken Sie auf OK und gute Kommentare zu senden, Danke!",
   "usando resultados de":     "Mit Ergebnisse ",
@@ -38,5 +38,6 @@
   "Ayuda":"Hilfe",
   "Reglas de oro": "Reglas de oro",
   "No usar dobles":"Nunca jamas hacer apuestas multiples o combinadas",
-  "Apostar 30":"En una apuesta nunca jamas usar mas del 30% del presupuesto o de lo ganado anteriormente"
+  "Apostar 30":"En una apuesta nunca jamas usar mas del 30% del presupuesto o de lo ganado anteriormente",
+  "Inicio":                   "Home"
 }

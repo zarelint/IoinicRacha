@@ -3,8 +3,8 @@
 var social_config = {
     url:         'https://play.google.com/store/apps/details?id=com.ionicframework.racha854942',
     title:       'Visual Betting',
-    description: 'Visual Betting , advanced soccer stats app, based on algorithmic analysis of soccer stats from all countries.',
-    image:       '',
+    description: 'Visual Betting is an application based on a statistical analysis algorithm football all countries that helps you make your most profitable bets.',
+    image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
 if (!mMedia){
@@ -96,11 +96,12 @@ var app=angular.module('app',
                 prefix: 'locales/',
                 suffix: '.json'
             })
-            .registerAvailableLanguageKeys(['en','de','fr','it','es'], {
+            //.registerAvailableLanguageKeys(['en','de','fr','it','es'], {
+            .registerAvailableLanguageKeys(['en','fr','es'], {
                 'en' : 'en', 'en_GB': 'en', 'en_US': 'en',
-                'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
+               // 'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
                 'fr' : 'fr', 'fr-CA': 'fr', 'fr-FR': 'fr',
-                'it' : 'it', 'it-CH': 'it', 'it-IT': 'it',
+              //  'it' : 'it', 'it-CH': 'it', 'it-IT': 'it',
                 'es' : 'es',
                 '*': 'en'
             })
@@ -115,8 +116,9 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        // "url": "http://localhost:8080"
-         "url": "http://nodejs-rachas.rhcloud.com"
+        "url": "http://localhost:8080"
+        // "url": "http://nodejs-rachas.rhcloud.com"
+       //  "url": "http://visualbetting-rachas.rhcloud.com"
 
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
