@@ -7,11 +7,14 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+
 
     $scope.loading=true;
 
     $scope.$on('$ionicView.enter', function(){
+        $log.debug("detailMatchCtrl_gol: incio y cargo anuncio");
+        if(mMedia) mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
         // Simulate a login delay. Remove this and replace with your login
         $timeout(function() {
             $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);
@@ -213,13 +216,15 @@ app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicM
         if ($scope.filtroHCP.checked){
             $scope.changedIgualdadEquipo($scope.selection[1],$scope.dificultadSelec1);
             $scope.changedIgualdadEquipo($scope.selection[0],$scope.dificultadSelec0);
-            $scope.changedIgualdadEquipoCasaFuera($scope.selection[0],$scope.selection[1],$scope.dificultadSelec0Casa,$scope.dificultadSelec1Fuera);
+
+           $scope.changedIgualdadEquipoCasaFuera($scope.selection[0],$scope.selection[1],$scope.dificultadSelec0Casa,$scope.dificultadSelec1Fuera);
 
             corteJornadaEquipoFiltrado(detailMatch.equipo2,detailMatch.jornada);
             corteJornadaEquipoFiltrado(detailMatch.equipo1,detailMatch.jornada);
 
             corteJornadaEquipoFiltradoFuera(detailMatch.equipo2,detailMatch.jornada);
             corteJornadaEquipoFiltradoCasa(detailMatch.equipo1,detailMatch.jornada);
+
             $scope.scrollDch('todos-scroll');
         }else{
             $scope.changedIgualdadEquipo($scope.selection[1],null);
@@ -277,20 +282,19 @@ app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicM
     };
 
     $scope.changedIgualdadEquipo = function changedIgualdadEquipo(equipo,filterValue) {
+
+
         // Clear previous filters
         $scope.racha[ligaSelected].calendarioFiltered[equipo] =      angular.copy($scope.racha[ligaSelected].calendario[equipo]) ;
-        $scope.racha[ligaSelected].golRateFiltered[equipo] =       angular.copy($scope.racha[ligaSelected].golRate[equipo]);
+        $scope.racha[ligaSelected].golRateFiltered[equipo] =         angular.copy($scope.racha[ligaSelected].golRate[equipo]);
 
         if (filterValue !== null){ // si selecciona null no filtramos y salimos
 
             var indextobedeleted = [];
             // get index to be deleted
-            for ( var indexjornada in $scope.racha[ligaSelected].difPuntos[equipo] ) {
-                var value = $scope.racha[ligaSelected].difPuntos[equipo][indexjornada];
-                /*
-                 if (value > filterValue || value < -filterValue) {
-                 indextobedeleted.push(indexjornada);
-                 }*/
+            for ( var indexjornada in $scope.racha[ligaSelected].golRate[equipo] ) {
+                var value = $scope.racha[ligaSelected].golRate[equipo][indexjornada];
+
                 if (filterValue > 0){
                     if (value > filterValue || value <0) {
                         indextobedeleted.push(indexjornada);
@@ -313,13 +317,10 @@ app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicM
             for (var i = indextobedeleted.length - 1; i >= 0; i -= 1) {
                 $scope.racha[ligaSelected].calendarioFiltered[equipo][indextobedeleted[i]]=null;
                 $scope.racha[ligaSelected].golRateFiltered[equipo][indextobedeleted[i]]=null;
-
                 cont++;
             }
 
         }
-
-
 
     };
 
@@ -338,10 +339,7 @@ app.controller('detailMatchCtrl_gol', function (  $rootScope, $injector, $ionicM
             // get index to be deleted
             for (var indexjornada in $scope.racha[ligaSelected].golCasaRate[equipoCasa]) {
                 var value = $scope.racha[ligaSelected].golCasaRate[equipoCasa][indexjornada];
-                /*
-                 if (value > filterValue || value < -filterValue) {
-                 indextobedeleted.push(indexjornada);
-                 }*/
+
                 if (filterValueCasa > 0) {
                     if (value > filterValueCasa || value < 0) {
                         indextobedeleted.push(indexjornada);

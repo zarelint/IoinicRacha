@@ -6,7 +6,7 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup,$log
+    $ionicPopup,$log,$localStorage
     ) {
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
@@ -78,7 +78,7 @@ app.controller('AppCtrl', function(
         $log.debug('AppCtrl: handling event:auth-loginRequired  ...');
 
         //La primera vez mostramos un modal con explicaciones
-        if ( !timeStorage.get('google_id_token') ){
+        if ( !$localStorage.refresh_token ){
           $scope.loginModal.show();
         }else{
            googleLogin.startLogin();

@@ -84,8 +84,8 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
     //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );
     $scope.verEncuentro = function(item) {
         // show the interstitial later, e.g. at end of game level
-
-        if(mMedia) mMedia.prepareInterstitial( {adId:'221289', autoShow:true} );
+        if(mMedia) mMedia.showInterstitial();
+        $log.debug("vipCtrl-VerEncuentro: Mostrando intersticial");
 
         var liga= item.tipo;
         var ligaparsed= item.liga;
@@ -105,36 +105,8 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
         }
         $state.go('detailMatch_gol', {myParam: detailMatch});
         //$state.transitionTo('detailRates', {myParam: detailMatch} , { reload: true, inherit: true, notify: true });//reload
-        // $location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
+        //$location.path("/detailRates");      $state.go($state.currentState, {}, {reload:true});
     };
-
-    // si el Password is not set redirigo  a la pantalla de login
-
-/*
-    //NO hay accessToken
-    if(accessToken === "" || !accessToken) {
-
-        // intento  buscarlo en la cache
-        if( window.localStorage.getItem("access_token") !== null) {
-            accessToken = window.localStorage.getItem("access_token");
-            console.log( 'Se detecta el accessToken '+accessToken);
-            //todo temporal para que siempre me lo pida en futuros si esta cadudcado pedir un resfres con esto
-            window.localStorage.removeItem("access_token");
-        }else{
-            //desahila marcha atras
-            $ionicHistory.nextViewOptions({
-                disableAnimate: true
-                //, disableBack: true
-            });
-
-            // Si no encuentra token redirecciono al login
-            // $location.path("/login");
-        }
-
-
- }
-    */
-    //googleLogin.startLogin();
 
 
 });

@@ -13,16 +13,7 @@ if (!mMedia){
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,$log) {
-
- /*
-        $rootScope.changeLanguage = function() {
-            if(/[a-z]{2}_[A-Z]{2}/.test($translate.use())) {
-                $translate.fallbackLanguage($translate.use().split('_')[0]);
-            }
-        };
-*/
-
+    .run(function($ionicPlatform,$translate) {
         $ionicPlatform.ready(function() {
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
@@ -79,16 +70,13 @@ var app=angular.module('app',
 
 
       });
-
     })
-
     .config(function($httpProvider,$logProvider) {
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $logProvider.debugEnabled(false);
     })
-
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
         $translateProvider
@@ -97,9 +85,9 @@ var app=angular.module('app',
                 suffix: '.json'
             })
             //.registerAvailableLanguageKeys(['en','de','fr','it','es'], {
-            .registerAvailableLanguageKeys(['en','fr','es'], {
+            .registerAvailableLanguageKeys(['en','de','fr','es'], {
                 'en' : 'en', 'en_GB': 'en', 'en_US': 'en',
-               // 'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
+                'de' : 'de', 'de_DE': 'de', 'de_CH': 'de',
                 'fr' : 'fr', 'fr-CA': 'fr', 'fr-FR': 'fr',
               //  'it' : 'it', 'it-CH': 'it', 'it-IT': 'it',
                 'es' : 'es',
@@ -116,10 +104,9 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        "url": "http://localhost:8080"
-        // "url": "http://nodejs-rachas.rhcloud.com"
-       //  "url": "http://visualbetting-rachas.rhcloud.com"
-
+        //  "url": "http://localhost:8080"
+        //  "url": "http://nodejs-rachas.rhcloud.com"
+        "url": "http://visualbetting-rachas.rhcloud.com"
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
@@ -203,7 +190,8 @@ var app=angular.module('app',
 
 
 
-    }).directive('dividerCollectionRepeat', function($parse) {
+    })
+    .directive('dividerCollectionRepeat', function($parse) {
         return {
             priority: 1001,
             compile: compile
@@ -339,7 +327,7 @@ app.filter('groupByDayMonthYear2', function() {
 
             });
 
-            for (var liga in asociame[fecha]) {
+            for ( liga in asociame[fecha]) {
                 output.push( {
                     isDivider: true,
                     divider: liga,

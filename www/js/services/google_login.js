@@ -1,5 +1,5 @@
 
-app.factory('timeStorage', ['$localStorage', function ($localStorage) {
+app.factory('timeStorage', ['$localStorage','$log', function ($localStorage,$log) {
     var timeStorage = {};
 
     timeStorage.cleanUp = function () {
@@ -10,6 +10,7 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
                 var new_key = key + "_expire";
                 var value = localStorage.getItem(new_key);
                 if (value && cur_time > value) {
+                    $log.debug("Elimino key "+key+" "+new_key);
                     localStorage.removeItem(key);
                     localStorage.removeItem(new_key);
                 }
@@ -23,7 +24,7 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
         $localStorage[time_key] = false;
     };
     timeStorage.set = function (key, data, hours) {
-        this.cleanUp();
+        //this.cleanUp();
         $localStorage[key] = data;
         var time_key = key + '_expire';
         var time = new Date().getTime();
@@ -32,7 +33,7 @@ app.factory('timeStorage', ['$localStorage', function ($localStorage) {
 
     };
     timeStorage.get = function (key) {
-        this.cleanUp();
+        //this.cleanUp();
         var time_key = key + "_expire";
         //if (!$localStorage[time_key] || !$localStorage.refresh_token ) {
         if (!$localStorage[time_key]  ) {
@@ -151,7 +152,7 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
-                $log.debug(data);
+
 
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
@@ -161,7 +162,8 @@ app.factory('googleLogin', [
                 if (access_token) {
                     $log.debug('Access Token :' + access_token);
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
-                    context.getUserInfo(access_token, def);
+                    def.resolve(access_token);
+                    //get Email:  context.getUserInfo(access_token, def);
                 } else {
                     def.reject({error: 'Access Token Not Found'});
                 }
@@ -217,7 +219,7 @@ app.factory('googleLogin', [
                 }
             });
             http.then(function (data) {
-                $log.debug(data);
+                $log.debug('service.getUserInfo'+data);
                 var user_data = data.data;
                 var user = {
                     name: user_data.name,

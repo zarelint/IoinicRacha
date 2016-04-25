@@ -23,10 +23,11 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate,$timeout )
     var items = [];
 
     return {
+        //borra datos expecto ngStorges kess
         clearAll: function(){
-           // window.localStorage.clear();
             for ( var cache in window.localStorage){
                 if ( cache.indexOf('ngStorage') === -1){
+                    $log.debug( "ClearAll: borro la clave " + cache);
                     window.localStorage.removeItem(cache);
                 }
             }
