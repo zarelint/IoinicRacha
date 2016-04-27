@@ -14,7 +14,11 @@ app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $i
 
     $scope.$on('$ionicView.enter', function(){
         $log.debug("detailMatchCtrl_gol: incio y cargo anuncio");
-        if(mMedia) mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
+        if(mMedia){
+            $localStorage.mostrados;
+            mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
+        }
+
         // Simulate a login delay. Remove this and replace with your login
         $timeout(function() {
             $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);

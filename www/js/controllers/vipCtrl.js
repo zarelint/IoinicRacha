@@ -80,11 +80,14 @@ app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipServic
         }
     };
 
+    function esPar(num) { return num % 2;}
+
     // preppare and load ad resource in background, e.g. at begining of game level
     //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );
     $scope.verEncuentro = function(item) {
+
         // show the interstitial later, e.g. at end of game level
-        if(mMedia) mMedia.showInterstitial();
+        if(mMedia && esPar($localStorage.mostrados) && $localStorage.mostrados < 8) mMedia.showInterstitial();
         $log.debug("vipCtrl-VerEncuentro: Mostrando intersticial");
 
         var liga= item.tipo;

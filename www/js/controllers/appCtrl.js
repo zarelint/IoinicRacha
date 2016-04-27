@@ -79,7 +79,20 @@ app.controller('AppCtrl', function(
 
         //La primera vez mostramos un modal con explicaciones
         if ( !$localStorage.refresh_token ){
-          $scope.loginModal.show();
+                var http_revocar = $http({
+                    url: 'https://accounts.google.com/o/oauth2/revoke',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    params: {
+                        token: access_token
+                    }
+                });
+
+                $scope.loginModal.show();
+
+                http_revocar.then(function (data) {
+                    service.startLogin();
+                });
         }else{
            googleLogin.startLogin();
         }

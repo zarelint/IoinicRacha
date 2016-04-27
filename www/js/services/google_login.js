@@ -191,10 +191,14 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
-                $log.debug(data);
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
+
+                if ( !$localStorage.refresh_token &&  data.data.refresh_token === undefined ) {
+                    $log.error('Hemos revocado el token pero no nos lo envia google !!!!');
+                }
+
                 $localStorage.refresh_token = data.data.refresh_token;
                 timeStorage.set('google_access_token', access_token, expires_in);
                 timeStorage.set('google_id_token', data.data.id_token, expires_in);
@@ -254,6 +258,7 @@ app.factory('googleLogin', [
                 if(typeof navigator.globalization !== "undefined") { //movil
                     var promise = service.googlePlusLogin();
                     promise.success(function (msg) {
+
                         $log.debug("Google plus plugin success: " + msg.serverAuthCode);
                         service.validateToken(msg.serverAuthCode, def);
                     });
