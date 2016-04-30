@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('vipCtrl', function ($translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
 
     $scope.filtrarDate = function(fecha) {
         return moment(fecha,'DD MMM DDDD').isAfter(moment().subtract(1,'days'),'day');

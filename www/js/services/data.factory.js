@@ -139,7 +139,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q){
+app.factory('VipService', function($http,myconf,$q,googleLogin){
     var items = [];
 
     return {
@@ -155,6 +155,7 @@ app.factory('VipService', function($http,myconf,$q){
                 deferred.resolve(items);
             }else{ //pull
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
+                    googleLogin.revocar();
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;
                     for (var dateIndex in items.pred){

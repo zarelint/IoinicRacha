@@ -33,6 +33,7 @@ app.factory('timeStorage', ['$localStorage','$log', function ($localStorage,$log
 
     };
     timeStorage.get = function (key) {
+
         //this.cleanUp();
         var time_key = key + "_expire";
         //if (!$localStorage[time_key] || !$localStorage.refresh_token ) {
@@ -42,8 +43,8 @@ app.factory('timeStorage', ['$localStorage','$log', function ($localStorage,$log
         var expire = $localStorage[time_key] * 1;
         // Token caducado
         if (new Date().getTime() > expire) {
-                $localStorage[key] = null;
-                $localStorage[time_key] = null;
+                //$localStorage[key] = null;
+                //$localStorage[time_key] = null;
                 return false;
         }
         return $localStorage[key];
@@ -153,12 +154,14 @@ app.factory('googleLogin', [
              */
             http.then(function (data) {
 
-
+                $log.debug('google te da: ' + JSON.stringify(data));
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
                 timeStorage.set('google_access_token', access_token, expires_in);
-                timeStorage.set('google_id_token', data.data.id_token, expires_in);
+               // timeStorage.set('google_id_token', data.data.id_token, expires_in);
+                //context.getUserInfo(access_token, def);
+
                 if (access_token) {
                     $log.debug('Access Token :' + access_token);
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
@@ -167,7 +170,16 @@ app.factory('googleLogin', [
                 } else {
                     def.reject({error: 'Access Token Not Found'});
                 }
+
+            }, function error(response) {
+                //refreh token caducado
+                delete $localStorage.refresh_token;
+                $log.debug(response);
             });
+
+
+
+
         };
         //get an access token and refresh_token from access_code
         service.validateToken = function (token, def) {
@@ -191,29 +203,50 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
+                $log.debug('google te da: ' + JSON.stringify(data));
+                // set data
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
-
-                if ( !$localStorage.refresh_token &&  data.data.refresh_token === undefined ) {
-                    $log.error('Hemos revocado el token pero no nos lo envia google !!!!');
-                }
-
                 $localStorage.refresh_token = data.data.refresh_token;
                 timeStorage.set('google_access_token', access_token, expires_in);
-                timeStorage.set('google_id_token', data.data.id_token, expires_in);
+                //timeStorage.set('google_id_token', data.data.id_token, expires_in);
+                //fin set data
+
                 if (access_token) {
-                    $log.debug('Access Token :' + access_token);
-
+                    //service.revocar();
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
-
-                    def.resolve(data.data.id_token);
+                    def.resolve(data.data.access_token);
                     // context.getUserInfo(access_token, def);
                 } else {
                     def.reject({error: 'Access Token Not Found'});
                 }
             });
         };
+
+        service.revocar = function ( ) {
+            $log.debug('revocando');
+            // REVOCAR para recuperar forzar get refresh_token
+            if ( !$localStorage['refresh_token']  ) {
+                var http_revocar = $http({
+                    url: 'https://accounts.google.com/o/oauth2/revoke',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    params: {
+                        token: $localStorage['google_access_token']
+                    }
+                });
+                http_revocar.then(
+                    function successCallback(data) {
+                        $log.debug('token revocado con exito' + data);
+                        timeStorage.remove('google_access_token');
+
+                    }, function errorCallback(response) {
+                        $log.error('No podemos revocarlo: ' + response.error_description);
+                    });
+            }
+        };
+
         service.getUserInfo = function (access_token, def) {
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -223,7 +256,7 @@ app.factory('googleLogin', [
                 }
             });
             http.then(function (data) {
-                $log.debug('service.getUserInfo'+data);
+                $log.debug('service.getUserInfo '+JSON.stringify(data) );
                 var user_data = data.data;
                 var user = {
                     name: user_data.name,
@@ -254,7 +287,10 @@ app.factory('googleLogin', [
             }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
                 $log.debug("usando refresh token");
                 service.refresh_token($localStorage.refresh_token, def);
-            }else {
+            }else {// get new token
+
+
+                //Pedir Token...
                 if(typeof navigator.globalization !== "undefined") { //movil
                     var promise = service.googlePlusLogin();
                     promise.success(function (msg) {

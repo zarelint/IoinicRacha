@@ -1,6 +1,6 @@
 'use strict';
 app.factory('TokenInterceptor',
-  function ($injector, $q,timeStorage) {
+  function ($injector, $q,timeStorage,$log) {
     var hideLoadingModalIfNecessary = function() {
       var $http = $http || $injector.get('$http');
       if ($http.pendingRequests.length === 0) {
@@ -30,12 +30,15 @@ app.factory('TokenInterceptor',
       },
       responseError: function(rejection) {
         hideLoadingModalIfNecessary();
-/*        console.log('interceptor.js:responseError' + JSON.stringify(rejection));
+        $log.debug('interceptor.js:responseError' + JSON.stringify(rejection));
+        //"url":"https://accounts.google.com/o/oauth2/revoke"
         if (rejection.status === 400  ) { // jshint ignore:line
-          console.log('detected what appears to be an  auth error...'+rejection.data.error_description);
-          rejection.status = 401; // Set the status to 401 so that angular-http-auth inteceptor will handle it
-        }*/
-        rejection.status = 401;
+          //console.log('detected what appears to be an  auth error...'+rejection.data.error_description);
+
+        }else{
+          rejection.status = 401;
+        }
+
         return $q.reject(rejection);
       }
     };

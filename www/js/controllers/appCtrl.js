@@ -6,7 +6,7 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup,$log,$localStorage
+    $ionicPopup,$log,$localStorage,$http
     ) {
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
@@ -76,27 +76,11 @@ app.controller('AppCtrl', function(
     // Handle the login required event raised by the authService
     $scope.$on('event:auth-loginRequired', function() {
         $log.debug('AppCtrl: handling event:auth-loginRequired  ...');
-
-        //La primera vez mostramos un modal con explicaciones
-        if ( !$localStorage.refresh_token ){
-                var http_revocar = $http({
-                    url: 'https://accounts.google.com/o/oauth2/revoke',
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    params: {
-                        token: access_token
-                    }
-                });
-
-                $scope.loginModal.show();
-
-                http_revocar.then(function (data) {
-                    service.startLogin();
-                });
+        if ( !$localStorage['refresh_token'] ){
+            $scope.loginModal.show();
         }else{
            googleLogin.startLogin();
         }
-
     });
 
     // Handle the login confirmed event raised by the authService

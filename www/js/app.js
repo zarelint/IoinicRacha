@@ -75,7 +75,7 @@ var app=angular.module('app',
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $logProvider.debugEnabled(true);
+        $logProvider.debugEnabled(false);
     })
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 

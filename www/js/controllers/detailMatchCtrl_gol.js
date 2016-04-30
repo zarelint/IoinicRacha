@@ -7,7 +7,7 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl_gol', function ($window,$log,  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
 
 
     $scope.loading=true;
@@ -15,7 +15,7 @@ app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $i
     $scope.$on('$ionicView.enter', function(){
         $log.debug("detailMatchCtrl_gol: incio y cargo anuncio");
         if(mMedia){
-            $localStorage.mostrados;
+            //$localStorage.mostrados++;
             mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
         }
 
@@ -23,7 +23,7 @@ app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $i
         $timeout(function() {
             $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);
             $ionicScrollDelegate.$getByHandle('casa-scroll').scrollBottom(true);
-        }, 500);
+        }, 1000);
     });
 
 
@@ -41,13 +41,14 @@ app.controller('detailMatchCtrl_gol', function ($log,  $rootScope, $injector, $i
     $scope.abrev = function (name) {
         return name.substr(0,6)+'...';
     };
+
+    $scope.ancho=Math.round($window.innerWidth*0.85)-10;
     $scope.scrollIzq = function(scroll_name) {
-        var resto = 250-$ionicScrollDelegate.getScrollPosition().right;
-        $ionicScrollDelegate.$getByHandle(scroll_name).scrollTo(resto, 0);
+        var resto = $ionicScrollDelegate.$getByHandle(scroll_name).getScrollPosition().left-$scope.ancho;
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollTo(resto, 0,true);
     };
     $scope.scrollDch = function(scroll_name) {
-        var resto = 250-$ionicScrollDelegate.getScrollPosition().left;
-        $ionicScrollDelegate.$getByHandle(scroll_name).scrollBy(resto, 0);
+        $ionicScrollDelegate.$getByHandle(scroll_name).scrollBottom(true);
     };
     $scope.back = detailMatch.from;
 
