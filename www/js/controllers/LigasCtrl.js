@@ -14,7 +14,13 @@ app.controller('LigasCtrl', function ( $log, detailMatch, $state, myconf, $scope
     LigaService.getListaLigas(false).then(function(items){
         $scope.ligas = items;
     });
-
+/*
+    $scope.$on('$ionicView.enter', function(){
+        if (mMedia)  mMedia.showBanner(mMedia.AD_POSITION.BOTTOM_CENTER);
+    });
+    $scope.$on('$ionicView.beforeLeave', function(){
+        if (mMedia)  mMedia.hideBanner();
+    });*/
 
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];

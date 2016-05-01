@@ -7,7 +7,7 @@
  * # detailRatesCtrl
  * Controller of the iotutorialApp
  */
-app.controller('detailMatchCtrl_gol', function ($window,$log,  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
+app.controller('detailMatchCtrl_gol', function ($localStorage, $window,$log,  $rootScope, $injector, $ionicModal,$timeout, $ionicScrollDelegate, $stateParams, LigaService, $state, $scope, $ionicHistory, $http,detailMatch) {
 
 
     $scope.loading=true;
@@ -15,7 +15,8 @@ app.controller('detailMatchCtrl_gol', function ($window,$log,  $rootScope, $inje
     $scope.$on('$ionicView.enter', function(){
         $log.debug("detailMatchCtrl_gol: incio y cargo anuncio");
         if(mMedia){
-            //$localStorage.mostrados++;
+            $log.debug('mostrados ng :'+ $localStorage.mostrados);
+            $localStorage.mostrados++;
             mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
         }
 

@@ -7,9 +7,7 @@ var social_config = {
     image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
-if (!mMedia){
-    var mMedia = false;
-}
+var mMedia;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
@@ -52,14 +50,17 @@ var app=angular.module('app',
               }
           }
 
-            var ad_units = {
+
+
+
+
+/*            var ad_units = {
               android : {
                   banner : "221288",
                   interstitial : "221289"
               }
           };
             var adid =  ad_units.android ;
-
             //Show a default banner at bottom
             if (mMedia) mMedia.createBanner({
                 adId: adid.banner,
@@ -67,7 +68,7 @@ var app=angular.module('app',
                 overlap: false,
                 position: mMedia.AD_POSITION.BOTTOM_CENTER
             });
-
+*/
 
       });
     })

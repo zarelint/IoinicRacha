@@ -7,27 +7,41 @@
 
 
     <ion-header-bar class="bar bar-dark bar-subheader  pegar"  >
-        <label class="item item-input item-grey item-select  ">
+
+
+
+        <label class="item item-pegar item-input item-grey item-select  ">
+
             <div class="item-text-wrap input-label col texto-blanco ">
                 {{ 'Liga' | translate }}
             </div>
-            <div class="col">
-                <select ng-model="data.selectedindex"
 
+                <select ng-model="data.selectedindex"
                         ng-options="value for (key, value) in ligas| orderBy:'toString()' "
                         ng-change="changedliga()">
                     <option value="" > </option>
                 </select>
 
-            </div>
         </label>
     </ion-header-bar>
 
-
+    itemx
 
 
    <ion-header-bar class="bar bar-dark bar-subheader  pegar"  >
-      <div class="item item-grey row row-center  ">
+       <ul class="list">
+           <li class="item item-pegar item-grey item-toggle">
+               {{ 'Seleccion Individual' | translate }}
+               <label class="toggle">
+                   <input type="checkbox" ng-model="filtroAnimo.checked">
+                   <div class="track">
+                       <div class="handle"></div>
+                   </div>
+               </label>
+           </li>
+       </ul>
+
+<!--      <div class="item item-toggle item-grey row row-center  ">
                             <div class="col  text-right ">
                                    {{ 'Seleccion Individual' | translate }}
                            </div>
@@ -42,15 +56,16 @@
                                </div>
 
 
-         </div>
+         </div>-->
 
 
 
     </ion-header-bar>
     <ion-content position-bars-and-content>
 
-        <div class="list">
-            <div class="col text-center texto-blanco"  ng-show="data.selectedindex !== null">  {{ 'Partidos de la Jornada' | translate }}
+        <div class="list pegar">
+            <div class="col col-bottom  text-center texto-blanco"  ng-show="data.selectedindex !== null">
+                <br>{{ 'Partidos de la Jornada' | translate }}
                 {{racha[ligaSelected].ultima}}</div>
 
             <div class="pegar " ng-repeat="part in  racha[ligaSelected].listaPartidos" ng-click="irPartido(part)" ng-show="!filtroAnimo.checked" >

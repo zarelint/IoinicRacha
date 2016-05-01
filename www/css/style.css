@@ -367,3 +367,8 @@ body {
     color: #FFF;
     background-color: #528edd;
     border-color: #3a6898; }
+
+.item-pegar {
+    border-width: 0;
+    margin: 0;
+}

@@ -17,7 +17,7 @@ app.factory('detailMatch', function() {
 
 
 
-app.factory('LigaService', function(myconf,$http, $log, $q,$translate,$timeout ) {
+app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
 
     var racha = {};
     var items = [];
@@ -139,7 +139,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q,googleLogin){
+app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
     var items = [];
 
     return {
@@ -155,6 +155,7 @@ app.factory('VipService', function($http,myconf,$q,googleLogin){
                 deferred.resolve(items);
             }else{ //pull
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
+                    $localStorage.mostrados=0;
                     googleLogin.revocar();
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;

@@ -86,7 +86,9 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
     //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );
     $scope.verEncuentro = function(item) {
 
-        // show the interstitial later, e.g. at end of game level
+        // show the interstitial....
+        $log.debug('mostrados :'+ window.localStorage.getItem("mostrados"));
+        $log.debug('mostrados ng :'+ $localStorage.mostrados);
         if(mMedia && esPar($localStorage.mostrados) && $localStorage.mostrados < 8) mMedia.showInterstitial();
         $log.debug("vipCtrl-VerEncuentro: Mostrando intersticial");
 

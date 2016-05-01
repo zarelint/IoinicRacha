@@ -6,8 +6,19 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup,$log,$localStorage,$http
+    $ionicPopup,$log,$localStorage
     ) {
+
+    $log.debug('mmdi',mMedia);
+
+    if (mMedia) mMedia.createBanner({
+        adId: "221288",
+        autoShow: true,
+        overlap: false,
+        position: mMedia.AD_POSITION.BOTTOM_CENTER
+    });
+
+
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
         scope: $rootScope,

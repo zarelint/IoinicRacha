@@ -154,7 +154,7 @@ app.factory('googleLogin', [
              */
             http.then(function (data) {
 
-                $log.debug('google te da: ' + JSON.stringify(data));
+               // $log.debug('google te da: ' + JSON.stringify(data));
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
@@ -168,11 +168,14 @@ app.factory('googleLogin', [
                     def.resolve(access_token);
                     //get Email:  context.getUserInfo(access_token, def);
                 } else {
+                    timeStorage.remove('google_access_token');
+                    delete $localStorage.refresh_token;
                     def.reject({error: 'Access Token Not Found'});
                 }
 
             }, function error(response) {
                 //refreh token caducado
+                timeStorage.remove('google_access_token');
                 delete $localStorage.refresh_token;
                 $log.debug(response);
             });
@@ -203,7 +206,7 @@ app.factory('googleLogin', [
              * @param data.expires_in      The remaining lifetime of the access token.
              */
             http.then(function (data) {
-                $log.debug('google te da: ' + JSON.stringify(data));
+                $log.debug('Google te da este refresh_token: ' + data.data.refresh_token);
                 // set data
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
@@ -225,9 +228,10 @@ app.factory('googleLogin', [
         };
 
         service.revocar = function ( ) {
-            $log.debug('revocando');
+
             // REVOCAR para recuperar forzar get refresh_token
             if ( !$localStorage['refresh_token']  ) {
+                $log.debug('llamada a revocar...');
                 var http_revocar = $http({
                     url: 'https://accounts.google.com/o/oauth2/revoke',
                     method: 'POST',
@@ -240,9 +244,14 @@ app.factory('googleLogin', [
                     function successCallback(data) {
                         $log.debug('token revocado con exito' + data);
                         timeStorage.remove('google_access_token');
-
+                        delete $localStorage.refresh_token;
                     }, function errorCallback(response) {
-                        $log.error('No podemos revocarlo: ' + response.error_description);
+
+                        timeStorage.remove('google_access_token');
+                        delete $localStorage.refresh_token;
+
+                        $log.error('No podemos revocarlo: ',  JSON.stringify(response));
+
                     });
             }
         };
@@ -279,7 +288,8 @@ app.factory('googleLogin', [
             var def = $q.defer();
             var self = this;
             var access_token = timeStorage.get('google_access_token');
-
+            $log.debug(JSON.stringify($localStorage));
+            $log.debug(JSON.stringify(localStorage));
             if (access_token) {
                 $log.debug('Direct Access Token :' + access_token);
                 authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
