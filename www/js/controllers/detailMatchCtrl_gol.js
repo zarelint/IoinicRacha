@@ -43,7 +43,10 @@ app.controller('detailMatchCtrl_gol', function ($localStorage, $window,$log,  $r
         return name.substr(0,6)+'...';
     };
 
-    $scope.ancho=Math.round($window.innerWidth*0.85)-10;
+    $scope.ancho=Math.round($window.innerWidth*0.83);
+    
+    
+    
     $scope.scrollIzq = function(scroll_name) {
         var resto = $ionicScrollDelegate.$getByHandle(scroll_name).getScrollPosition().left-$scope.ancho;
         $ionicScrollDelegate.$getByHandle(scroll_name).scrollTo(resto, 0,true);

@@ -51,7 +51,25 @@
                 <div class="item pegar bh">
                     <div class="row pegar">&nbsp&nbsp</div>
                     <div class="row pegar">
-                        <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
+                        <div class="col col-10 col-center  pegar-izq peq">&nbsp{{ 'Jornada' | translate }}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+                                <div class="row row-center row-tam2" >
+                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}">
+
+                                        <div  class="fondo-jor item "
+                                              ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
+                                              ng-if="   $index > 0 && racha[ligaSelected].calendarioFiltered[selection[0]][$index]!== null " >
+
+                                            <div class="texto-celda2"> {{$index }}</div>
+                                        </div>
+                                    </ion-scroll>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pegar">
+                        <div class="col col-10 col-center  pegar-izq peq">&nbsp{{abrev(selection[0])}}</div>
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-center row-tam2" >
@@ -70,7 +88,7 @@
                     </div>
                     <div class="spacer"></div>
                     <div class="row pegar ">
-                        <div class="col col-10 pegar peq ">&nbsp&nbsp{{abrev(selection[1])}}</div>
+                        <div class="col col-10 col-center  pegar-izq peq ">&nbsp{{abrev(selection[1])}}</div>
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2" >
@@ -110,11 +128,29 @@
                 <div class="item pegar bh">
                     <div class="row pegar">&nbsp&nbsp</div>
                     <div class="row pegar">
-                        <div class="col col-10 pegar peq">&nbsp&nbsp{{abrev(selection[0])}}</div>
+                        <div class="col col-10 col-center  pegar-izq peq">&nbsp{{ 'Jornada' | translate }}</div>
+                        <div class="col pegar">
+                            <div class="row row-center">
+
+                                <div class="row row-tam2" >
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}" >
+                                        <div  class="fondo-jor item"
+                                              ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
+                                              ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
+
+                                            <div class="texto-celda2"> {{$index }}</div>
+                                        </div>
+                                    </ion-scroll>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pegar">
+                        <div class="col col-10 col-center  pegar-izq peq">&nbsp{{abrev(selection[0])}}</div>
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2" >
-                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 85%">
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}">
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golCasaRateFiltered[selection[0]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].casaFiltered[selection[0]] track by $index "
                                               ng-if=" $index > 0 && racha[ ligaSelected ].casaFiltered[selection[0]][$index]!== null ">
@@ -128,11 +164,11 @@
                     </div>
                     <div class="spacer"></div>
                     <div class="row pegar ">
-                        <div class="col col-10 pegar peq ">&nbsp&nbsp{{abrev(selection[1])}}</div>
+                        <div class="col col-10 col-center  pegar-izq peq ">&nbsp{{abrev(selection[1])}}</div>
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2 " >
-                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  style="width: 85%">
+                                    <ion-scroll delegate-handle="casa-scroll"  direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}">
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golFueraRateFiltered[selection[1]][$index],filtroAnimo)" class="item"
                                               ng-repeat="p in racha[ ligaSelected ].fueraFiltered[selection[1]] track by $index"
                                               ng-if=" $index > 0 && racha[ ligaSelected ].fueraFiltered[selection[1]][$index]!== null ">

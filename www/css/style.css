@@ -37,6 +37,7 @@
 .peq{
     font-size: 9px;
     color: white;
+    font-weight: 900;
 }
 .adic-modal .modal {
     min-height: 0 !important;
@@ -81,6 +82,14 @@
 .texto-blanco{
     color: white;
 }
+.fondo-jor{
+    background: #111;
+    padding: 1px;
+}
+.fondo-black{
+    background: #111;
+    display: inline-table;
+}
 .texto-celda2 {
     text-align: center;
     font-size: 12px;
@@ -102,7 +111,6 @@
     height: 15px;
 }
 .derrota {
-
     padding: 1px;
     background: #f78d53;
 }
@@ -110,6 +118,11 @@
     color:grey;
     padding: 1px;
 }
+.not-played{
+    padding: 1px;
+    background: white;
+}
+
 .text-success{
     color: red;
     font-weight: bold;
@@ -142,13 +155,10 @@ ion-scroll .item {
   right: 0 !important;
 }
 .myScroll{
-width: 100%;
-height: 100% ;
+    width: 100%;
+    height: 100%;
 }
 .borde {
-    border: 2px solid #8AC007;
-}
-.notplay {
     border: 1px solid;
 }
 .circle-singleline {
@@ -158,9 +168,11 @@ height: 100% ;
     font-size: 15px;
     line-height: 30px;
     text-align: center;
-    background: #45aec8;
+   /* background: #45aec8;*/
+    background: #33CD5F;
     color: white;
     box-shadow: 1px 1px 1px black;
+    display: inline-table;
 }
 
 body {
@@ -185,7 +197,10 @@ body {
     position: relative;
     height: 320px;
 }
+.pegar-izq{
 
+    padding-left: 0;
+}
 .pegar{
     padding: 0;
 }

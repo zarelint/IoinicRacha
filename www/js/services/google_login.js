@@ -168,13 +168,14 @@ app.factory('googleLogin', [
                     def.resolve(access_token);
                     //get Email:  context.getUserInfo(access_token, def);
                 } else {
+                    $log.debug( 'al coger token con token_refresh nos devuleve un toke vacio');
                     timeStorage.remove('google_access_token');
                     delete $localStorage.refresh_token;
                     def.reject({error: 'Access Token Not Found'});
                 }
 
             }, function error(response) {
-                //refreh token caducado
+                $log.debug( '117: Fallo a coger token con token_refresh');
                 timeStorage.remove('google_access_token');
                 delete $localStorage.refresh_token;
                 $log.debug(response);
