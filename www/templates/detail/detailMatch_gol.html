@@ -73,7 +73,7 @@
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-center row-tam2" >
-                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  style="width: 85%">
+                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}">
 
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golRateFiltered[selection[0]][$index],filtroAnimo)" class="item "
                                               ng-repeat="p in racha[ligaSelected ].calendarioFiltered[selection[0]] track by $index "
@@ -92,7 +92,7 @@
                         <div class="col pegar">
                             <div class="row row-center">
                                 <div class="row row-tam2" >
-                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  style="width: 85%">
+                                    <ion-scroll  delegate-handle="todos-scroll" direction="x" class="myScroll"  ng-style="::{width: ancho +'px'}">
                                         <div  ng-class="scoreClass2(p,racha[ ligaSelected ].golRateFiltered[selection[1]][$index],filtroAnimo)" class="item "
                                               ng-repeat="p in racha[ligaSelected].calendarioFiltered[selection[1]] track by $index"
                                               ng-if="  $index > 0 && racha[ ligaSelected ].calendarioFiltered[selection[1]][$index]!== null ">
@@ -191,7 +191,22 @@
 
                 </div>
 
-
+                <div class="item  bh col pegar">
+                    <div class="row row-center pegar">
+                        <div class="col col-10"></div>
+                        <div class="col col-40 texto-blanco  ">
+                            {{ 'Partidos similares' | translate }}
+                        </div>
+                        <div class="col text-center col-50 ">
+                            <label class="toggle">
+                                <input type="checkbox" ng-model="filtroHCP.checked" ng-change="filtrarHCP()">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="item bh col pegar">
                     <div class="row row-center pegar ">
@@ -209,22 +224,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item  bh col pegar">
-                    <div class="row row-center pegar">
-                        <div class="col col-10"></div>
-                        <div class="col col-40 texto-blanco  ">
-                            {{ 'Partidos similares' | translate }}
-                        </div>
-                        <div class="col text-center col-50 ">
-                            <label class="toggle">
-                                <input type="checkbox" ng-model="filtroHCP.checked" ng-change="filtrarHCP()">
-                                <div class="track">
-                                    <div class="handle"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </ion-content>

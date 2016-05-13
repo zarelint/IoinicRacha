@@ -141,7 +141,7 @@ app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,Hist
         };
 
     $scope.myFilterDate = function(item) {
-            return new Date(item.fecha) < moment().subtract(3,'days');
+            return new Date(item.fecha) < moment().subtract(1,'days');
     };
 
 

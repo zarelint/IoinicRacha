@@ -29,15 +29,24 @@
   "Apoyanos":                "Unterstütze uns",
   "Apoyanos-2":              "Unterstütze uns, klick OK und schick uns gute Kommentare. Vielen Dank!",
   "usando resultados de":    "nutzen Ergebnisse von ",
-  "Partidos":                 "Spiele",
-  "Ejemplos": "Beispiele ",
   "Filtros": "Filter",
-  "emot-text": "Ändere die Farbe Richtung besser oder schlechter gemäss den Erwartungen, die Du gegenüber der Mannschaft hast.",
-  "simil-text": "Spiele mit gleicher und geringerer coef Gleichheit",
   "Cerrar": "schließen",
   "Ayuda":"Hilfe",
   "Reglas de oro": "Goldregeln",
   "No usar dobles":"Machen Sie niemals Multi- oder Kombinationswetten",
   "Apostar 30":"Nutzen Sie niemals mehr als 30% Ihres Wettbudgets oder des vorherigen Gewinns in einer Wette",
-  "Inicio":  "Einleitung"
+
+  "Inicio":                   "Einleitung",
+  "No Jugado":                "Nicht gespielt",
+  "desc-dif":                 "Gemessen wird der Unterschied zwischen beiden Mannschaften Tore, absoluten Wert von 0 bis 10.",
+  "dif+":                     "Differenz der Tore für führt Zeichen +",
+  "dif-":                     "Differenz der Tore gegen führt Zeichen -",
+  "Maxima Igualdad":          "Maxima Gleichstellung",
+  "Valor Maximo a favor":     "Wert höchstens für sehr problabe Sieger",
+  "Valor Maximo en contra":   "Wert höchstens gegen sehr problabe verliert es",
+  "Partidos":                 "Spiele",
+  "Ejemplos":                 "Differenz der Tore",
+  "simil-text":               "Parteien jugados ähnliche Schwierigkeiten (d.h. unterschiedliche Tore )",
+  "emot-text":                "Ändert sich die Farbe besser oder schlechter gemäss den Erwartungen, hatte das Team, viele Veränderungen der Farbe zeigen Überraschungen"
+
 }

@@ -37,7 +37,6 @@
 .peq{
     font-size: 9px;
     color: white;
-    font-weight: 900;
 }
 .adic-modal .modal {
     min-height: 0 !important;
@@ -159,7 +158,8 @@ ion-scroll .item {
     height: 100%;
 }
 .borde {
-    border: 1px solid;
+    box-shadow: 1px 1px 1px black;
+    /*border: 1px solid;*/
 }
 .circle-singleline {
     width: 30px;

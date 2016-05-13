@@ -247,7 +247,7 @@ app.factory('googleLogin', [
                         timeStorage.remove('google_access_token');
                         delete $localStorage.refresh_token;
                     }, function errorCallback(response) {
-
+                        // aunque funciona el revocado como data== null entra por aqui
                         timeStorage.remove('google_access_token');
                         delete $localStorage.refresh_token;
 

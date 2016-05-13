@@ -27,7 +27,7 @@
   "Partido igualado":         "Partido igualado",
   "Partido desigual":         "Partido desigual",
   "Apoyanos":                 "Puntuanos",
-  "Apoyanos-2":               "Necesitamos tu apoyo, click OK y envia buenos comentarios, Muchas Gracias !",
+  "Apoyanos-2":               "Necesitamos tu apoyo, click OK y envia buenos comentarios, Muchas Gracias!",
   "usando resultados de":     "Usando resultados de ",
   "Filtros":                  "Filtros",
   "Cerrar":                   "Cerrar",
@@ -38,14 +38,14 @@
   "Inicio":                   "Inicio",
   "No Jugado":                "No Jugado",
   "desc-dif":                 "Mide la diferencia de goles entre ambos equipos, valor absoluto de 0 al 10",
-  "dif+":                     "Diferencia de goles a favor, lleva signo +",
-  "dif-":                     "Diferencia de goles en contra, lleva signo -",
+  "dif+":                     "Diferencia de goles a favor, signo +",
+  "dif-":                     "Diferencia de goles en contra, signo -",
   "Maxima Igualdad":          "Maxima Igualdad",
   "Valor Maximo a favor":     "Valor Maximo a favor, muy problabe que gane",
   "Valor Maximo en contra":   "Valor Maximo en contra, muy problabe que pierda",
   "Partidos":                 "Partido",
   "Ejemplos":                 "Diferencia de goles",
-  "simil-text":               "Partidos jugados con igual diferencia del goles que el partido que le toca jugar esta jornada",
+  "simil-text":               "Partidos jugados de similar dificultad (es decir diferencia de goles )",
   "emot-text":                "Cambia el color a mejor o peor segun las expectativas que tenia el equipo, muchos cambios de color indican sorpresas"
 
 }

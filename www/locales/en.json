@@ -36,6 +36,7 @@
   "Reglas de oro":            "Golden rules",
   "No usar dobles":           "Never and ever do multiple bets",
   "Apostar 30":               "Never use more than 30% of the budget or previusly won",
+
   "Inicio":                   "Home",
   "No Jugado":                "No played",
   "desc-dif":                 "It measures the goal difference between both equipment, absolute value from 0 to the 10",
@@ -46,6 +47,6 @@
   "Valor Maximo en contra":   "Value Maximum against, very problabe that loses",
   "Partidos":                 "Match",
   "Ejemplos":                 "Goal difference",
-  "emot-text":                "Change the color better or worse according to the expectations that had the team",
-  "simil-text":               "Matches with equal or less equal coef"
+  "emot-text":                "Change the color to better or worse according to the expectations that had the team, many changes of color indicates surprises",
+  "simil-text":               "Games of similar difficulty (i.e. goal difference )"
 }
