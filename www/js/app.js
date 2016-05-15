@@ -54,29 +54,13 @@ var app=angular.module('app',
 
 
 
-/*            var ad_units = {
-              android : {
-                  banner : "221288",
-                  interstitial : "221289"
-              }
-          };
-            var adid =  ad_units.android ;
-            //Show a default banner at bottom
-            if (mMedia) mMedia.createBanner({
-                adId: adid.banner,
-                autoShow: true,
-                overlap: false,
-                position: mMedia.AD_POSITION.BOTTOM_CENTER
-            });
-*/
-
       });
     })
     .config(function($httpProvider,$logProvider) {
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $logProvider.debugEnabled(true);
+        $logProvider.debugEnabled(false);
     })
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
@@ -105,7 +89,7 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        //  "url": "http://localhost:8080"
+        // "url": "http://localhost:8080"
         //  "url": "http://nodejs-rachas.rhcloud.com"
         "url": "http://visualbetting-rachas.rhcloud.com"
     })

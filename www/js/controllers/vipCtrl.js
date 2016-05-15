@@ -89,7 +89,7 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
         // show the interstitial....
         $log.debug('mostrados :'+ window.localStorage.getItem("mostrados"));
         $log.debug('mostrados ng :'+ $localStorage.mostrados);
-        if(mMedia && esPar($localStorage.mostrados) && $localStorage.mostrados < 8) mMedia.showInterstitial();
+        if(mMedia && esPar($localStorage.mostrados) && $localStorage.mostrados < 16) mMedia.showInterstitial();
         $log.debug("vipCtrl-VerEncuentro: Mostrando intersticial");
 
         var liga= item.tipo;

@@ -36,17 +36,17 @@
   "No usar dobles":"Machen Sie niemals Multi- oder Kombinationswetten",
   "Apostar 30":"Nutzen Sie niemals mehr als 30% Ihres Wettbudgets oder des vorherigen Gewinns in einer Wette",
 
-  "Inicio":                   "Einleitung",
+  "Inicio":                   "Home",
   "No Jugado":                "Nicht gespielt",
-  "desc-dif":                 "Gemessen wird der Unterschied zwischen beiden Mannschaften Tore, absoluten Wert von 0 bis 10.",
-  "dif+":                     "Differenz der Tore für führt Zeichen +",
-  "dif-":                     "Differenz der Tore gegen führt Zeichen -",
-  "Maxima Igualdad":          "Maxima Gleichstellung",
-  "Valor Maximo a favor":     "Wert höchstens für sehr problabe Sieger",
-  "Valor Maximo en contra":   "Wert höchstens gegen sehr problabe verliert es",
+  "desc-dif":                 "Gemessen wird der Torunterschied zwischen beiden Mannschaften in einem absoluten Wert von 0 bis 10.",
+  "dif+":                     "Tordifferenz zugunsten der Mannschaft führt Zeichen +",
+  "dif-":                     "Tordifferenz gegen die Mannschaft führt Zeichen -",
+  "Maxima Igualdad":          "Maximale Gleichstellung",
+  "Valor Maximo a favor":     "Höchster Wert zugunsten eines Sieges; Sieg ist sehr wahrscheinlich",
+  "Valor Maximo en contra":   "Höchster Wert gegen einen Sieg; Niederlage ist sehr wahrscheinlich",
   "Partidos":                 "Spiele",
-  "Ejemplos":                 "Differenz der Tore",
-  "simil-text":               "Parteien jugados ähnliche Schwierigkeiten (d.h. unterschiedliche Tore )",
-  "emot-text":                "Ändert sich die Farbe besser oder schlechter gemäss den Erwartungen, hatte das Team, viele Veränderungen der Farbe zeigen Überraschungen"
+  "Ejemplos":                 "Tordifferenz",
+  "simil-text":               "Spiele mit ähnlichen Schwierigkeiten (z.B. Tordifferenz)",
+  "emot-text":                "Ändert die Farbe zu besser oder schlechter gemäss den Erwartungen gegenüber einer Mannschaft, viele Farbveränderungen bedeuten Überraschungen"
 
 }

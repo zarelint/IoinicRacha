@@ -10,9 +10,9 @@
     </ion-header-bar>
 
     <ion-header-bar class="bar bar-subheader   pegar"  >
-        <label class="item   item-pegar item-input item-grey item-select  "  >
+        <label class="item item-pegar item-input item-grey item-select"  >
 
-           <div class="item-text-wrap input-label col texto-blanco ">
+           <div class="col item-text-wrap input-label  texto-blanco ">
                {{ 'Liga' | translate }}
             </div>
             <div class="col">
@@ -21,7 +21,6 @@
                         ng-change="changedliga()">
                    <option value="" > {{ 'Todas' | translate }}</option>
                 </select>
-     <!--     <option value="" >            {{ 'Liga' | translate }}</option>-->
             </div>
     </label>
 
@@ -29,18 +28,25 @@
 
       <ion-header-bar class="bar bar-subheader  pegar"  >
 
-          <div class="list">
-     <label class=" item  item-pegar item-grey item-input item-select">
-           <div class="input-label texto-blanco">
-               <option >{{ 'Prediccion' | translate }}
-           </div>
-           <select  ng-model="aciertos.checked">
-               <option selected value="">{{ 'Todas' | translate }}</option>
-               <option value="false">{{ 'Fallos' | translate }}</option>
-               <option value="true">{{ 'Aciertos' | translate }}</option>
-           </select>
 
-       </label>
+
+          <div class="list">
+
+              <li class=" item  item-pegar item-grey item-input item-select">
+
+                  <div class="input-label col texto-blanco">
+                      {{ 'Prediccion' | translate }}
+                  </div>
+                  <div class="col">
+                      <select ng-model="aciertos.checked">
+                          <option selected value="">{{ 'Todas' | translate }}</option>
+                          <option value="false">{{ 'Fallos' | translate }}</option>
+                          <option value="true">{{ 'Aciertos' | translate }}</option>
+                      </select>
+                  </div>
+
+
+              </li>
           </div>
 
     </ion-header-bar>
