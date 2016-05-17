@@ -28,7 +28,7 @@ var app=angular.module('app',
           }
 
 
-            //$translate.use("en");
+            //$translate.use("es");
             moment.locale($translate.proposedLanguage());
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
