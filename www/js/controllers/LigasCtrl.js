@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('LigasCtrl', function ( $log, detailMatch, $state, myconf, $scope, $http,LigaService) {
+app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, myconf, $scope, $http,LigaService) {
 
     var ligaSelected;
 
@@ -71,8 +71,10 @@ app.controller('LigasCtrl', function ( $log, detailMatch, $state, myconf, $scope
 
 
   $scope.selection=[];
-
+  function esPar(num) { return num % 2;}
+    
   $scope.irPartido = function (match) {
+      if(mMedia && esPar($localStorage.mostrados) ) mMedia.showInterstitial();
       detailMatch.jornada =  $scope.racha[ligaSelected].ultima;
       detailMatch.equipo1 = match.split('-')[0];
       detailMatch.equipo2 = match.split('-')[1];

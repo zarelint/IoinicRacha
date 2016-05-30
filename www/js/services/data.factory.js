@@ -36,7 +36,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
             var deferred = $q.defer();
 
             //Si no esta guardado haz llamada
-            if (racha[liga] === undefined && window.localStorage.getItem(liga) == null ) {
+            if ( window.localStorage.getItem(liga) == null ) {
                 $http.get(myconf.url+'/ligas/'+liga, { timeout: deferred.promise })
                     .success(function (data) {
                         racha[liga] = data;
@@ -64,9 +64,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
                     $log.error(msg, code);
                 });
             }else{
-                if (window.localStorage.getItem(liga) !== null){
-                    racha[liga] = JSON.parse(window.localStorage.getItem(liga));
-                }
+                racha[liga] = JSON.parse(window.localStorage.getItem(liga));
                 deferred.resolve(racha);
             }
             return deferred.promise;

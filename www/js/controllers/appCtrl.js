@@ -100,13 +100,13 @@ app.controller('AppCtrl', function(
 
     $scope.bodShare = function( type ){
         if (type == 'google')
-            window.open('https://plus.google.com/share?url='+social_config.url, '_system');
+            window.open('https://plus.google.com/113706467770672131735', '_blank', 'location=yes');
         if (type == 'facebook')
-            window.open('https://www.facebook.com/sharer/sharer.php?u='+social_config.url, '_system');
+            window.open('https://www.facebook.com/Visual-betting-1259051350796387', '_blank', 'location=yes');
         if (type == 'twitter')
-            window.open('https://twitter.com/home?status='+social_config.description, '_system');
+            window.open('https://twitter.com/visualbetting', '_blank', 'location=yes');
         if (type == 'email')
-            window.open('mailto:?&subject='+social_config.title+'&body='+social_config.description, '_system');
+            window.open('mailto:?&subject='+social_config.title+'&to=visualbetting@gmail.com'+'&body='+social_config.description, '_blank', 'location=yes');
     };
 
     $scope.rateOurApp = function(){

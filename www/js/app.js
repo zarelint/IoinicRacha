@@ -3,7 +3,7 @@
 var social_config = {
     url:         'https://play.google.com/store/apps/details?id=com.ionicframework.racha854942',
     title:       'Visual Betting',
-    description: 'Visual Betting is an application based on a statistical analysis algorithm football all countries that helps you make your most profitable bets.',
+    description: 'Share your Doubts',
     image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
