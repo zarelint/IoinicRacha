@@ -9,7 +9,16 @@ app.controller('AppCtrl', function(
     $ionicPopup,$log,$localStorage
     ) {
 
-
+    $scope.$on("$ionicView.loaded", function(    ){
+        if (mMedia) {
+            mMedia.createBanner({
+                adId: "221288",
+                autoShow: true,
+                overlap: false,
+                position: mMedia.AD_POSITION.BOTTOM_CENTER
+            });
+        }
+    });
 
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {

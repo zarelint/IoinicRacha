@@ -26,14 +26,17 @@
       "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
       "id": "cordova-plugin-inappbrowser"
     },
-    "cordova-plugin-googleplus",
     "cordova-plugin-mmedia",
     "cordova-plugin-extension",
     {
       "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
       "id": "cordova-plugin-globalization"
     },
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    {
+      "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+      "id": "cordova-plugin-googleplus"
+    }
   ],
   "cordovaPlatforms": [
     "android",

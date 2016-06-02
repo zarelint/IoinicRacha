@@ -26,14 +26,7 @@ var app=angular.module('app',
                   });
               }, null);
           }
-            if (mMedia) {
-                mMedia.createBanner({
-                    adId: "221288",
-                    autoShow: true,
-                    overlap: false,
-                    position: mMedia.AD_POSITION.BOTTOM_CENTER
-                });
-            }
+
 
             //$translate.use("en");
             moment.locale($translate.proposedLanguage());
