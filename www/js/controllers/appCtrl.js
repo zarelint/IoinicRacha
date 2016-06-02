@@ -115,7 +115,7 @@ app.controller('AppCtrl', function(
         if (type == 'twitter')
             window.open('https://twitter.com/visualbetting', '_blank', 'location=yes');
         if (type == 'email')
-            window.open('mailto:?&subject='+social_config.title+'&to=visualbetting@gmail.com'+'&body='+social_config.description, '_blank', 'location=yes');
+            window.open('mailto:'+social_config.email+'?&subject='+social_config.title+'&body='+social_config.description, '_system');
     };
 
     $scope.rateOurApp = function(){
