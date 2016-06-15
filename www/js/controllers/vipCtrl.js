@@ -61,9 +61,20 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
      * else, select the given group
      */
     $scope.toggleGroup = function(group) {
+        
         if ($scope.isGroupShown(group)) {
             $scope.shownGroup = null;
         } else {
+            if (HeyzapAds){
+                HeyzapAds.VideoAd.show().then(function() {
+                    // Native call successful.
+                    return HeyzapAds.VideoAd.fetch();
+
+                }, function(error) {
+                    console.log(error)
+                });
+            }
+
             $ionicSlideBoxDelegate.update();
             $scope.shownGroup = group;
         }
@@ -85,14 +96,10 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
     // preppare and load ad resource in background, e.g. at begining of game level
     //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );
     $scope.verEncuentro = function(item) {
-
-        // show the interstitial....
-        $log.debug('mostrados :'+ window.localStorage.getItem("mostrados"));
+        
         $log.debug('mostrados ng :'+ $localStorage.mostrados);
-        //&& $localStorage.mostrados < 16
-        if(mMedia && esPar($localStorage.mostrados) ) mMedia.showInterstitial();
         $log.debug("vipCtrl-VerEncuentro: Mostrando intersticial");
-
+        
         var liga= item.tipo;
         var ligaparsed= item.liga;
         var equipos = item.encuentro.split('/');

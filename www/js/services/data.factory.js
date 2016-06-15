@@ -100,6 +100,7 @@ app.factory('LigaService', function(myconf,$http, $log, $q,$translate ) {
                         items = JSON.parse(window.localStorage.getItem("listaligas"));
                         deferred.resolve(items);
                     }else{
+                     
                         $http.get(myconf.url + '/listaligas').success(function(data) {
                            // data.splice(0, 0, "All");
                             window.localStorage.setItem("listaligas", JSON.stringify(data));
@@ -137,7 +138,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
+app.factory('VipService', function($http,myconf,$q,googleLogin){
     var items = [];
 
     return {
@@ -153,7 +154,7 @@ app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
                 deferred.resolve(items);
             }else{ //pull
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
-                    $localStorage.mostrados=0;
+                    
                     googleLogin.revocar();
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;

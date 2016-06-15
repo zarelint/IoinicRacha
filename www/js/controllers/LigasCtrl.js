@@ -14,13 +14,7 @@ app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, 
     LigaService.getListaLigas(false).then(function(items){
         $scope.ligas = items;
     });
-/*
-    $scope.$on('$ionicView.enter', function(){
-        if (mMedia)  mMedia.showBanner(mMedia.AD_POSITION.BOTTOM_CENTER);
-    });
-    $scope.$on('$ionicView.beforeLeave', function(){
-        if (mMedia)  mMedia.hideBanner();
-    });*/
+
 
     $scope.data = {};
     $scope.igualdad = [null,10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10];
@@ -36,10 +30,25 @@ app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, 
     $scope.getkey = function (obj) {
         return Object.keys(obj)[0];
     };
-
+    function esPar(num) { return num % 2;}
     $scope.changedliga = function() {
         ligaSelected = $scope.data.selectedindex;
         $scope.ligaSelected = ligaSelected;
+
+
+
+        //if(esPar($localStorage.mostrados) ) {
+        if(window.localStorage.getItem(ligaSelected+'_visto')==null ) {
+ 
+            if (HeyzapAds){
+                HeyzapAds.InterstitialAd.show();
+                HeyzapAds.InterstitialAd.fetch();
+            }
+
+            window.localStorage.setItem(ligaSelected+'_visto', true);
+        }
+       
+
 
         LigaService.getliga(ligaSelected).then(function(data) {
             $scope.racha = data;
@@ -71,10 +80,10 @@ app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, 
 
 
   $scope.selection=[];
-  function esPar(num) { return num % 2;}
+
     
   $scope.irPartido = function (match) {
-      if(mMedia && esPar($localStorage.mostrados) ) mMedia.showInterstitial();
+      
       detailMatch.jornada =  $scope.racha[ligaSelected].ultima;
       detailMatch.equipo1 = match.split('-')[0];
       detailMatch.equipo2 = match.split('-')[1];

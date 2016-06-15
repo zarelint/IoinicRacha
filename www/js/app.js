@@ -7,7 +7,7 @@ var social_config = {
     image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
-var mMedia;
+var HeyzapAds;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
@@ -27,8 +27,18 @@ var app=angular.module('app',
               }, null);
           }
 
+            if (HeyzapAds){
+                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
+                    HeyzapAds.InterstitialAd.fetch();
+                    HeyzapAds.VideoAd.fetch();
+                    //  return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                }, function(error) {
+                    console.log(error);
+                });
 
-            //$translate.use("en");
+            }
+
+            //$translate.use("de");
             moment.locale($translate.proposedLanguage());
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

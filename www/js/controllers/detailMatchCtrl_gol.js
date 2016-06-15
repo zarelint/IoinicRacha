@@ -13,14 +13,7 @@ app.controller('detailMatchCtrl_gol', function ($localStorage, $window,$log,  $r
     $scope.loading=true;
 
     $scope.$on('$ionicView.enter', function(){
-        $log.debug("detailMatchCtrl_gol: incio y cargo anuncio");
-        if(mMedia){
-            $log.debug('mostrados ng :'+ $localStorage.mostrados);
-            $localStorage.mostrados++;
-            mMedia.prepareInterstitial( {adId:'221289', autoShow:false} );
-        }
-
-        // Simulate a login delay. Remove this and replace with your login
+        $log.debug("detailMatchCtrl_gol: incio");
         $timeout(function() {
             $ionicScrollDelegate.$getByHandle('todos-scroll').scrollBottom(true);
             $ionicScrollDelegate.$getByHandle('casa-scroll').scrollBottom(true);

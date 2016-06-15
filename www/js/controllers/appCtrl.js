@@ -9,16 +9,9 @@ app.controller('AppCtrl', function(
     $ionicPopup,$log,$localStorage
     ) {
 
-    $scope.$on("$ionicView.loaded", function(    ){
-        if (mMedia) {
-            mMedia.createBanner({
-                adId: "221288",
-                autoShow: true,
-                overlap: false,
-                position: mMedia.AD_POSITION.BOTTOM_CENTER
-            });
-        }
-    });
+/*    $scope.$on("$ionicView.loaded", function(    ){
+        HeyzapAds.BannerAd.show(HeyzapAds.BannerAd.POSITION_BOTTOM)
+    });*/
 
 
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
