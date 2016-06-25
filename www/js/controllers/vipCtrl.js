@@ -6,6 +6,10 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
         return moment(fecha,'DD MMM DDDD').isAfter(moment().subtract(1,'days'),'day');
     };
 
+    $scope.filtrarDate2 = function(fecha) {
+        return moment(fecha,'DD MM YYYY').isSame(moment(), "day");
+    };
+
     //Tener un servidor propio permiter usar datos procesados y actualizados
     $scope.doRefresh = function () {
         //clear all data  Forzaba esto porque sino no se cargan las ligas again
@@ -40,8 +44,8 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
 
     VipService.getdata(false).then(function(items){
 
-/*        $http.get('day.json').
-        success(function(data, status, headers, config) {
+   /*    $http.get('day.json').
+        success(function(data) {
             $scope.prueba = data;
         });*/
         $scope.predicciones =  items.pred;

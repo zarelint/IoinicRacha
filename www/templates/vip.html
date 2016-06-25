@@ -77,7 +77,7 @@
                 </div>
             </ion-item >
 
-                <div ng-repeat=" fec in day.fechas | filter: filtrarDate ">
+                <div ng-repeat=" fec in day.fechas | filter: filtrarDate2 ">
 
                     <div ng-repeat="(liga,val) in day.betday[fec] | groupBy: 'liga' " ng-show="isGroupShown('betday')"  >
 
