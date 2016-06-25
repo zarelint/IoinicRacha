@@ -12,6 +12,7 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
         LigaService.clearAll();
 
         VipService.getdata(true).then(function(items){
+            $scope.day =  items.day;
             $scope.predicciones =  items.pred;
             $scope.ratesLigasX =  items.ratesLigasX;
             $scope.ratesLigas1 =  items.ratesLigas1;
@@ -38,9 +39,15 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
     };
 
     VipService.getdata(false).then(function(items){
+
+/*        $http.get('day.json').
+        success(function(data, status, headers, config) {
+            $scope.prueba = data;
+        });*/
         $scope.predicciones =  items.pred;
         $scope.ratesLigasX =  items.ratesLigasX;
         $scope.ratesLigas1 =  items.ratesLigas1;
+        $scope.day =  items.day;
         var keys = Object.keys(items.pred);
 
         keys.sort(function (item1, item2) {
@@ -66,13 +73,15 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
             $scope.shownGroup = null;
         } else {
             if (HeyzapAds){
-                HeyzapAds.VideoAd.show().then(function() {
-                    // Native call successful.
-                    return HeyzapAds.VideoAd.fetch();
-
-                }, function(error) {
-                    console.log(error)
-                });
+                if (group==='betday'){
+                    HeyzapAds.IncentivizedAd.show().then(function() {
+                        return HeyzapAds.IncentivizedAd.fetch();
+                    });
+                }else{
+                    HeyzapAds.VideoAd.show().then(function() {
+                        return HeyzapAds.VideoAd.fetch();
+                    });
+                }
             }
 
             $ionicSlideBoxDelegate.update();
@@ -88,6 +97,8 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
             $state.go('detailRates', {myParam: $scope.ratesLigas1[liga.substr(0,liga.indexOf('singles'))]});
         }else if (liga.indexOf('dobles') > -1){
             $state.go('detailRates', {myParam: $scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]});
+        }else if (liga ==='betday'){
+            $state.go('simpleRates', {myParam:  $scope.day} );
         }
     };
 

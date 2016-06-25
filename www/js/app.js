@@ -13,6 +13,7 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .run(function($ionicPlatform,$translate) {
         $ionicPlatform.ready(function() {
+
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
 
@@ -27,11 +28,12 @@ var app=angular.module('app',
               }, null);
           }
 
-            if (HeyzapAds){
+          if (HeyzapAds){
                 HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
                     HeyzapAds.InterstitialAd.fetch();
                     HeyzapAds.VideoAd.fetch();
-                    //  return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                    HeyzapAds.IncentivizedAd.fetch();
+                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
                 }, function(error) {
                     console.log(error);
                 });
@@ -41,6 +43,19 @@ var app=angular.module('app',
             //$translate.use("de");
             moment.locale($translate.proposedLanguage());
 
+            var notificationOpenedCallback = function(jsonData) {
+                //console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+            };
+
+            window.plugins.OneSignal.init("3995804c-fb96-4bf9-bd75-372124e08ee2",
+                {googleProjectNumber: "321359984550"},
+                notificationOpenedCallback);
+
+            // Show an alert box if a notification comes in when the user is in your app.
+            window.plugins.OneSignal.enableInAppAlertNotification(true);
+
+            
+            
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
             if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -101,7 +116,7 @@ var app=angular.module('app',
         //  "url": "https://rachanode-jvillajos.c9users.io"
         // "url": "http://localhost:8080"
         //  "url": "http://nodejs-rachas.rhcloud.com"
-        "url": "http://visualbetting-rachas.rhcloud.com"
+          "url": "http://visualbetting-rachas.rhcloud.com"
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
@@ -164,6 +179,13 @@ var app=angular.module('app',
                 controller: 'detailRatesCtrl',
                 params: {myParam: null},
                 cache: true
+            })            
+            .state('simpleRates',       {
+                url: '/simpleRates',
+                templateUrl: 'templates/detail/detailRates.html',
+                controller: 'simpleRatesCtrl',
+                params: {myParam: null},
+                cache: true
             })
 /*            .state('detailMatch',       {
                 url: '/detailMatch',
@@ -206,10 +228,12 @@ var app=angular.module('app',
 
 
 app.filter('groupBy', function ($timeout) {
-    return function (data, key) {
-        if (!key) return data;
+    //return memoize(function(data, key) {
+   return function (data, key) {
+        if (!key ) return data;
+        if (!data ) return;
         var outputPropertyName = '__groupBy__' + key;
-        if(!data[outputPropertyName]){
+        if( !data[outputPropertyName] ){
             var result = {};
             for (var i=0;i<data.length;i++) {
                 if (!result[data[i][key]])
@@ -220,7 +244,7 @@ app.filter('groupBy', function ($timeout) {
             $timeout(function(){delete data[outputPropertyName];},0,false);
         }
         return data[outputPropertyName];
-    };
+    }//)
 });
 
 app.constant('$ionicLoadingConfig', {

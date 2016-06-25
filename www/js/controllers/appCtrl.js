@@ -117,8 +117,18 @@ app.controller('AppCtrl', function(
 
     $scope.contactUs = function(){
         window.open('mailto:'+social_config.email+'?subject=Contacting from Visual Betting', '_system');
-    }
-
+    };
+    $scope.rateOurApp = function(){
+        $scope.rateDialog();
+    };
+    
+    
+    $scope.notification={};
+    $scope.notification = {"checked": window.localStorage.getItem("notifya")=== "true"};
+    $scope.notificame = function(){
+        window.localStorage.setItem("notifya",$scope.notification.checked );
+        window.plugins.OneSignal.setSubscription($scope.notification.checked);
+    };
 
 
 });

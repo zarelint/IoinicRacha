@@ -49,6 +49,28 @@
                     <i class="ion ion-ios-star"></i>
                     <div class="menu-text">{{ 'Apoyanos' | translate }}</div>
                 </ion-item>
+
+                <ion-item class="item-icon-left col pegar"  >
+
+                    <div class="row row-center menu-color-negro pegar">
+                        <div class="col col-10"></div>
+                        <div class="col col-40 texto-blanco  ">
+                            {{ 'Notifications' | translate}}
+                        </div>
+                        <div class="col text-center col-50 ">
+                            <label class="toggle">
+                                <input type="checkbox" ng-model="notification.checked" ng-change="notificame()">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                </ion-item>
+
 <!--
 
                 <ion-item class="item-icon-left" menu-close href="www.resultados-futbol.com">

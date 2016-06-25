@@ -44,7 +44,9 @@
  .bh{
     background-color: #444;
 }
-
+.menu-color-negro{
+    background-color: #000000;
+}
  .bordeinfo{
      border-radius: 20%;
      box-shadow: #B3B3B3 19px 19px 19px;
