@@ -11,7 +11,7 @@ var HeyzapAds;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate) {
+    .run(function($ionicPlatform,$translate,LigaService) {
         $ionicPlatform.ready(function() {
 
           if( navigator && navigator.splashscreen )
@@ -40,16 +40,23 @@ var app=angular.module('app',
 
             }
 
-            //$translate.use("de");
+            //$translate.use("en");
             moment.locale($translate.proposedLanguage());
 
             var notificationOpenedCallback = function(jsonData) {
-                //console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                if (jsonData.additionalData.test){
+                    LigaService.clearAll();
+                }
             };
-
-            window.plugins.OneSignal.init("3995804c-fb96-4bf9-bd75-372124e08ee2",
+            //test 
+/*            window.plugins.OneSignal.init("54f31eb1-6216-4247-b475-ac357ac5ea40",
+                {googleProjectNumber: "321359984550"},
+                notificationOpenedCallback);*/
+            //produccion             
+                window.plugins.OneSignal.init("3995804c-fb96-4bf9-bd75-372124e08ee2",
                 {googleProjectNumber: "321359984550"},
                 notificationOpenedCallback);
+             
 
             // Show an alert box if a notification comes in when the user is in your app.
             window.plugins.OneSignal.enableInAppAlertNotification(true);

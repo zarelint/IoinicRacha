@@ -37,8 +37,8 @@ app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, 
 
 
 
-        //if(esPar($localStorage.mostrados) ) {
-        if(window.localStorage.getItem(ligaSelected+'_visto')==null ) {
+      
+/*        if(window.localStorage.getItem(ligaSelected+'_visto')==null ) {
  
             if (HeyzapAds){
                 HeyzapAds.InterstitialAd.show();
@@ -46,7 +46,7 @@ app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, 
             }
 
             window.localStorage.setItem(ligaSelected+'_visto', true);
-        }
+        }*/
        
 
 

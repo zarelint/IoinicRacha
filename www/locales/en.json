@@ -49,7 +49,8 @@
   "Ejemplos":                 "Goal difference",
   "emot-text":                "Change the color to better or worse according to the expectations that had the team, many changes of color indicates surprises",
   "simil-text":               "Games of similar difficulty (i.e. goal difference)"   ,
-  "VIP":                      "Daily Selection",
+  "VIP":                      "Daily personal choice, no algorithm",
+  "Algorithm (see Historical)":   "Algorithm (see Historical)",
   "Notifications": "Notifications",
 
   "Suecia-Allsvenskan" :           "Sweden-Allsvenskan" ,

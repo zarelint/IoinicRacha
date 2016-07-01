@@ -44,7 +44,7 @@ app.controller('simpleRatesCtrl', function ($http, $stateParams,  $state, $scope
             acertados=0;
 
         }
-        $scope.rate=acertadosG/match_noG*100;
+        $scope.rate=(acertadosG/match_noG*100.00).toFixed(2);
         return ratesParsed;
     }
 

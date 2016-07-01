@@ -8,14 +8,15 @@
         <ion-list>
 
                <div ng-repeat="group in listaFechas | filter: filtrarDate ">
-                    <ion-item class="pegar"
+                    <ion-item class="pegar item-text-wrap"
                                  ng-click="toggleGroup(group)"
                                  ng-class="{active: isGroupShown(group)}" >
                             <div class="row row-center ">
                                 <div class="col col-10 text-center  ">
                                     <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
                                 </div>
-                                <div class="col">{{group}}</div>
+                                <div class="col">{{group}} </div>
+                                <div class="cocl"> {{ 'Algorithm (see Historical)' | translate}} </div>
                             </div>
                    </ion-item>
                     <ion-item   ng-show=" isGroupShown(group)" class="item-balanced pegar texto-blanco row row-center item-text-wrap">

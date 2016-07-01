@@ -77,7 +77,10 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
             $scope.shownGroup = null;
         } else {
             if (HeyzapAds){
-                if (group==='betday'){
+                HeyzapAds.VideoAd.show().then(function() {
+                    return HeyzapAds.VideoAd.fetch();
+                });
+/*                if (group==='betday'){
                     HeyzapAds.IncentivizedAd.show().then(function() {
                         return HeyzapAds.IncentivizedAd.fetch();
                     });
@@ -85,7 +88,7 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
                     HeyzapAds.VideoAd.show().then(function() {
                         return HeyzapAds.VideoAd.fetch();
                     });
-                }
+                }*/
             }
 
             $ionicSlideBoxDelegate.update();
