@@ -1,6 +1,15 @@
 'use strict';
 
 app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+    $scope.$on("$ionicView.enter", function(event, data){
+        if (HeyzapAds) {
+            HeyzapAds.VideoAd.show().then(function () {
+                return HeyzapAds.VideoAd.fetch();
+            });
+        }
+    });
+
+
 
     $scope.filtrarDate = function(fecha) {
         return moment(fecha,'DD MMM DDDD').isAfter(moment().subtract(1,'days'),'day');
@@ -76,11 +85,12 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
         if ($scope.isGroupShown(group)) {
             $scope.shownGroup = null;
         } else {
-            if (HeyzapAds){
+            /*
+               if (HeyzapAds){
                 HeyzapAds.VideoAd.show().then(function() {
                     return HeyzapAds.VideoAd.fetch();
                 });
-/*                if (group==='betday'){
+               if (group==='betday'){
                     HeyzapAds.IncentivizedAd.show().then(function() {
                         return HeyzapAds.IncentivizedAd.fetch();
                     });
@@ -88,8 +98,8 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
                     HeyzapAds.VideoAd.show().then(function() {
                         return HeyzapAds.VideoAd.fetch();
                     });
-                }*/
-            }
+                }
+            }*/
 
             $ionicSlideBoxDelegate.update();
             $scope.shownGroup = group;

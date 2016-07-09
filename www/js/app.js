@@ -30,17 +30,17 @@ var app=angular.module('app',
 
           if (HeyzapAds){
                 HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
-                    HeyzapAds.InterstitialAd.fetch();
+                  
                     HeyzapAds.VideoAd.fetch();
-                    HeyzapAds.IncentivizedAd.fetch();
-                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                    
+                   // return HeyzapAds.showMediationTestSuite(); // returns a Promise
                 }, function(error) {
                     console.log(error);
                 });
 
             }
 
-            //$translate.use("en");
+            //$translate.use("fr");
             moment.locale($translate.proposedLanguage());
 
             var notificationOpenedCallback = function(jsonData) {

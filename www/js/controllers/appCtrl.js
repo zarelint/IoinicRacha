@@ -6,7 +6,7 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup,$log,$localStorage
+    $ionicPopup,$log,$localStorage,$ionicTabsDelegate
     ) {
 
 /*    $scope.$on("$ionicView.loaded", function(    ){
@@ -114,17 +114,25 @@ app.controller('AppCtrl', function(
     $scope.rateOurApp = function(){
         $scope.rateDialog();
     };
+    $scope.privacy = function(){
+        window.open('https://visualbetting-rachas.rhcloud.com/', '_blank', 'location=yes');
+    };
 
     $scope.contactUs = function(){
         window.open('mailto:'+social_config.email+'?subject=Contacting from Visual Betting', '_system');
-    };
-    $scope.rateOurApp = function(){
-        $scope.rateDialog();
     };
     
     
     $scope.notification={};
     $scope.notification = {"checked": window.localStorage.getItem("notifya")=== "true"};
+
+    //default configuration
+    if (window.localStorage.getItem("notifya")===null){
+        $scope.notification.checked=true;
+        window.localStorage.setItem("notifya",true );
+        window.plugins.OneSignal.setSubscription(true);
+    }
+
     $scope.notificame = function(){
         window.localStorage.setItem("notifya",$scope.notification.checked );
         window.plugins.OneSignal.setSubscription($scope.notification.checked);
