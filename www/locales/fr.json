@@ -38,6 +38,8 @@
   "Apostar 30":"Ne jamais faire un pari de plus de 30% de son budget ou du gain précédent",
   "Inicio":"d'accueil",
 
+
+
   "No Jugado":                "Non joué",
   "desc-dif":                 "Mesure la différence de buts entre ces deux équipes, valeur absolue de 0 à 10",
   "dif+":                     "La différence de buts inscrits, précédée par  +",
@@ -53,6 +55,8 @@
   "Algorithm (see Historical)":   "Algorithme (voir historique)",
   "Notifications": "Notifications",
   "Privacy Policy": "Politique de confidentialité",
+  "Refresh": "Rafraîchir",
+
 
   "Suecia-Allsvenskan" :             "Suède-Allsvenskan" ,
   "Suecia-Superettan" :              "Suède-Superettan" ,

@@ -1,8 +1,17 @@
 'use strict';
 
-app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+    function esPar(num) { return num % 2;}
+
+
+    $scope.$on("$ionicView.loaded", function(event, data){
+        $scope.doRefresh();
+    });
+
     $scope.$on("$ionicView.enter", function(event, data){
-        if (HeyzapAds) {
+
+        $localStorage.mostrados++;
+        if (HeyzapAds && esPar($localStorage.mostrados) && $localStorage.mostrados < 6)  {
             HeyzapAds.VideoAd.show().then(function () {
                 return HeyzapAds.VideoAd.fetch();
             });
@@ -119,7 +128,6 @@ app.controller('vipCtrl', function ($localStorage,$translate,googleLogin,$ionicM
         }
     };
 
-    function esPar(num) { return num % 2;}
 
     // preppare and load ad resource in background, e.g. at begining of game level
     //if(mMedia) mMedia.prepareInterstitial( {adId:adid.interstitial, autoShow:false} );

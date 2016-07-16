@@ -125,6 +125,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
                 items = JSON.parse(window.localStorage.getItem("prediccion"));
                 deferred.resolve(items);
             }else{
+
                 //console.log('pulling');
                 $http.get(myconf.url + '/prediccion/1').success(function(data) {
                     window.localStorage.setItem("prediccion", JSON.stringify(data));
@@ -138,7 +139,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q,googleLogin){
+app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
     var items = [];
 
     return {
@@ -153,8 +154,9 @@ app.factory('VipService', function($http,myconf,$q,googleLogin){
                 }
                 deferred.resolve(items);
             }else{ //pull
+
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
-                    
+                    $localStorage.mostrados=0;
                     googleLogin.revocar();
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;

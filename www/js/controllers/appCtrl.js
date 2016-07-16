@@ -130,12 +130,18 @@ app.controller('AppCtrl', function(
     if (window.localStorage.getItem("notifya")===null){
         $scope.notification.checked=true;
         window.localStorage.setItem("notifya",true );
-        window.plugins.OneSignal.setSubscription(true);
+        if (window.plugins != undefined){
+            window.plugins.OneSignal.setSubscription(true);
+        }
+
     }
 
     $scope.notificame = function(){
         window.localStorage.setItem("notifya",$scope.notification.checked );
-        window.plugins.OneSignal.setSubscription($scope.notification.checked);
+        if (window.plugins != undefined){
+            window.plugins.OneSignal.setSubscription($scope.notification.checked);
+        }
+        
     };
 
 

@@ -9,6 +9,7 @@ var social_config = {
 };
 var HeyzapAds;
 
+
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .run(function($ionicPlatform,$translate,LigaService) {
@@ -33,14 +34,14 @@ var app=angular.module('app',
                   
                     HeyzapAds.VideoAd.fetch();
                     
-                   // return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
                 }, function(error) {
                     console.log(error);
                 });
 
             }
 
-            //$translate.use("fr");
+            //$translate.use("en");
             moment.locale($translate.proposedLanguage());
 
             var notificationOpenedCallback = function(jsonData) {
@@ -52,14 +53,17 @@ var app=angular.module('app',
 /*            window.plugins.OneSignal.init("54f31eb1-6216-4247-b475-ac357ac5ea40",
                 {googleProjectNumber: "321359984550"},
                 notificationOpenedCallback);*/
-            //produccion             
+            //produccion
+            if (window.plugins != undefined){
                 window.plugins.OneSignal.init("3995804c-fb96-4bf9-bd75-372124e08ee2",
-                {googleProjectNumber: "321359984550"},
-                notificationOpenedCallback);
-             
+                    {googleProjectNumber: "321359984550"}, notificationOpenedCallback);
 
-            // Show an alert box if a notification comes in when the user is in your app.
-            window.plugins.OneSignal.enableInAppAlertNotification(true);
+                // Show an alert box if a notification comes in when the user is in your app.
+                window.plugins.OneSignal.enableInAppAlertNotification(true);
+            }
+
+           
+
 
             
             
@@ -121,7 +125,7 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        // "url": "http://localhost:8080"
+        //  "url": "http://localhost:8080"
         //  "url": "http://nodejs-rachas.rhcloud.com"
           "url": "http://visualbetting-rachas.rhcloud.com"
     })
