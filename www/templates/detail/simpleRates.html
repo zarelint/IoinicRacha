@@ -13,30 +13,33 @@
     </ion-header-bar>
 
     <ion-header-bar class="bar bar-dark bar-subheader"  >
-            <div class="row row-center pegar">
-                <div class="col col-center text-center">{{ 'Jornada'  | translate }}</div>
-                <div class="col col-center text-center">{{ 'Aciertos' | translate }} / {{ 'Total' | translate }}</div>
-            </div>
+        <div class="row row-center pegar">
+            <div class="col col-center text-center">{{ 'Apostado'  | translate }}</div>
+            <div class="col col-center text-center">{{ 'Aciertos' | translate }} / {{ 'Total' | translate }}</div>
+            <div class="col col-center text-center">{{ 'Ganado'  | translate }}</div>
+        </div>
     </ion-header-bar>
 
 
     <ion-content>
-
         <ion-list>
             <div class="item pegar"  ng-repeat="item in rates track by $index " ng-if="$index >= 0 && item.rate!== null ">
                 <div class="row pegar" ng-class="{ 'text-success': !item.pleno }">
-                    <div class="col text-center">{{ item.jornada}}</div>
+                    <div class="col text-center">{{ item.stake}}</div>
                     <div class="col text-center">{{item.rate}}</div>
+                    <div class="col text-center">{{ item.day_output}}</div>
                 </div>
             </div>
         </ion-list>
     </ion-content>
 
+
     <ion-footer-bar align-title="left" class="bar-dark">
-            <div class="row pegar">
-                <div class="col text-center">{{ 'Acierto Acumulado' | translate }}</div>
-                <div class="col text-center">{{ rate}}%</div>
-            </div>
+        <div class="row pegar">
+            <div class="col text-center"> {{ gastado }}</div>
+            <div class="col text-center">{{ rate}}%</div>
+            <div class="col text-center">{{ ganado}}</div>
+        </div>
     </ion-footer-bar>
 
 </ion-view>

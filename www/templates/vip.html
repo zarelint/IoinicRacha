@@ -72,7 +72,11 @@
                 <div class="col col-20 text-center">  {{ 'Jornada' | translate}} {{prueba.fechas.length}}  </div>
                 <div class="col ">
                     <div class="row pegar ">
-                        @{{day.odd}}
+
+                            @{{ day.betday[day.fecha].resultado  }}
+
+
+
                     </div>
                 </div>
                 <div>%
@@ -80,9 +84,9 @@
                 </div>
             </ion-item >
 
-                <div ng-repeat=" fec in day.fechas | filter: filtrarDate2 ">
+         <!--       <div ng-repeat=" fec in day.fechas | filter: filtrarDate2 ">-->
 
-                    <div ng-repeat="(liga,val) in day.betday[fec] | groupBy: 'liga' " ng-show="isGroupShown('betday')"  >
+                    <div ng-repeat="(liga,val) in day.betday[day.fecha].bets | groupBy: 'liga' " ng-show="isGroupShown('betday')"  >
 
                         <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap "  >
                             <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
@@ -105,7 +109,7 @@
 
                     </div>
 
-            </div>
+          <!--  </div>-->
             <!--betday-->
 
         </ion-list>

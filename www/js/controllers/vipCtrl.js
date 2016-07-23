@@ -11,7 +11,7 @@ app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ion
     $scope.$on("$ionicView.enter", function(event, data){
 
         $localStorage.mostrados++;
-        if (HeyzapAds && esPar($localStorage.mostrados) && $localStorage.mostrados < 6)  {
+        if ( HeyzapAds && esPar($localStorage.mostrados)   ){
             HeyzapAds.VideoAd.show().then(function () {
                 return HeyzapAds.VideoAd.fetch();
             });
@@ -70,6 +70,8 @@ app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ion
         $scope.ratesLigasX =  items.ratesLigasX;
         $scope.ratesLigas1 =  items.ratesLigas1;
         $scope.day =  items.day;
+
+        
         var keys = Object.keys(items.pred);
 
         keys.sort(function (item1, item2) {

@@ -125,9 +125,9 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        //  "url": "http://localhost:8080"
+        //"url": "http://localhost:8080"
         //  "url": "http://nodejs-rachas.rhcloud.com"
-          "url": "http://visualbetting-rachas.rhcloud.com"
+        "url": "http://visualbetting-rachas.rhcloud.com"
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
@@ -193,7 +193,7 @@ var app=angular.module('app',
             })            
             .state('simpleRates',       {
                 url: '/simpleRates',
-                templateUrl: 'templates/detail/detailRates.html',
+                templateUrl: 'templates/detail/simpleRates.html',
                 controller: 'simpleRatesCtrl',
                 params: {myParam: null},
                 cache: true
