@@ -1,7 +1,9 @@
 'use strict';
 
 app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
-    function esPar(num) { return num % 2;}
+    function esPar(num) {
+        return num % 2;
+    }
 
 
     $scope.$on("$ionicView.loaded", function(event, data){
@@ -9,9 +11,9 @@ app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ion
     });
 
     $scope.$on("$ionicView.enter", function(event, data){
-
+       
         $localStorage.mostrados++;
-        if ( HeyzapAds && esPar($localStorage.mostrados)   ){
+        if (  HeyzapAds && esPar($localStorage.mostrados)  && $localStorage.mostrados < 5    ){
             HeyzapAds.VideoAd.show().then(function () {
                 return HeyzapAds.VideoAd.fetch();
             });

@@ -156,7 +156,7 @@ app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
             }else{ //pull
 
                 $http.get(myconf.url+'/prediccionVip').success(function(data) {
-                    $localStorage.mostrados=0;
+                    $localStorage.mostrados=1;
                     googleLogin.revocar();
                     window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
                     items = data;

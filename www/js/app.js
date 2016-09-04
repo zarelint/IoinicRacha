@@ -85,6 +85,18 @@ var app=angular.module('app',
                       });
               }
           }
+/*            document.addEventListener("offline", onOffline, false);
+
+            function onOffline() {
+                $ionicPopup.confirm({
+                        title: "Internet Disconnected"
+                    })
+                    .then(function(result) {
+                        if(!result) {
+                            ionic.Platform.exitApp();
+                        }
+                    });
+            }*/
 
 
 
@@ -125,9 +137,9 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //  "url": "https://rachanode-jvillajos.c9users.io"
-        //"url": "http://localhost:8080"
-        //  "url": "http://nodejs-rachas.rhcloud.com"
-        "url": "http://visualbetting-rachas.rhcloud.com"
+        //   "url": "http://localhost:8080"
+        //    "url": "http://nodejs-rachas.rhcloud.com"
+          "url": "http://visualbetting-rachas.rhcloud.com"
     })
     .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
