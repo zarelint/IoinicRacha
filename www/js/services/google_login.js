@@ -55,8 +55,8 @@ app.factory('timeStorage', ['$localStorage','$log', function ($localStorage,$log
 }]);
 
 app.factory('googleLogin', [
-             '$http','$q', '$interval', '$log', 'timeStorage','$localStorage','authService',
-    function ($http, $q,      $interval, $log,   timeStorage,  $localStorage,  authService) {
+             '$http','$q', '$interval', '$log', 'timeStorage','$localStorage','authService','$ionicPopup','googlePlay',
+    function ($http, $q,      $interval, $log,   timeStorage,  $localStorage,  authService,$ionicPopup,googlePlay) {
         // Initialize params
         var service = {};
         service.access_token = false;
@@ -208,15 +208,19 @@ app.factory('googleLogin', [
              */
             http.then(function (data) {
                 $log.debug('Google te da este refresh_token: ' + data.data.refresh_token);
+  
                 // set data
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
                 expires_in = expires_in * 1 / (60 * 60);
                 $localStorage.refresh_token = data.data.refresh_token;
                 timeStorage.set('google_access_token', access_token, expires_in);
-                //timeStorage.set('google_id_token', data.data.id_token, expires_in);
-                //fin set data
 
+                // El problema de revocarlo aqui es que devuelve el token
+                //if (!data.data.refresh_token ){
+                //    service.revocar();
+                //}
+                
                 if (access_token) {
                     //service.revocar();
                     authService.loginConfirmed(null, configUpdater); //copy token into headers
@@ -225,35 +229,43 @@ app.factory('googleLogin', [
                 } else {
                     def.reject({error: 'Access Token Not Found'});
                 }
+                
+
             });
         };
 
         service.revocar = function ( ) {
 
             // REVOCAR para recuperar forzar get refresh_token
-            if ( !$localStorage['refresh_token']  ) {
+            if ( !$localStorage['refresh_token'] && $localStorage['google_access_token']!== null  ) {
                 $log.debug('llamada a revocar...');
+                
+                
                 var http_revocar = $http({
                     url: 'https://accounts.google.com/o/oauth2/revoke',
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     params: {
                         token: $localStorage['google_access_token']
-                    }
+                    },
+                    ignoreAuthModule: true
+
                 });
                 http_revocar.then(
                     function successCallback(data) {
+                        // Por aqui no entra nunca por la respuesta es nula y no lo codifica como success
                         $log.debug('token revocado con exito' + data);
                         timeStorage.remove('google_access_token');
                         delete $localStorage.refresh_token;
                     }, function errorCallback(response) {
-                        // aunque funciona el revocado como data== null entra por aqui
+                        // aunque funciona el revocado como data== null y entra por aqui
+                        $log.debug('token revocado con exito'+JSON.stringify(response));
                         timeStorage.remove('google_access_token');
                         delete $localStorage.refresh_token;
-
-                        $log.error('No podemos revocarlo: ',  JSON.stringify(response));
-
-                    });
+                      //  $log.error('No podemos revocarlo porque el token a revokar estaba cadudado: ',  JSON.stringify(response));
+                    }
+                );
+                
             }
         };
 
@@ -290,15 +302,19 @@ app.factory('googleLogin', [
             var self = this;
             var access_token = timeStorage.get('google_access_token');
             $log.debug(JSON.stringify($localStorage));
-            $log.debug(JSON.stringify(localStorage));
-            if (access_token) {
+
+            if (access_token) { // ya lo tenemos cacheado
+                
                 $log.debug('Direct Access Token :' + access_token);
+                
                 authService.loginConfirmed(null, configUpdater); //copy token into headers and retry request
                 //service.getUserInfo(access_token, def);
+                def.resolve(access_token);
+                
             }else if( $localStorage.refresh_token !== undefined){ // get access_code  through refresh
                 $log.debug("usando refresh token");
                 service.refresh_token($localStorage.refresh_token, def);
-            }else {// get new token
+            }else {// get new token via google plus
 
 
                 //Pedir Token...
@@ -321,7 +337,7 @@ app.factory('googleLogin', [
             return def.promise;
         };
 
-        service.startLogin = function () {
+        service.startLogin = function (compra) {
             var def = $q.defer();
             var promise = this.authorize({
                 client_id: this.client_id,
@@ -331,8 +347,15 @@ app.factory('googleLogin', [
             });
             promise.then(function (data) {
                 def.resolve(data);
+                if (compra){
+                    googlePlay.subcribirse();
+                }
             }, function (data) {
-                $log.error(data);
+                $ionicPopup.alert({
+                    title: 'Login went wrong',
+                    template: 'Contact with support visualbetting@gmail.com'
+                });
+                $log.error("ERROR-GoogleLogin: "+data);
                 def.reject(data.error);
             });
             return def.promise;

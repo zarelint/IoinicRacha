@@ -22,16 +22,20 @@ app.controller('simpleRatesCtrl', function ($http, $stateParams,  $state, $scope
             //Recorro numero de partidos apostados en la fecha
             for (var index_match in rates.betday[fecha].bets) {
                 var match = rates.betday[fecha].bets[index_match];
-                // acertados en la fecha
+                //acertados del dia
                 match_no++;
                 if (match.pleno===true) {
                     acertados++;
                 }
+
                 //global de acertados
-                match_noG++;
-                if (match.pleno===true) {
-                    acertadosG++;
+                if (match.pleno != 'x' ){
+                    match_noG++;
+                    if (match.pleno===true) {
+                        acertadosG++;
+                    }
                 }
+
             }
 
             // Get rate week

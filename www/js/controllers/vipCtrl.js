@@ -1,21 +1,24 @@
 'use strict';
 
-app.controller('vipCtrl', function (   $localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     function esPar(num) {
         return num % 2;
     }
-
-
+    $scope.vip=$localStorage.ngStorageVIP;
     $scope.$on("$ionicView.loaded", function(event, data){
+
         $scope.doRefresh();
     });
-
+    
+    $scope.subcripcion = function(){
+        googleLogin.startLogin(true);
+    };
     $scope.$on("$ionicView.enter", function(event, data){
        
         $localStorage.mostrados++;
-        if (  HeyzapAds && esPar($localStorage.mostrados)  && $localStorage.mostrados < 5    ){
-            HeyzapAds.VideoAd.show().then(function () {
-                return HeyzapAds.VideoAd.fetch();
+        if (  HeyzapAds && $localStorage.mostrados >2 && esPar($localStorage.mostrados)  && $localStorage.mostrados < 7 && !$localStorage.ngStorageVIP   ){
+            HeyzapAds.IncentivizedAd.show().then(function () {
+                return HeyzapAds.IncentivizedAd.fetch();
             });
         }
     });

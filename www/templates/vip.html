@@ -56,9 +56,25 @@
                     </div>
               </div>
 
-              <!--betday-->
+      <!--betday-->
+            <div ng-show="!vip">
 
-                <ion-item class="pegar"
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="button button-large button-assertive " ng-click="subcripcion(true)">
+                            <div class="row col text-center">Remove ads & get extra bets</div>
+                            <div class="row col text-center">Thanks for your Support !!</div>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+         <div ng-show="vip">
+
+
+                <ion-item class="pegar  "
                           ng-click="toggleGroup('betday')"
                           ng-class="{active: isGroupShown('betday')}" >
                     <div class="row row-center ">
@@ -68,23 +84,24 @@
                         <div class="col">{{ 'VIP' | translate}}</div>
                     </div>
                 </ion-item>
+
                 <ion-item  ng-click="ver('betday')"  ng-show=" isGroupShown('betday')" class="item-balanced pegar texto-blanco row row-center item-text-wrap" >
-                <div class="col col-20 text-center">  {{ 'Jornada' | translate}} {{prueba.fechas.length}}  </div>
-                <div class="col ">
-                    <div class="row pegar ">
+                    <div class="col col-20 text-center">  {{ 'Jornada' | translate}} {{prueba.fechas.length}}  </div>
+                    <div class="col ">
+                        <div class="row pegar ">
 
-                            @{{ day.betday[day.fecha].resultado  }}
+                                @{{ day.betday[day.fecha].resultado  }}
 
 
 
+                        </div>
                     </div>
-                </div>
-                <div>%
-                    <span class="more-info-match  ion ion-ios-arrow-right"></span>
-                </div>
-            </ion-item >
+                    <div>%
+                        <span class="more-info-match  ion ion-ios-arrow-right"></span>
+                    </div>
+                </ion-item >
 
-         <!--       <div ng-repeat=" fec in day.fechas | filter: filtrarDate2 ">-->
+
 
                     <div ng-repeat="(liga,val) in day.betday[day.fecha].bets | groupBy: 'liga' " ng-show="isGroupShown('betday')"  >
 
@@ -109,9 +126,8 @@
 
                     </div>
 
-          <!--  </div>-->
-            <!--betday-->
-
+         <!--betday-->
+         </div>
         </ion-list>
 
 

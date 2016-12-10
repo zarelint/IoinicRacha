@@ -139,9 +139,20 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
+app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage,$log,$ionicPopup){
     var items = [];
 
+
+    function getEndPoint() {
+        var url_endpoint ;
+        if ($localStorage.ngStorageVIP){
+            url_endpoint = '/prediccionVip';
+
+        }else{
+            url_endpoint = '/prediccionFree';
+        }
+        return url_endpoint;
+    }
     return {
         getdata: function getdata(pullRefresh){
             var deferred = $q.defer();
@@ -154,18 +165,25 @@ app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage){
                 }
                 deferred.resolve(items);
             }else{ //pull
-
-                $http.get(myconf.url+'/prediccionVip').success(function(data) {
+                var url_endpoint = getEndPoint();
+                $http.get(myconf.url+url_endpoint).then(function(data) {
                     $localStorage.mostrados=1;
-                    googleLogin.revocar();
-                    window.localStorage.setItem("prediccionVIP", JSON.stringify(data));
-                    items = data;
+
+                    window.localStorage.setItem("prediccionVIP", JSON.stringify(data.data));
+                    items = data.data;
                     for (var dateIndex in items.pred){
                         items.pred[moment(dateIndex,'YYYY MM DD').format('DD MMM dddd')]=items.pred[dateIndex];
                         delete items.pred[dateIndex];
                     }
                     deferred.resolve(items);
-                });
+                }, function (error) {
+                    //error.data.message
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Subcription Expired',
+                        template: 'Renew your Subcription'
+                    });
+                    $log.debug('Error en la llamada '+url_endpoint+ error);
+                } );
             }
             return deferred.promise;
         }

@@ -7,12 +7,13 @@ var social_config = {
     image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
-var HeyzapAds;
 
+var HeyzapAds;
+var inAppPurchase; 
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,LigaService) {
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage) {
         $ionicPlatform.ready(function() {
 
           if( navigator && navigator.splashscreen )
@@ -29,17 +30,38 @@ var app=angular.module('app',
               }, null);
           }
 
-          if (HeyzapAds){
-                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
-                  
-                    HeyzapAds.VideoAd.fetch();
-                    
-                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
-                }, function(error) {
-                    console.log(error);
-                });
 
+            if (window.plugins != undefined){
+                inAppPurchase
+                    .restorePurchases()
+                    .then(function (purchases) {
+                        $log.debug(JSON.stringify(purchases));
+                        if(purchases.productId === 'freeads' && purchases.autoRenewing){
+                            HeyzapAds = false;
+                            $localStorage.ngStorageVIP = true;
+                        }else{
+                            if (HeyzapAds){
+                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
+                                    HeyzapAds.IncentivizedAd.fetch();
+                                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                                }, function(error) {
+                                    log.debug('Error Heyzap start'+error);
+                                });
+                            }
+                        }
+
+                    })
+                    .catch(function (err) {
+                        $log.debug('google play plugin '+ err);
+                        $ionicPopup.alert({
+                            title: 'Something went wrong',
+                            template: 'We can not connect with google play to check your subscription'
+                        });
+                    });
             }
+
+
+
 
             //$translate.use("en");
             moment.locale($translate.proposedLanguage());
@@ -55,11 +77,11 @@ var app=angular.module('app',
                 notificationOpenedCallback);*/
             //produccion
             if (window.plugins != undefined){
-                window.plugins.OneSignal.init("3995804c-fb96-4bf9-bd75-372124e08ee2",
-                    {googleProjectNumber: "321359984550"}, notificationOpenedCallback);
+                window.plugins.OneSignal
+                    .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2", "321359984550")
+                    .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+                    .endInit();
 
-                // Show an alert box if a notification comes in when the user is in your app.
-                window.plugins.OneSignal.enableInAppAlertNotification(true);
             }
 
            
@@ -108,7 +130,7 @@ var app=angular.module('app',
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $logProvider.debugEnabled(false);
+        $logProvider.debugEnabled(true);
     })
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
@@ -136,12 +158,12 @@ var app=angular.module('app',
         // Use native scrolling on Android
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
-        //  "url": "https://rachanode-jvillajos.c9users.io"
-        //   "url": "http://localhost:8080"
-        //    "url": "http://nodejs-rachas.rhcloud.com"
-          "url": "http://visualbetting-rachas.rhcloud.com"
-    })
-    .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
+        //   "url": "https://rachanode-jvillajos.c9users.io"
+         "url": "http://192.168.1.129:8080"
+        // "url": "http://localhost:8080"
+        //   "url": "http://nodejs-rachas.rhcloud.com"
+        //  "url": "http://visualbetting-rachas.rhcloud.com"
+    }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
         $httpProvider.interceptors.push('TokenInterceptor');
@@ -188,7 +210,7 @@ var app=angular.module('app',
                         'vip': {
                             templateUrl: "templates/vip.html",
                             controller: 'vipCtrl',
-                            cache: true
+                            cache: false
                         }
                     }
                 })
@@ -267,7 +289,7 @@ app.filter('groupBy', function ($timeout) {
             $timeout(function(){delete data[outputPropertyName];},0,false);
         }
         return data[outputPropertyName];
-    }//)
+    }
 });
 
 app.constant('$ionicLoadingConfig', {

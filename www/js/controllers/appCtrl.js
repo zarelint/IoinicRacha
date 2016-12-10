@@ -6,7 +6,10 @@ app.controller('AppCtrl', function(
     authService,
     timeStorage,
     $translate,
-    $ionicPopup,$log,$localStorage,$ionicTabsDelegate
+    $ionicLoading,
+    $http,
+    myconf,
+    $ionicPopup,$log,$localStorage,$ionicHistory,$state
     ) {
 
 /*    $scope.$on("$ionicView.loaded", function(    ){
@@ -87,7 +90,14 @@ app.controller('AppCtrl', function(
            googleLogin.startLogin();
         }
     });
-
+    // Handle the login confirmed event raised by the authService
+    $scope.$on('event:auth-caducada', function() {
+        $log.debug('handling event:auth-caducada...');
+        $localStorage.ngStorageVIP=false;
+        $ionicHistory.clearCache([$state.current.name]).then(function() {
+            $state.reload();
+        });
+    });
     // Handle the login confirmed event raised by the authService
     $scope.$on('event:auth-loginConfirmed', function() {
         $log.debug('handling event:auth-loginConfirmed...');
@@ -123,13 +133,14 @@ app.controller('AppCtrl', function(
     };
     
     
+
     $scope.notification={};
-    $scope.notification = {"checked": window.localStorage.getItem("notifya")=== "true"};
+    $scope.notification = {"checked": window.localStorage.getItem("ngnotifya")=== "true"};
 
     //default configuration
-    if (window.localStorage.getItem("notifya")===null){
+    if (window.localStorage.getItem("ngnotifya")===null){
         $scope.notification.checked=true;
-        window.localStorage.setItem("notifya",true );
+        window.localStorage.setItem("ngnotifya",true );
         if (window.plugins != undefined){
             window.plugins.OneSignal.setSubscription(true);
         }
@@ -137,7 +148,7 @@ app.controller('AppCtrl', function(
     }
 
     $scope.notificame = function(){
-        window.localStorage.setItem("notifya",$scope.notification.checked );
+        window.localStorage.setItem("ngnotifya",$scope.notification.checked );
         if (window.plugins != undefined){
             window.plugins.OneSignal.setSubscription($scope.notification.checked);
         }
