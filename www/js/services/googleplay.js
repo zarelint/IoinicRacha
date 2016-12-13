@@ -63,28 +63,31 @@ app.factory('googlePlay', [
                             $ionicHistory.clearCache([$state.current.name]).then(function() {
                                 $state.reload();
                             });
-                             // En segunadas instalciones esto es necesario
+                             // En segundas instalaciones esto es necesario
                             if (!$localStorage.refresh_token ){
                                service.revocar();
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Thanks for your support',
+                                    template: 'Ads removed. <br>Login Again to update your profile.<br>Give permission this app to enable autologin'
+                                });
                             }
-                        
                             var alertPopup = $ionicPopup.alert({
-                                title: 'Thank for your support',
-                                template: 'Ads removed'
+                                title: 'Thanks for your support',
+                                template: 'Ads removed. Enyoy it!<i class = "icon icon ion-android-happy"></i>'
                             });
+
                         }
                     },
                     function(response){
                         $log.debug(response);
                         if (response.data.message !== 'Subcripcion caducada'){
                             window.open('mailto:'+social_config.email+'?&subject=Send us this email&body='+response.data.message, '_system');
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Contact with visualbetting@gmail.com',
+                                template: 'Send us error to Support '
+                            });
                         }
 
-
-                         var alertPopup = $ionicPopup.alert({
-                            title: 'Contact with visualbetting@gmail.com',
-                            template: 'Send us error to Support '
-                        });
                     })
             };
             service.subcribirse = function () {
@@ -93,7 +96,7 @@ app.factory('googlePlay', [
                 
                 if (inAppPurchase  !== undefined  ){
                     inAppPurchase
-                        .subscribe("freeads")                    // .subscribe("android.test.purchased")
+                    .subscribe("removeads")
                         .then(function (data) {
                             $log.debug('consuming transactionId: ' + data.transactionId);
                             googleReceipt = {

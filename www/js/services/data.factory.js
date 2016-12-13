@@ -177,7 +177,6 @@ app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage,$lo
                     }
                     deferred.resolve(items);
                 }, function (error) {
-                    //error.data.message
                     var alertPopup = $ionicPopup.alert({
                         title: 'Subcription Expired',
                         template: 'Renew your Subcription'

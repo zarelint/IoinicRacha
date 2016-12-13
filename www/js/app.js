@@ -1,5 +1,6 @@
 'use strict';
 
+//variables globales de la app
 var social_config = {
     url:         'https://play.google.com/store/apps/details?id=com.ionicframework.racha854942',
     title:       'Visual Betting',
@@ -7,25 +8,30 @@ var social_config = {
     image:       'resources/icon.png',
     email:       'visualbetting@gmail.com'
 };
-
 var HeyzapAds;
 var inAppPurchase; 
+// fin variables globales
+
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage) {
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup) {
         $ionicPlatform.ready(function() {
 
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
 
+
           if(typeof navigator.globalization !== "undefined") {
               navigator.globalization.getPreferredLanguage(function(language) {
                   $translate.use((language.value).split("-")[0]).then(function(data) {
-                     // console.log("SUCCESS Language-> " + data);
+                      $log.debug("SUCCESS Language-> " + data);
                       moment.locale($translate.proposedLanguage());
                   }, function(error) {
-                      //console.log("ERROR -> " + error);
+                      $ionicPopup.alert({
+                          title: 'Language not detected',
+                          template: 'send the error to support'+error
+                      });
                   });
               }, null);
           }
@@ -35,19 +41,21 @@ var app=angular.module('app',
                 inAppPurchase
                     .restorePurchases()
                     .then(function (purchases) {
-                        $log.debug(JSON.stringify(purchases));
-                        if(purchases.productId === 'freeads' && purchases.autoRenewing){
+                        $log.debug('ver compras usuario:'+JSON.stringify(purchases));
+                        if(purchases.autoRenewing){
                             HeyzapAds = false;
                             $localStorage.ngStorageVIP = true;
                         }else{
+                            
                             if (HeyzapAds){
                                 HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
-                                    HeyzapAds.IncentivizedAd.fetch();
-                                    //return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                                    HeyzapAds.InterstitialAd.fetch();
+                                    $log.debug('heyzap arrancado');
+                                  // return HeyzapAds.showMediationTestSuite(); // returns a Promise
                                 }, function(error) {
-                                    log.debug('Error Heyzap start'+error);
+                                    $log.debug('Error Heyzap start'+error);
                                 });
-                            }
+                           }
                         }
 
                     })
@@ -162,7 +170,7 @@ var app=angular.module('app',
          "url": "http://192.168.1.129:8080"
         // "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-        //  "url": "http://visualbetting-rachas.rhcloud.com"
+        // "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request

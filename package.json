@@ -32,12 +32,20 @@
       "id": "cordova-plugin-globalization"
     },
     "cordova-plugin-network-information",
+    "onesignal-cordova-plugin",
+    "cordova-plugin-inapppurchase",
     {
       "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
       "id": "cordova-plugin-googleplus"
-    }
+    },
+    "heyzap-cordova"
   ],
   "cordovaPlatforms": [
-    "android"
+    "android",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    }
   ]
 }

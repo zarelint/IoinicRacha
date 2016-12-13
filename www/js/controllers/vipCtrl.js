@@ -16,9 +16,17 @@ app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLo
     $scope.$on("$ionicView.enter", function(event, data){
        
         $localStorage.mostrados++;
-        if (  HeyzapAds && $localStorage.mostrados >2 && esPar($localStorage.mostrados)  && $localStorage.mostrados < 7 && !$localStorage.ngStorageVIP   ){
-            HeyzapAds.IncentivizedAd.show().then(function () {
-                return HeyzapAds.IncentivizedAd.fetch();
+        console.log($localStorage.mostrados);
+        console.log($localStorage.ngStorageVIP);
+        if (  HeyzapAds && $localStorage.mostrados >2 && esPar($localStorage.mostrados)
+                && $localStorage.mostrados < 10 && !$localStorage.ngStorageVIP   ){
+            $log.debug('Heyzap deberia estar mostrando anuncio');
+
+            HeyzapAds.InterstitialAd.show().then(function () {
+                $log.debug('existe');
+                return HeyzapAds.InterstitialAd.fetch();
+            }, function(error) {
+                $log.debug('error'+error);
             });
         }
     });
