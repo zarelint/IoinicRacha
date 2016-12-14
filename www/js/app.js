@@ -102,31 +102,21 @@ var app=angular.module('app',
             if(window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
+            // Check for network connection
+            if(navigator.connection) {
+                if(navigator.connection.type == "none") {
+                    $ionicPopup.confirm({
+                            title: 'No Internet Connection',
+                            content: 'Sorry, no Internet connectivity detected. Please reconnect and try again.'
+                        })
+                        .then(function(result) {
+                            if(!result) {
+                                ionic.Platform.exitApp();
+                            }
+                        });
+                }
+            }
 
-          if(window.Connection) {
-              if(navigator.connection.type == Connection.NONE) {
-                  $ionicPopup.confirm({
-                          title: "Internet Disconnected"
-                      })
-                      .then(function(result) {
-                          if(!result) {
-                              ionic.Platform.exitApp();
-                          }
-                      });
-              }
-          }
-/*            document.addEventListener("offline", onOffline, false);
-
-            function onOffline() {
-                $ionicPopup.confirm({
-                        title: "Internet Disconnected"
-                    })
-                    .then(function(result) {
-                        if(!result) {
-                            ionic.Platform.exitApp();
-                        }
-                    });
-            }*/
 
 
 
@@ -138,7 +128,7 @@ var app=angular.module('app',
         $httpProvider.defaults.cache = true;
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $logProvider.debugEnabled(true);
+        $logProvider.debugEnabled(false);
     })
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
@@ -167,10 +157,10 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //   "url": "https://rachanode-jvillajos.c9users.io"
-         "url": "http://192.168.1.129:8080"
-        // "url": "http://localhost:8080"
+        //   "url": "http://192.168.1.129:8080"
+        //   "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-        // "url": "http://visualbetting-rachas.rhcloud.com"
+             "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
@@ -422,6 +412,5 @@ app.filter('groupByDayMonthYear2', function() {
     });
 
 });
-
 
 
