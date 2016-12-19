@@ -16,8 +16,8 @@ app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLo
     $scope.$on("$ionicView.enter", function(event, data){
        
         $localStorage.mostrados++;
-        console.log($localStorage.mostrados);
-        console.log($localStorage.ngStorageVIP);
+       // console.log($localStorage.mostrados);
+       // console.log($localStorage.ngStorageVIP);
         if (  HeyzapAds && $localStorage.mostrados >2 && esPar($localStorage.mostrados)
                 && $localStorage.mostrados < 10 && !$localStorage.ngStorageVIP   ){
             $log.debug('Heyzap deberia estar mostrando anuncio');

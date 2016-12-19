@@ -45,7 +45,6 @@ app.factory('googlePlay', [
                         }, function errorCallback(response) {
                             // aunque funciona el revocado como data== null y entra por aqui
                             $log.debug('token revocado con exito'+JSON.stringify(response));
-                            timeStorage.remove('google_access_token');
                             delete $localStorage.google_access_token;
                             delete $localStorage.google_access_token_expire;
                             delete $localStorage.refresh_token;
@@ -63,6 +62,7 @@ app.factory('googlePlay', [
                             $ionicHistory.clearCache([$state.current.name]).then(function() {
                                 $state.reload();
                             });
+
                              // En segundas instalaciones esto es necesario
                             if (!$localStorage.refresh_token ){
                                service.revocar();
@@ -70,11 +70,13 @@ app.factory('googlePlay', [
                                     title: 'Thanks for your support',
                                     template: 'Ads removed. <br>Login Again to update your profile.<br>Give permission this app to enable autologin'
                                 });
+                            }else{
+                                var alertPopup2 = $ionicPopup.alert({
+                                    title: 'Thanks for your support',
+                                    template: 'Ads removed. Enyoy it!<i class = "icon icon ion-android-happy"></i>'
+                                });
                             }
-                            var alertPopup = $ionicPopup.alert({
-                                title: 'Thanks for your support',
-                                template: 'Ads removed. Enyoy it!<i class = "icon icon ion-android-happy"></i>'
-                            });
+
 
                         }
                     },
@@ -93,38 +95,43 @@ app.factory('googlePlay', [
             service.subcribirse = function () {
                 var spinner = '<ion-spinner icon="dots" class="spinner-stable"></ion-spinner><br/>';
                 $ionicLoading.show({ template: spinner + 'Purchasing...' });
-                
-                if (inAppPurchase  !== undefined  ){
-                    inAppPurchase
-                    .subscribe("removeads")
-                        .then(function (data) {
-                            $log.debug('consuming transactionId: ' + data.transactionId);
-                            googleReceipt = {
-                                data: data.receipt,
-                                signature: data.signature
-                            };
-                            $log.debug('consume done! ... saving compra');
-                            service.guardarCompra(googleReceipt);
-                        })
-                        .catch(function (err) {// error plugin compras
-                            $ionicLoading.hide();
-                   
-  
-                            if (err.response !==-1005 ){ // Operacion no cancelada por el propido usuario
-                                $ionicPopup.alert({
-                                    title: 'Something went wrong',
-                                    template: 'Contact with support'
-                                });
 
-                                window.open('mailto:'+social_config.email+'?&subject=Send Us this email&body='+JSON.stringify(err), '_system');
-                                $log.debug('googleplay.js 77:'+JSON.stringify(err));     
-                            }
 
-                        });
-                }
-                else{ // IE browser
-                    service.guardarCompra(googleReceipt);
-                }
+                $http.get(myconf.url+'/getSubcription').then(function(res) {
+                    if (inAppPurchase  !== undefined  ){
+                        inAppPurchase
+                            .subscribe(res.data)
+                            .then(function (data) {
+                                $log.debug('consuming transactionId: ' + data.transactionId);
+                                googleReceipt = {
+                                    data: data.receipt,
+                                    signature: data.signature
+                                };
+                                $log.debug('consume done! ... saving compra');
+                                service.guardarCompra(googleReceipt);
+                            })
+                            .catch(function (err) {// error plugin compras
+                                $ionicLoading.hide();
+
+
+                                if (err.response !==-1005 ){ // Operacion no cancelada por el propido usuario
+                                    $ionicPopup.alert({
+                                        title: 'Something went wrong',
+                                        template: 'Contact with support'
+                                    });
+
+                                    window.open('mailto:'+social_config.email+'?&subject=Send Us this email&body='+JSON.stringify(err), '_system');
+                                    $log.debug('googleplay.js 77:'+JSON.stringify(err));
+                                }
+
+                            });
+                    }
+                    else{ // IE browser
+                        service.guardarCompra(googleReceipt);
+                    }
+
+                });
+
 
     
     

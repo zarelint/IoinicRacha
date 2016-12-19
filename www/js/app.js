@@ -15,7 +15,7 @@ var inAppPurchase;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup) {
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf) {
         $ionicPlatform.ready(function() {
 
           if( navigator && navigator.splashscreen )
@@ -117,7 +117,20 @@ var app=angular.module('app',
                 }
             }
 
-
+                $http.get(myconf.url+'/getVersion').then(function(res) {
+                    var version = "0.2.10";
+                    if(res.data!==version){
+                        $ionicPopup.confirm({
+                                title: 'Old App Version',
+                                content: 'Update to the last version'+version
+                            })
+                            .then(function(result) {
+                                if(!result) {
+                                    ionic.Platform.exitApp();
+                                }
+                            });
+                    }
+                });
 
 
 
@@ -157,10 +170,10 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //   "url": "https://rachanode-jvillajos.c9users.io"
-        //   "url": "http://192.168.1.129:8080"
-        //   "url": "http://localhost:8080"
+        // "url": "http://192.168.1.129:8080"
+        //  "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-             "url": "http://visualbetting-rachas.rhcloud.com"
+         "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
