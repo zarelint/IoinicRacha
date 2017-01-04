@@ -1,6 +1,6 @@
 app.factory('googlePlay', [
     '$window', '$http', '$log',  '$ionicLoading','$ionicPopup','myconf','$localStorage','$ionicHistory','$state',
-    function ($window,$http, $log,  $ionicLoading,$ionicPopup,myconf,$localStorage,$ionicHistory,$state) {
+    function ($window,$http, $log,  $ionicLoading,$ionicPopup,myconf,$localStorage,$ionicHistory,$state, googleLogin) {
             // Initialize params
             var service = {};
             var data = {
@@ -17,7 +17,7 @@ app.factory('googlePlay', [
                 data: data,
                 signature: signature
             };
-
+        /*
             service.revocar = function ( ) {
 
                 // REVOCAR para recuperar forzar get refresh_token
@@ -52,7 +52,7 @@ app.factory('googlePlay', [
                     );
 
                 }
-            };
+            };*/
             service.guardarCompra = function (googleReceipt) {
                 $log.debug('Factura que voy a enviar' + JSON.stringify(googleReceipt));
                 $http.post(myconf.url + '/compra/?access_token='+ $localStorage.google_access_token, googleReceipt).then(function (data) {
@@ -65,7 +65,7 @@ app.factory('googlePlay', [
 
                              // En segundas instalaciones esto es necesario
                             if (!$localStorage.refresh_token ){
-                               service.revocar();
+                                googleLogin.revocar();
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Thanks for your support',
                                     template: 'Ads removed. <br>Login Again to update your profile.<br>Give permission this app to enable autologin'

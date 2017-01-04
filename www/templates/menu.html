@@ -66,12 +66,17 @@
                             </label>
                         </div>
                     </div>
-
-                    <ion-item class="item-icon-left" menu-close ng-click="privacy();"  href="#/app/index">
-                        <div class="menu-text">{{ 'Privacy Policy' | translate }}</div>
-                    </ion-item>
-
                 </ion-item>
+
+                <ion-item class="item-icon-left" menu-close ng-click="privacy();"  href="#/app/index">
+                    <div class="menu-text">{{ 'Privacy Policy' | translate }}</div>
+                </ion-item>
+
+                <ion-item  class="item-icon-left" menu-close href="#/app/index" onclick="window.open('http://visualbetting-rachas.rhcloud.com/tutorial.html', '_blank', 'location=yes'); return false;"  >
+                    <div class="menu-text texto-blanco">{{ 'HELP GUIDE' | translate }}</div>
+                </ion-item>
+
+
 
 <!--
 
@@ -88,7 +93,7 @@
                 </ion-item>
 
                 -->
-                <ion-item class="item-icon-leftn pegar">
+                <ion-item class="item-icon-left pegar">
                     <div class="row pegar">
 
                         <button

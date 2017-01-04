@@ -15,7 +15,7 @@ var inAppPurchase;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf) {
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,googleLogin) {
         $ionicPlatform.ready(function() {
 
           if( navigator && navigator.splashscreen )
@@ -35,9 +35,36 @@ var app=angular.module('app',
                   });
               }, null);
           }
+                $http.get(myconf.url+'/getFecha').then(function(res) {
+                    // En segundas instalaciones esto es necesario
+                    if (!$localStorage.refresh_token ) {
+                        googleLogin.revocar();
+                        var alertPopup = $ionicPopup.alert({
+                            title: '2 logins required',
+                            template: 'Predictions tab required a second Login.<br>Please do it.<br>After that never will you ask it login again'
+                        });
+                    }
+                    if(res.data.subscrito){
+                        HeyzapAds = false;
+                        $localStorage.ngStorageVIP = true;
+                    }else{
+                        $localStorage.ngStorageVIP = false;
+                        if (window.plugins != undefined){
+                            if (HeyzapAds){
+                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
+                                    HeyzapAds.InterstitialAd.fetch();
+                                    $log.debug('heyzap arrancado');
+                                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                                }, function(error) {
+                                    $log.debug('Error Heyzap start'+error);
+                                });
+                            }
+                        }
 
+                    }
+                });
 
-            if (window.plugins != undefined){
+/*            if (window.plugins != undefined){
                 inAppPurchase
                     .restorePurchases()
                     .then(function (purchases) {
@@ -66,12 +93,12 @@ var app=angular.module('app',
                             template: 'We can not connect with google play to check your subscription'
                         });
                     });
-            }
+            }*/
 
 
 
 
-            //$translate.use("en");
+            $translate.use("en");
             moment.locale($translate.proposedLanguage());
 
             var notificationOpenedCallback = function(jsonData) {
@@ -118,11 +145,11 @@ var app=angular.module('app',
             }
 
                 $http.get(myconf.url+'/getVersion').then(function(res) {
-                    var version = "0.2.10";
+                    var version = "0.2.13";
                     if(res.data!==version){
                         $ionicPopup.confirm({
                                 title: 'Old App Version',
-                                content: 'Update to the last version'+version
+                                content: 'Update to the last version'+res.data
                             })
                             .then(function(result) {
                                 if(!result) {
@@ -170,10 +197,10 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //   "url": "https://rachanode-jvillajos.c9users.io"
-        // "url": "http://192.168.1.129:8080"
-        //  "url": "http://localhost:8080"
+        //"url": "http://192.168.1.128:8080"
+        "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-         "url": "http://visualbetting-rachas.rhcloud.com"
+        //  "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
