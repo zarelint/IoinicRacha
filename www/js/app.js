@@ -17,7 +17,7 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,googleLogin) {
         $ionicPlatform.ready(function() {
-
+           // window.iap.setUp(androidApplicationLicenseKey);
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
 
@@ -63,8 +63,15 @@ var app=angular.module('app',
 
                     }
                 });
-
-/*            if (window.plugins != undefined){
+            
+            if (window.plugins != undefined) {
+                inAppPurchase
+                    .restorePurchases()
+                    .then(function (purchases) {
+                        $log.debug('ver compras usuario:' + JSON.stringify(purchases));
+                    });
+            }
+/*           
                 inAppPurchase
                     .restorePurchases()
                     .then(function (purchases) {
@@ -119,7 +126,12 @@ var app=angular.module('app',
 
             }
 
-           
+  /*          window.iap.restorePurchases(function (result){
+                    $log.debug('consuming transactionId: ' + JSON.stringify(result));
+                },
+                function (error){
+                    alert("error: "+error);
+                });*/
 
 
             
@@ -145,7 +157,7 @@ var app=angular.module('app',
             }
 
                 $http.get(myconf.url+'/getVersion').then(function(res) {
-                    var version = "0.2.13";
+                    var version = "0.2.15";
                     if(res.data!==version){
                         $ionicPopup.confirm({
                                 title: 'Old App Version',
@@ -197,10 +209,10 @@ var app=angular.module('app',
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
         //   "url": "https://rachanode-jvillajos.c9users.io"
-        //"url": "http://192.168.1.128:8080"
-        "url": "http://localhost:8080"
+       //"url": "http://192.168.1.128:8080"
+        //  "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-        //  "url": "http://visualbetting-rachas.rhcloud.com"
+         "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
