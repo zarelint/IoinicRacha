@@ -210,9 +210,9 @@ var app=angular.module('app',
     }).constant("myconf", {
         //   "url": "https://rachanode-jvillajos.c9users.io"
        //"url": "http://192.168.1.128:8080"
-        //  "url": "http://localhost:8080"
+        "url": "http://localhost:8080"
         //   "url": "http://nodejs-rachas.rhcloud.com"
-         "url": "http://visualbetting-rachas.rhcloud.com"
+        //   "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
 
         //añadir el idtoken en todas las request
