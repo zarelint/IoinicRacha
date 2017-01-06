@@ -35,7 +35,8 @@ var app=angular.module('app',
                   });
               }, null);
           }
-                $http.get(myconf.url+'/getFecha').then(function(res) {
+
+/*                $http.get(myconf.url+'/getFecha').then(function(res) {
                     // En segundas instalaciones esto es necesario
                     if (!$localStorage.refresh_token ) {
                         googleLogin.revocar();
@@ -62,35 +63,33 @@ var app=angular.module('app',
                         }
 
                     }
-                });
+                });*/
             
             if (window.plugins != undefined) {
                 inAppPurchase
                     .restorePurchases()
                     .then(function (purchases) {
-                        $log.debug('ver compras usuario:' + JSON.stringify(purchases));
-                    });
-            }
-/*           
-                inAppPurchase
-                    .restorePurchases()
-                    .then(function (purchases) {
                         $log.debug('ver compras usuario:'+JSON.stringify(purchases));
-                        if(purchases.autoRenewing){
-                            HeyzapAds = false;
-                            $localStorage.ngStorageVIP = true;
-                        }else{
-                            
+                        purchases.forEach(function(element) {
+                            $log.debug('element:'+JSON.stringify(element));
+                            var receipt = JSON.parse(element.receipt);
+                            $log.debug('receipt:'+receipt.autoRenewing);
+
+                            if (receipt.autoRenewing){
+                                HeyzapAds = false;
+                                $localStorage.ngStorageVIP = true;
+                            }else{
                             if (HeyzapAds){
                                 HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
                                     HeyzapAds.InterstitialAd.fetch();
                                     $log.debug('heyzap arrancado');
-                                  // return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
                                 }, function(error) {
                                     $log.debug('Error Heyzap start'+error);
                                 });
-                           }
+                            }
                         }
+                        });
 
                     })
                     .catch(function (err) {
@@ -100,12 +99,16 @@ var app=angular.module('app',
                             template: 'We can not connect with google play to check your subscription'
                         });
                     });
-            }*/
+            }
 
 
 
 
-            $translate.use("en");
+
+
+
+
+            //$translate.use("en");
             moment.locale($translate.proposedLanguage());
 
             var notificationOpenedCallback = function(jsonData) {
@@ -126,15 +129,7 @@ var app=angular.module('app',
 
             }
 
-  /*          window.iap.restorePurchases(function (result){
-                    $log.debug('consuming transactionId: ' + JSON.stringify(result));
-                },
-                function (error){
-                    alert("error: "+error);
-                });*/
 
-
-            
             
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -157,7 +152,7 @@ var app=angular.module('app',
             }
 
                 $http.get(myconf.url+'/getVersion').then(function(res) {
-                    var version = "0.2.15";
+                    var version = "0.2.16";
                     if(res.data!==version){
                         $ionicPopup.confirm({
                                 title: 'Old App Version',
@@ -208,13 +203,12 @@ var app=angular.module('app',
         // Use native scrolling on Android
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
     }).constant("myconf", {
-        //   "url": "https://rachanode-jvillajos.c9users.io"
-       //"url": "http://192.168.1.128:8080"
-        "url": "http://localhost:8080"
-        //   "url": "http://nodejs-rachas.rhcloud.com"
-        //   "url": "http://visualbetting-rachas.rhcloud.com"
+         //   "url": "https://rachanode-jvillajos.c9users.io"
+         //   "url": "http://192.168.1.128:8080"
+        //   "url": "http://localhost:8080"
+         //   "url": "http://nodejs-rachas.rhcloud.com"
+             "url": "http://visualbetting-rachas.rhcloud.com"
     }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
-
         //añadir el idtoken en todas las request
         $httpProvider.interceptors.push('TokenInterceptor');
 

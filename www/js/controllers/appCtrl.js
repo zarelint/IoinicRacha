@@ -57,20 +57,8 @@ app.controller('AppCtrl', function(
 
     // Triggered in the login modal to close it
     $scope.closeLogin = function() {
-      authService.loginCancelled();
+        authService.loginCancelled();
         $scope.loginModal.hide();
-        $localStorage.ngStorageVIP = false;
-        if (window.plugins != undefined){
-            if (HeyzapAds){
-                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
-                    HeyzapAds.InterstitialAd.fetch();
-                    $log.debug('heyzap arrancado');
-                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
-                }, function(error) {
-                    $log.debug('Error Heyzap start'+error);
-                });
-            }
-        }
     };
 
     //Cleanup the modal when we're done with it!
