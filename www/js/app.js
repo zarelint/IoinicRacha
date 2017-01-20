@@ -15,7 +15,15 @@ var inAppPurchase;
 
 var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
-    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,googleLogin) {
+    .constant(
+        "myconf", {
+            //   "url": "http://192.168.1.128:8080"},
+            //"url": "http://localhost:8080"},
+             "url": "http://visualbetting-rachas.rhcloud.com"},
+        '$ionicLoadingConfig', {
+               template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
+    )
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,$q) {
         $ionicPlatform.ready(function() {
            // window.iap.setUp(androidApplicationLicenseKey);
           if( navigator && navigator.splashscreen )
@@ -36,76 +44,65 @@ var app=angular.module('app',
               }, null);
           }
 
-/*                $http.get(myconf.url+'/getFecha').then(function(res) {
-                    // En segundas instalaciones esto es necesario
-                    if (!$localStorage.refresh_token ) {
-                        googleLogin.revocar();
-                        var alertPopup = $ionicPopup.alert({
-                            title: '2 logins required',
-                            template: 'Predictions tab required a second Login.<br>Please do it.<br>After that never will you ask it login again'
-                        });
-                    }
-                    if(res.data.subscrito){
-                        HeyzapAds = false;
-                        $localStorage.ngStorageVIP = true;
-                    }else{
-                        $localStorage.ngStorageVIP = false;
-                        if (window.plugins != undefined){
-                            if (HeyzapAds){
-                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
-                                    HeyzapAds.InterstitialAd.fetch();
-                                    $log.debug('heyzap arrancado');
-                                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
-                                }, function(error) {
-                                    $log.debug('Error Heyzap start'+error);
-                                });
-                            }
-                        }
 
-                    }
-                });*/
-            
             if (window.plugins != undefined) {
+                var validado=false;
+                var promises = [];
+
                 inAppPurchase
                     .restorePurchases()
-                    .then(function (purchases) {
-                        $log.debug('ver compras usuario:'+JSON.stringify(purchases));
-                        purchases.forEach(function(element) {
-                            $log.debug('element:'+JSON.stringify(element));
-                            var receipt = JSON.parse(element.receipt);
-                            $log.debug('receipt:'+receipt.autoRenewing);
-
-                            if (receipt.autoRenewing){
-                                HeyzapAds = false;
-                                $localStorage.ngStorageVIP = true;
-                            }else{
-                            if (HeyzapAds){
-                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0",  new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function() {
+                        .then(function (purchases) {
+                            function noSuscripto() {
+                                $log.debug('Heyzap Activado:');
+                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0", new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function () {
                                     HeyzapAds.InterstitialAd.fetch();
                                     $log.debug('heyzap arrancado');
                                     // return HeyzapAds.showMediationTestSuite(); // returns a Promise
-                                }, function(error) {
-                                    $log.debug('Error Heyzap start'+error);
+                                }, function (error) {
+                                    $log.debug('Error Heyzap start' + error);
+                                });
+                                $localStorage.ngStorageVIP = false;
+                            }
+                            $log.debug('ver compras usuario:'+JSON.stringify(purchases));
+                            if (purchases.length ==0){ // No compras
+                                noSuscripto();
+                            }else{//Revisar todos los items comprados
+                                purchases.forEach(function(element) {
+                                    var googleReceipt = {
+                                        data: element.receipt,
+                                        signature: element.signature
+                                    };
+                                    var receipt = JSON.parse(element.receipt);
+                                    var prom = $http.post(myconf.url + '/validate', googleReceipt);
+                                    promises.push(prom);
+                                });
+                                $q.all(promises).then(function (res) {
+                                    res.some(function(element) {
+                                        $log.debug('sub valida:' + element.data.valida);
+                                        if (element.data.valida) {
+                                            validado =true;
+                                            return true; //short-circuiting the execution of the rest.
+                                        }
+                                    });
+                                    if (validado) {
+                                        $log.debug('Heyzap Eliminiado:');
+                                        HeyzapAds = false;
+                                        $localStorage.ngStorageVIP = true;
+                                    } else {
+                                        noSuscripto();
+                                    }
+
                                 });
                             }
-                        }
-                        });
-
-                    })
+                        })
                     .catch(function (err) {
                         $log.debug('google play plugin '+ err);
                         $ionicPopup.alert({
                             title: 'Something went wrong',
                             template: 'We can not connect with google play to check your subscription'
                         });
-                    });
+                });
             }
-
-
-
-
-
-
 
 
             //$translate.use("en");
@@ -116,11 +113,7 @@ var app=angular.module('app',
                     LigaService.clearAll();
                 }
             };
-            //test 
-/*            window.plugins.OneSignal.init("54f31eb1-6216-4247-b475-ac357ac5ea40",
-                {googleProjectNumber: "321359984550"},
-                notificationOpenedCallback);*/
-            //produccion
+            
             if (window.plugins != undefined){
                 window.plugins.OneSignal
                     .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2", "321359984550")
@@ -152,7 +145,7 @@ var app=angular.module('app',
             }
 
                 $http.get(myconf.url+'/getVersion').then(function(res) {
-                    var version = "0.2.16";
+                    var version = "0.2.17";
                     if(res.data!==version){
                         $ionicPopup.confirm({
                                 title: 'Old App Version',
@@ -202,13 +195,8 @@ var app=angular.module('app',
           $ionicConfigProvider.navBar.alignTitle('center');
         // Use native scrolling on Android
         if(ionic.Platform.isAndroid()) $ionicConfigProvider.scrolling.jsScrolling(false);
-    }).constant("myconf", {
-         //   "url": "https://rachanode-jvillajos.c9users.io"
-         //   "url": "http://192.168.1.128:8080"
-        //   "url": "http://localhost:8080"
-         //   "url": "http://nodejs-rachas.rhcloud.com"
-             "url": "http://visualbetting-rachas.rhcloud.com"
-    }).config(function($httpProvider,$stateProvider, $urlRouterProvider) {
+    })
+    .config(function($httpProvider,$stateProvider, $urlRouterProvider) {
         //añadir el idtoken en todas las request
         $httpProvider.interceptors.push('TokenInterceptor');
 
@@ -316,35 +304,9 @@ var app=angular.module('app',
     });
 
 
-app.filter('groupBy', function ($timeout) {
-    //return memoize(function(data, key) {
-   return function (data, key) {
-        if (!key ) return data;
-        if (!data ) return;
-        var outputPropertyName = '__groupBy__' + key;
-        if( !data[outputPropertyName] ){
-            var result = {};
-            for (var i=0;i<data.length;i++) {
-                if (!result[data[i][key]])
-                    result[data[i][key]]=[];
-                result[data[i][key]].push(data[i]);
-            }
-            Object.defineProperty(data, outputPropertyName, {enumerable:false, configurable:true, writable: false, value:result});
-            $timeout(function(){delete data[outputPropertyName];},0,false);
-        }
-        return data[outputPropertyName];
-    }
-});
-
-app.constant('$ionicLoadingConfig', {
-    template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'
-    //,duration:10000
-});
-
 var has = function has(obj, key) {
     return obj != null && hasOwnProperty.call(obj, key);
 };
-
 var  memoize = function(func, hasher) {
     var memoize = function(key) {
         var cache = memoize.cache;
@@ -356,47 +318,6 @@ var  memoize = function(func, hasher) {
     return memoize;
 };
 
-
-app.filter('addBall', function () {
-    return function (item) {
-        var equipos = item.split('/');
-        return equipos[0] +'&nbsp<i class="icon ion-ios-football"></i>&nbsp' + equipos[1];
-    };
-});
-app.directive('positionBarsAndContent', function($timeout) {
-
-    return {
-
-        restrict: 'AC',
-
-        link: function(scope, element) {
-
-            var offsetTop = 0;
-
-            // Get the parent node of the ion-content
-            var parent = angular.element(element[0].parentNode);
-
-            // Get all the headers in this parent
-            var headers = parent[0].getElementsByClassName('bar');
-
-            // Iterate through all the headers
-            for(var x=0;x<headers.length;x++)
-            {
-                // If this is not the main header or nav-bar, adjust its position to be below the previous header
-                if(x > 0) {
-                    headers[x].style.top = offsetTop + 'px';
-                }
-
-                // Add up the heights of all the header bars
-                offsetTop = offsetTop + headers[x].offsetHeight;
-            }
-
-            // Position the ion-content element directly below all the headers
-            element[0].style.top = offsetTop + 'px';
-
-        }
-    };
-});
 app.filter('groupByDayMonthYear2', function() {
     return memoize(function(input) {
         var asociame = {};
@@ -458,5 +379,63 @@ app.filter('groupByDayMonthYear2', function() {
     });
 
 });
+app.filter('groupBy', function ($timeout) {
+    //return memoize(function(data, key) {
+    return function (data, key) {
+        if (!key ) return data;
+        if (!data ) return;
+        var outputPropertyName = '__groupBy__' + key;
+        if( !data[outputPropertyName] ){
+            var result = {};
+            for (var i=0;i<data.length;i++) {
+                if (!result[data[i][key]])
+                    result[data[i][key]]=[];
+                result[data[i][key]].push(data[i]);
+            }
+            Object.defineProperty(data, outputPropertyName, {enumerable:false, configurable:true, writable: false, value:result});
+            $timeout(function(){delete data[outputPropertyName];},0,false);
+        }
+        return data[outputPropertyName];
+    }
+});
+app.filter('addBall', function () {
+    return function (item) {
+        var equipos = item.split('/');
+        return equipos[0] +'&nbsp<i class="icon ion-ios-football"></i>&nbsp' + equipos[1];
+    };
+});
+app.directive('positionBarsAndContent', function($timeout) {
 
+    return {
+
+        restrict: 'AC',
+
+        link: function(scope, element) {
+
+            var offsetTop = 0;
+
+            // Get the parent node of the ion-content
+            var parent = angular.element(element[0].parentNode);
+
+            // Get all the headers in this parent
+            var headers = parent[0].getElementsByClassName('bar');
+
+            // Iterate through all the headers
+            for(var x=0;x<headers.length;x++)
+            {
+                // If this is not the main header or nav-bar, adjust its position to be below the previous header
+                if(x > 0) {
+                    headers[x].style.top = offsetTop + 'px';
+                }
+
+                // Add up the heights of all the header bars
+                offsetTop = offsetTop + headers[x].offsetHeight;
+            }
+
+            // Position the ion-content element directly below all the headers
+            element[0].style.top = offsetTop + 'px';
+
+        }
+    };
+});
 

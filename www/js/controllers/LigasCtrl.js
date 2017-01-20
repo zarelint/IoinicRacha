@@ -7,7 +7,7 @@
  * # rachaCtrl
  * Controller of the iotutorialApp
  */
-app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, myconf, $scope, $http,LigaService) {
+app.controller('LigasCtrl', function ($localStorage, $log, detailMatch, $state, $scope, $http,LigaService) {
 
     var ligaSelected;
 

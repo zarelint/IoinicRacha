@@ -55,8 +55,8 @@ app.factory('timeStorage', ['$localStorage','$log', function ($localStorage,$log
 }]);
 
 app.factory('googleLogin', [
-             '$http','$q', '$interval', '$log', 'timeStorage','$localStorage','authService','$ionicPopup','googlePlay',
-    function ($http, $q,      $interval, $log,   timeStorage,  $localStorage,  authService,$ionicPopup,googlePlay) {
+             '$http','$q', '$interval', '$log', 'timeStorage','$localStorage','authService','$ionicPopup','googlePlay','myconf',
+    function ($http, $q,      $interval, $log,   timeStorage,  $localStorage,  authService,$ionicPopup,googlePlay,myconf) {
         // Initialize params
         var service = {};
         service.access_token = false;
@@ -240,15 +240,15 @@ app.factory('googleLogin', [
             if ( !$localStorage['refresh_token'] && $localStorage['google_access_token']!== null  ) {
                 $log.debug('llamada a revocar...');
                 
-                
                 var http_revocar = $http({
-                    url: 'https://accounts.google.com/o/oauth2/revoke',
-                    method: 'POST',
+                   // url: 'https://accounts.google.com/o/oauth2/revoke',
+                    url: myconf.url+'/revoke/'+$localStorage['google_access_token']
+/*                    method: 'GET',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     params: {
                         token: $localStorage['google_access_token']
                     },
-                    ignoreAuthModule: true
+                    ignoreAuthModule: true*/
 
                 });
                 http_revocar.then(
@@ -346,9 +346,18 @@ app.factory('googleLogin', [
                 scopes: this.scopes
             });
             promise.then(function (data) {
+
                 def.resolve(data);
                 if (compra){
                     googlePlay.subcribirse();
+                }
+             // En segundas instalaciones esto es necesario
+                if (!$localStorage.refresh_token ){
+                    service.revocar();
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Thanks for your support',
+                        template: 'Ads removed. <br>Login Again to update your profile.<br>Give permission this app to enable autologin'
+                    });
                 }
             }, function (data) {
                 $ionicPopup.alert({

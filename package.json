@@ -33,7 +33,6 @@
     },
     "cordova-plugin-network-information",
     "onesignal-cordova-plugin",
-    "cordova-plugin-inapppurchase",
     {
       "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
       "id": "cordova-plugin-googleplus"

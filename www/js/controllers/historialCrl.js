@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,HistoricoService, myconf, LigaService, $state, $scope,
+app.controller('historialCtrl', function ( $ionicSideMenuDelegate, $timeout,HistoricoService, LigaService, $state, $scope,
                                           $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch,$injector) {
 
 

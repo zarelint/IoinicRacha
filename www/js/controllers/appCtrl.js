@@ -8,7 +8,6 @@ app.controller('AppCtrl', function(
     $translate,
     $ionicLoading,
     $http,
-    myconf,
     $ionicPopup,$log,$localStorage,$ionicHistory,$state
     ) {
 
