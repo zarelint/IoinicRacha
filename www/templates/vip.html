@@ -86,16 +86,8 @@
                 </ion-item>
 
                 <ion-item  ng-click="ver('betday')"  ng-show=" isGroupShown('betday')" class="item-balanced pegar texto-blanco row row-center item-text-wrap" >
-                    <div class="col col-20 text-center">  {{ 'Jornada' | translate}} {{prueba.fechas.length}}  </div>
-                    <div class="col ">
-                        <div class="row pegar ">
+                    <div class="col">  {{dayFormatted}} {{prueba.fechas.length}} @{{ day.betday[day.fecha].resultado  }}  </div>
 
-                                @{{ day.betday[day.fecha].resultado  }}
-
-
-
-                        </div>
-                    </div>
                     <div>%
                         <span class="more-info-match  ion ion-ios-arrow-right"></span>
                     </div>

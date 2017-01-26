@@ -48,6 +48,7 @@ app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLo
 
         VipService.getdata(true).then(function(items){
             $scope.day =  items.day;
+            $scope.dayFormatted =  moment(items.day.fecha, 'DD MM YYYY').format("DD MMM").slice(0, -1);
             $scope.predicciones =  items.pred;
             $scope.ratesLigasX =  items.ratesLigasX;
             $scope.ratesLigas1 =  items.ratesLigas1;
@@ -75,15 +76,12 @@ app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLo
 
     VipService.getdata(false).then(function(items){
 
-   /*    $http.get('day.json').
-        success(function(data) {
-            $scope.prueba = data;
-        });*/
         $scope.predicciones =  items.pred;
         $scope.ratesLigasX =  items.ratesLigasX;
         $scope.ratesLigas1 =  items.ratesLigas1;
         $scope.day =  items.day;
-
+        $scope.dayFormatted =  moment(items.day.fecha, 'DD MM YYYY').format("DD MMM").slice(0, -1);
+        
         
         var keys = Object.keys(items.pred);
 
