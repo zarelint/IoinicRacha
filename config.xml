@@ -24,9 +24,6 @@
   <allow-navigation href="http://nodejs-rachas.rhcloud.com/*"/>
   <allow-navigation href="www.resultados-futbol.com/*"/>
   <allow-navigation href="http://visualbetting-rachas.rhcloud.com/*"/>
-  <allow-navigation href="https://accounts.google.com/o/oauth2/revoke"/>
-  <allow-navigation href="http://192.168.1.129:8100"/>
-  <allow-navigation href="http://192.168.1.128:8100"/>
   <platform name="android">
     <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png"/>
     <icon density="mdpi" src="resources\android\icon\drawable-mdpi-icon.png"/>

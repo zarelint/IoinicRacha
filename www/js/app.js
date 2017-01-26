@@ -17,11 +17,12 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            //   "url": "http://192.168.1.128:8080"},
-            //"url": "http://localhost:8080"},
-             "url": "http://visualbetting-rachas.rhcloud.com"},
-        '$ionicLoadingConfig', {
-               template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
+            version: "0.2.18",
+            // "url": "http://192.168.1.128:8080"},
+            // "url": "http://localhost:8080"},
+            "url": "http://visualbetting-rachas.rhcloud.com"},
+            '$ionicLoadingConfig', {
+             template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
     .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,$q) {
         $ionicPlatform.ready(function() {
@@ -145,11 +146,11 @@ var app=angular.module('app',
             }
 
                 $http.get(myconf.url+'/getVersion').then(function(res) {
-                    var version = "0.2.17";
-                    if(res.data!==version){
+
+                    if(res.data!==myconf.version){
                         $ionicPopup.confirm({
-                                title: 'Old App Version',
-                                content: 'Update to the last version'+res.data
+                                title: 'Old version detected',
+                                content: 'Update to last version: '+res.data
                             })
                             .then(function(result) {
                                 if(!result) {

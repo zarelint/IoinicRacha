@@ -351,13 +351,9 @@ app.factory('googleLogin', [
                 if (compra){
                     googlePlay.subcribirse();
                 }
-             // En segundas instalaciones esto es necesario
+             // En segundas Re-instalaciones es necesario
                 if (!$localStorage.refresh_token ){
                     service.revocar();
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Thanks for your support',
-                        template: 'Ads removed. <br>Login Again to update your profile.<br>Give permission this app to enable autologin'
-                    });
                 }
             }, function (data) {
                 $ionicPopup.alert({
