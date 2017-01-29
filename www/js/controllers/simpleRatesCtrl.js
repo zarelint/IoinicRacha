@@ -24,47 +24,31 @@ app.controller('simpleRatesCtrl', function ($http, $stateParams,  $state, $scope
             if ( rates.betday[fecha].resultado !== 0 ){
                 acertadosG++;
             }
-            //Recorro numero de partidos apostados en la fecha
-            for (var index_match in rates.betday[fecha].bets) {
-                var match = rates.betday[fecha].bets[index_match];
-                //acertados del dia
-/*                match_no++;
-                if (match.pleno===true) {
-                    acertados++;
-                }
-
-                //global de acertados
-                if (match.pleno != 'x' ){
-                    match_noG++;
-                    if (match.pleno===true) {
-                        acertadosG++;
-                    }
-                }*/
-
-            }
-
+            
             // Get rate week
-            if (match.pleno==='x'){
+            if ( rates.betday[fecha].bets[0].pleno==='x'){
                 var rate_week = null;
             }else{
-                index_match++;
-                var rate_week = acertados+'/'+ index_match;
-                var stake =1;
-                var ayer = moment(fecha,'DD MM YYYY').subtract(1,'days').format('DD MM YYYY');
-                if ( rates.betday[ayer] !== undefined && rates.betday[ayer] .resultado == 0 ){
-                    var stake =day_stake[ayer] *2;
-                }
-                day_stake[fecha]=stake;
+             
+                var rate_week = acertados+'/'+ 5;
 
+                var ayer = moment(fecha,'DD MM YYYY').subtract(1,'days').format('DD MM YYYY');
+                //calculate stake
+                if ( rates.betday[ayer] !== undefined && rates.betday[ayer].resultado == 0 ){
+                    day_stake[fecha]=parseInt((day_stake[ayer] *2).toFixed(0)) ;
+                }else{
+                    day_stake[fecha]=10;
+                }
+                
                 //stakes ---moment(fecha,'DD MM YYYY').subtract(1,'days').format('DD MM YYYY');
-                day_output[fecha] = rates.betday[fecha].resultado * stake;
+                day_output[fecha] = rates.betday[fecha].resultado * day_stake[fecha];
                 ganado_day = ganado_day + day_output[fecha];
-                gastado_day = gastado_day + stake;
+                gastado_day = gastado_day + day_stake[fecha];
             }
 
 
             //---
-            ratesParsed.push({stake:stake, odd:rates.betday[fecha].resultado,day_output:(day_output[fecha]/1 ).toFixed(1) ,jornada: week_index, rate: rate_week, pleno: rates.betday[fecha].resultado!=0});
+            ratesParsed.push({stake:day_stake[fecha], odd:rates.betday[fecha].resultado,day_output:(day_output[fecha]/1 ).toFixed(1) ,jornada: week_index, rate: rate_week, pleno: rates.betday[fecha].resultado!=0});
             // reset rate success
             match_no=0;
             acertados=0;

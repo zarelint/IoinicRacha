@@ -19,8 +19,8 @@ var app=angular.module('app',
         "myconf", {
             version: "0.2.18",
             // "url": "http://192.168.1.128:8080"},
-            // "url": "http://localhost:8080"},
-            "url": "http://visualbetting-rachas.rhcloud.com"},
+            //"url": "http://localhost:8080"},
+           "url": "http://visualbetting-rachas.rhcloud.com"},
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
