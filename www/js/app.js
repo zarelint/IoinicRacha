@@ -17,10 +17,10 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.18",
+            version: "0.2.19",
             // "url": "http://192.168.1.128:8080"},
-            //"url": "http://localhost:8080"},
-           "url": "http://visualbetting-rachas.rhcloud.com"},
+            // "url": "http://localhost:8080"},
+             "url": "http://visualbetting-rachas.rhcloud.com"},
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
@@ -114,10 +114,11 @@ var app=angular.module('app',
                     LigaService.clearAll();
                 }
             };
-            
+
             if (window.plugins != undefined){
                 window.plugins.OneSignal
-                    .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2", "321359984550")
+                    // .startInit("54f31eb1-6216-4247-b475-ac357ac5ea40", "321359984550") dev
+                    .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2", "321359984550")// PRD
                     .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
                     .endInit();
 
