@@ -1,6 +1,6 @@
 app.factory('googlePlay', [
-    '$window', '$http', '$log',  '$ionicLoading','$ionicPopup','myconf','$localStorage','$ionicHistory','$state',
-    function ($window,$http, $log,  $ionicLoading,$ionicPopup,myconf,$localStorage,$ionicHistory,$state) {
+             '$window', '$http', '$log',  '$ionicLoading','$ionicPopup','myconf','$localStorage','$ionicHistory','$state','$q',
+    function ($window,   $http,   $log,    $ionicLoading, $ionicPopup,  myconf,   $localStorage,  $ionicHistory,  $state, $q) {
             // Initialize params
             var service = {};
             var data = {
@@ -18,7 +18,7 @@ app.factory('googlePlay', [
                 signature: signature
             };
 
-            service.revocar = function ( ) {
+            service.revocar = function revocar( ) {
 
                 // REVOCAR para recuperar forzar get refresh_token
                 if ( !$localStorage['refresh_token'] && $localStorage['google_access_token']!== null  ) {
@@ -53,7 +53,7 @@ app.factory('googlePlay', [
 
                 }
             };
-            service.guardarCompra = function (googleReceipt) {
+            service.guardarCompra = function guardarCompra(googleReceipt) {
                 $log.debug('Factura que voy a enviar' + JSON.stringify(googleReceipt));
                 $http.post(myconf.url + '/compra/?access_token='+ $localStorage.google_access_token, googleReceipt).then(function (data) {
                         $ionicLoading.hide();
@@ -92,7 +92,97 @@ app.factory('googlePlay', [
 
                     })
             };
-            service.subcribirse = function () {
+            service.updateSubcription = function updateSubcription() {
+
+                if (window.plugins != undefined) {
+                    var validado=false;
+                    var promises = [];
+
+                    inAppPurchase
+                        .restorePurchases()
+                        .then(function (purchases) {
+                            
+                            function noSuscripto() {
+                                $log.debug('Heyzap Activado:');
+                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0", new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function () {
+                                    HeyzapAds.InterstitialAd.fetch();
+                                    $log.debug('heyzap arrancado');
+                                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
+                                }, function (error) {
+                                    $log.debug('Error Heyzap start' + error);
+                                });
+                                $localStorage.ngStorageVIP = false;
+                            }
+                            $log.debug('ver compras usuario:'+JSON.stringify(purchases));
+                            if (purchases.length ==0){ // No compras
+                                noSuscripto();
+                            }else{//Revisar todos los items comprados
+                                purchases.forEach(function(element) {
+                                    var googleReceipt = {
+                                        data: element.receipt,
+                                        signature: element.signature
+                                    };
+                                   // var receipt = JSON.parse(element.receipt);
+                                    var prom = $http.post(myconf.url + '/validate', googleReceipt);
+                                    promises.push(prom);
+                                });
+                                var request_num =0;
+                                $q.all(promises).then(function (res) {
+
+                                    res.some(function(element) {
+                                        $log.debug('sub valida:' + element.data.valida);
+                                        if (element.data.valida) {
+                                            validado =true;
+
+                                            var ordersaved;
+                                            $http.get(myconf.url + '/getFactura/?access_token='+ $localStorage.google_access_token).then(function (data) {
+                                                $log.debug('getFactura:' + data.data);
+                                                ordersaved= data.data;
+                                            });
+
+                                            $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
+
+                                            //He visto que a veces no se guarda la ultima subcription
+                                            // Esto lo detecta y actualiza a la ultima que se tenga comprada
+                                            if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
+                                                service.guardarCompra(  {
+                                                    data: JSON.parse(purchases[request_num].receipt),
+                                                    signature: purchases[request_num].signature
+                                                });
+                                            }
+
+                                       
+                                            return true; //short-circuiting the execution of the rest.
+                                        }
+
+                                        request_num++;
+                                    });
+                                    if (validado) {
+                                        $log.debug('Heyzap Eliminiado:');
+                                        HeyzapAds = false;
+                                        $localStorage.ngStorageVIP = true;
+                                    } else {
+                                        noSuscripto();
+                                    }
+
+                                });
+                            }
+                           
+                        })
+                        .catch(function (err) {
+                          
+                            $log.debug('google play plugin '+ err);
+                            $ionicPopup.alert({
+                                title: 'Something went wrong',
+                                template: 'We can not connect with google play to check your subscription'
+                            });
+                            
+                        });
+                }
+
+                return 0;
+            };
+            service.subcribirse = function subcribirse() {
                 var spinner = '<ion-spinner icon="dots" class="spinner-stable"></ion-spinner><br/>';
                 $ionicLoading.show({ template: spinner + 'Purchasing...' });
 

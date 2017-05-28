@@ -84,9 +84,11 @@ app.controller('AppCtrl', function(
     $scope.$on('event:auth-loginRequired', function() {
         $log.debug('AppCtrl: handling event:auth-loginRequired  ...');
         if ( !$localStorage['refresh_token'] ){
+            alert('event:auth-loginRequired');
             $scope.loginModal.show();
         }else{
-           googleLogin.startLogin();
+            alert('event:auth-loginRequired');
+           googleLogin.startLogin(false);
         }
     });
     // Handle the login confirmed event raised by the authService

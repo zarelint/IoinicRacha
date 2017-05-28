@@ -17,14 +17,13 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.19",
-            // "url": "http://192.168.1.128:8080"},
-            // "url": "http://localhost:8080"},
-             "url": "http://visualbetting-rachas.rhcloud.com"},
+            version: "0.2.21",
+            // "url": "http://192.168.1.130:8080"},
+               "url": "http://visualbetting-rachas.rhcloud.com"},
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
-    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,$q) {
+    .run(function($ionicPlatform,$translate,LigaService,$log,$localStorage,$ionicPopup,$http,myconf,googleLogin,googlePlay) {
         $ionicPlatform.ready(function() {
            // window.iap.setUp(androidApplicationLicenseKey);
           if( navigator && navigator.splashscreen )
@@ -44,67 +43,16 @@ var app=angular.module('app',
                   });
               }, null);
           }
-
-
-            if (window.plugins != undefined) {
-                var validado=false;
-                var promises = [];
-
-                inAppPurchase
-                    .restorePurchases()
-                        .then(function (purchases) {
-                            function noSuscripto() {
-                                $log.debug('Heyzap Activado:');
-                                HeyzapAds.start("518fc13d26fd390e114298a24e0291c0", new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function () {
-                                    HeyzapAds.InterstitialAd.fetch();
-                                    $log.debug('heyzap arrancado');
-                                    // return HeyzapAds.showMediationTestSuite(); // returns a Promise
-                                }, function (error) {
-                                    $log.debug('Error Heyzap start' + error);
-                                });
-                                $localStorage.ngStorageVIP = false;
-                            }
-                            $log.debug('ver compras usuario:'+JSON.stringify(purchases));
-                            if (purchases.length ==0){ // No compras
-                                noSuscripto();
-                            }else{//Revisar todos los items comprados
-                                purchases.forEach(function(element) {
-                                    var googleReceipt = {
-                                        data: element.receipt,
-                                        signature: element.signature
-                                    };
-                                    var receipt = JSON.parse(element.receipt);
-                                    var prom = $http.post(myconf.url + '/validate', googleReceipt);
-                                    promises.push(prom);
-                                });
-                                $q.all(promises).then(function (res) {
-                                    res.some(function(element) {
-                                        $log.debug('sub valida:' + element.data.valida);
-                                        if (element.data.valida) {
-                                            validado =true;
-                                            return true; //short-circuiting the execution of the rest.
-                                        }
-                                    });
-                                    if (validado) {
-                                        $log.debug('Heyzap Eliminiado:');
-                                        HeyzapAds = false;
-                                        $localStorage.ngStorageVIP = true;
-                                    } else {
-                                        noSuscripto();
-                                    }
-
-                                });
-                            }
-                        })
-                    .catch(function (err) {
-                        $log.debug('google play plugin '+ err);
-                        $ionicPopup.alert({
-                            title: 'Something went wrong',
-                            template: 'We can not connect with google play to check your subscription'
-                        });
-                });
-            }
-
+       
+            googleLogin.startLogin(false).then(function(greeting) {
+                if (greeting !== "revocado" ){
+                    googlePlay.updateSubcription();
+                }
+            }, function(reason) {
+                $log.debug(reason);
+            });
+            
+         
 
             //$translate.use("en");
             moment.locale($translate.proposedLanguage());
@@ -146,7 +94,7 @@ var app=angular.module('app',
                 }
             }
 
-                $http.get(myconf.url+'/getVersion').then(function(res) {
+            $http.get(myconf.url+'/getVersion').then(function(res) {
 
                     if(res.data!==myconf.version){
                         $ionicPopup.confirm({

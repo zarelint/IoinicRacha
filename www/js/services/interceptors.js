@@ -30,20 +30,21 @@ app.factory('TokenInterceptor',
         return response;
       },
       responseError: function(rejection) {
+        //SALVO EXPECECIONES LO CONVERTIMOS AL !! 401 esto hace cuando ve el token caducado vuele a pedir otro
         hideLoadingModalIfNecessary();
         $log.debug('interceptor.js:responseError' + JSON.stringify(rejection));
 
         if (rejection.config.url.indexOf('prediccion') != -1 &&  timeStorage.get('google_access_token') != false ){
           timeStorage.remove('google_access_token');//Toke esta revokado o caducado
         }
-        // La respuesta de google es nula y la toma como erronea
+        // La respuesta de google es null y con este fix entra callbacksucess
         if ( rejection.config.url === "https://accounts.google.com/o/oauth2/revoke") {
           $log.debug('cambiamos response de url revoke');
           rejection.status = 200;
         }
         else if (rejection.status === 400  ) {
           $log.debug(' Las respuestsa 400 nos la tocamos');
-        }else{
+        }else{// Esto trasforma los 500 ---> 401
           rejection.status = 401;
         }
 
