@@ -53,3 +53,43 @@ app.factory('TokenInterceptor',
     };
   }
 );
+
+/**
+ * $http interceptor.
+ * On 401 response (without 'ignoreAuthModule' option) stores the request
+ * and broadcasts 'event:auth-loginRequired'.
+ * On 403 response (without 'ignoreAuthModule' option) discards the request
+ * and broadcasts 'event:auth-forbidden'.
+ 
+.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push(['$rootScope', '$q', 'httpBuffer', function($rootScope, $q, httpBuffer) {
+    return {
+      responseError: function(rejection) {
+        var config = rejection.config || {};
+
+        if ( rejection.data !== null && rejection.data.ignoreAuthModule !== undefined ){
+          config ={ignoreAuthModule:true};
+          if (rejection.data.message=='Subcripcion caducada' ){
+            $rootScope.$broadcast('event:auth-caducada', rejection);
+            return $q.reject(rejection);
+          }
+        }
+
+        if (!config.ignoreAuthModule  ) {
+          switch (rejection.status) {
+            case 401:
+              var deferred = $q.defer();
+              httpBuffer.append(config, deferred);
+              $rootScope.$broadcast('event:auth-loginRequired', rejection);
+              return deferred.promise;
+            case 403:
+              $rootScope.$broadcast('event:auth-forbidden', rejection);
+              break;
+          }
+        }
+        // otherwise, default behaviour
+        return $q.reject(rejection);
+      }
+    };
+  }]);
+}]);*/

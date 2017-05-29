@@ -10,12 +10,7 @@ app.controller('AppCtrl', function(
     $http,
     $ionicPopup,$log,$localStorage,$ionicHistory,$state
     ) {
-
-/*    $scope.$on("$ionicView.loaded", function(    ){
-        HeyzapAds.BannerAd.show(HeyzapAds.BannerAd.POSITION_BOTTOM)
-    });*/
-
-
+    
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
         scope: $rootScope,
         animation: 'slide-in-up'
@@ -84,10 +79,8 @@ app.controller('AppCtrl', function(
     $scope.$on('event:auth-loginRequired', function() {
         $log.debug('AppCtrl: handling event:auth-loginRequired  ...');
         if ( !$localStorage['refresh_token'] ){
-            alert('event:auth-loginRequired');
             $scope.loginModal.show();
         }else{
-            alert('event:auth-loginRequired');
            googleLogin.startLogin(false);
         }
     });
