@@ -35,7 +35,7 @@ app.controller('simpleRatesCtrl', function ($http, $stateParams,  $state, $scope
                 var ayer = moment(fecha,'DD MM YYYY').subtract(1,'days').format('DD MM YYYY');
                 //calculate stake
                 if ( rates.betday[ayer] !== undefined && rates.betday[ayer].resultado == 0 ){
-                    day_stake[fecha]=parseInt((day_stake[ayer] *2).toFixed(0)) ;
+                    day_stake[fecha]=parseInt((day_stake[ayer] ).toFixed(0)) ;
                 }else{
                     day_stake[fecha]=10;
                 }

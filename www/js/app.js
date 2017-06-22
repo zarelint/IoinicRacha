@@ -17,9 +17,9 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.21",
-            // "url": "http://192.168.1.130:8080"},
-               "url": "http://visualbetting-rachas.rhcloud.com"},
+            version: "0.2.22",
+            //   "url": "http://192.168.1.129:8080"},
+           "url": "http://visualbetting-rachas.rhcloud.com"},
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )

@@ -83,6 +83,7 @@
 .texto-blanco{
     color: white;
     text-align: center;
+    font-size: 16px;
 }
 .fondo-jor{
     background: #111;
