@@ -17,7 +17,7 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.22",
+            version: "0.2.24",
             //   "url": "http://192.168.1.129:8080"},
            "url": "http://visualbetting-rachas.rhcloud.com"},
             '$ionicLoadingConfig', {
@@ -66,13 +66,12 @@ var app=angular.module('app',
             if (window.plugins != undefined){
                 window.plugins.OneSignal
                     // .startInit("54f31eb1-6216-4247-b475-ac357ac5ea40", "321359984550") dev
-                    .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2", "321359984550")// PRD
+                    .startInit("3995804c-fb96-4bf9-bd75-372124e08ee2")// PRD
                     .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
                     .endInit();
 
             }
-
-
+   
             
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
