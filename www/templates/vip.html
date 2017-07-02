@@ -28,20 +28,39 @@
                    </ion-item >
                    <div ng-repeat="(liga,val) in predicciones[group] | groupBy: 'tipo' "    ng-show="isGroupShown(group)"   >
 
+                       <div ng-if="val[0].tipo == 'x' ">
+                           <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
+                               <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
+                               <div class="col ">
+                                   <div class="row pegar ">
+                                       <div class="country"><img ng-src="img/flag_country/{{val[0].flag_id}}.png">&nbsp&nbsp</div>
+                                       {{ val[0].liga | translate}}
+                                   </div>
+                               </div>
+                               <div> {{ 'Manual Bet' | translate}}
 
-                            <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
-                                <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
-                                    <div class="col ">
-                                        <div class="row pegar ">
-                                        <div class="country"><img ng-src="img/flag_country/{{val[0].flag_id}}.png">&nbsp&nbsp</div>
-                                        {{ val[0].liga | translate}}
-                                    </div>
-                                </div>
-                                <div>{{val[0].rate}}%
-                                    <span class="more-info-match  ion ion-ios-arrow-right"></span>
-                                </div>
+                               </div>
 
-                            </ion-item>
+                           </ion-item>
+
+
+                       </div>
+                       <div ng-if="val[0].tipo !== 'x'">
+                           <ion-item class="item-dark pegar  texto-blanco row row-center item-text-wrap " ng-click="ver(liga)" >
+                               <div class="col col-20 text-center">  {{val[0].jornada}}  </div>
+                               <div class="col ">
+                                   <div class="row pegar ">
+                                       <div class="country"><img ng-src="img/flag_country/{{val[0].flag_id}}.png">&nbsp&nbsp</div>
+                                       {{ val[0].liga | translate}}
+                                   </div>
+                               </div>
+                               <div>{{val[0].rate}}%
+                                   <span class="more-info-match  ion ion-ios-arrow-right"></span>
+                               </div>
+
+                           </ion-item>
+                       </div>
+
 
 
                             <ion-item   class="item-text-wrap  pegar" ng-click="verEncuentro(predLiga)" ng-repeat="predLiga in val"   >

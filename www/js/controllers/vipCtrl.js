@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
+app.controller('vipCtrl', function (  $ionicPopup, $window,$localStorage,$translate,googleLogin,$ionicModal,VipService, $log,LigaService, $state, $scope, $http,$ionicSlideBoxDelegate, $location, $ionicHistory, detailMatch) {
     function esPar(num) {
         return num % 2;
     }
@@ -138,7 +138,14 @@ app.controller('vipCtrl', function (   $window,$localStorage,$translate,googleLo
             $state.go('detailRates', {myParam: $scope.ratesLigasX[liga.substr(0,liga.indexOf('dobles'))]});
         }else if (liga ==='betday'){
             $state.go('simpleRates', {myParam:  $scope.day} );
+        }else if ( liga==='x'){
+            var confirmPopup = $ionicPopup.alert({
+                title: $translate.instant('Manual Bets'),
+                template: $translate.instant('Add by colaborators tipster' +
+                    '<br>No rates neither historial data available')
+            });
         }
+
     };
 
 
