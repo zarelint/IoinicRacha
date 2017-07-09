@@ -97,11 +97,16 @@ app.factory('googlePlay', [
                 if (window.plugins != undefined) {
                     var validado=false;
                     var promises = [];
+                    var subscrito=false;
 
                     inAppPurchase
                         .restorePurchases()
                         .then(function (purchases) {
-                            
+                            function suscrito() {
+                                $log.debug('Heyzap Eliminiado:');
+                                HeyzapAds = false;
+                                $localStorage.ngStorageVIP = true;
+                            }
                             function noSuscripto() {
                                 $log.debug('Heyzap Activado:');
                                 HeyzapAds.start("518fc13d26fd390e114298a24e0291c0", new HeyzapAds.Options({disableAutomaticPrefetch: true})).then(function () {
@@ -113,61 +118,73 @@ app.factory('googlePlay', [
                                 });
                                 $localStorage.ngStorageVIP = false;
                             }
-                            $log.debug('ver compras usuario:'+JSON.stringify(purchases));
-                            if (purchases.length ==0){ // No compras
-                                noSuscripto();
-                            }else{//Revisar todos los items comprados
-                                purchases.forEach(function(element) {
-                                    var googleReceipt = {
-                                        data: element.receipt,
-                                        signature: element.signature
-                                    };
-                                   // var receipt = JSON.parse(element.receipt);
-                                    var prom = $http.post(myconf.url + '/validate', googleReceipt);
-                                    promises.push(prom);
-                                });
-                                var request_num =0;
-                                $q.all(promises).then(function (res) {
 
-                                    res.some(function(element) {
-                                        $log.debug('sub valida:' + element.data.valida);
-                                        if (element.data.valida) {
-                                            validado =true;
-
-                                            var ordersaved;
-                                            $http.get(myconf.url + '/getFactura/?access_token='+ $localStorage.google_access_token).then(function (data) {
-                                                $log.debug('getFactura:' + data.data);
-                                                ordersaved= data.data;
-                                            });
-
-                                            $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
-
-                                            //He visto que a veces no se guarda la ultima subcription
-                                            // Esto lo detecta y actualiza a la ultima que se tenga comprada
-                                            if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
-                                                service.guardarCompra(  {
-                                                    data: JSON.parse(purchases[request_num].receipt),
-                                                    signature: purchases[request_num].signature
-                                                });
-                                            }
-
-                                       
-                                            return true; //short-circuiting the execution of the rest.
-                                        }
-
-                                        request_num++;
-                                    });
-                                    if (validado) {
-                                        $log.debug('Heyzap Eliminiado:');
-                                        HeyzapAds = false;
-                                        $localStorage.ngStorageVIP = true;
-                                    } else {
+                            $http.get(myconf.url + '/getFecha/?access_token='+ $localStorage.google_access_token).then(function (data) {
+                                $log.debug('subscrito:' + data.data.subscrito);
+                                subscrito= data.data.subscrito;
+                                $log.debug('ver compras usuario:'+JSON.stringify(purchases)+' '+purchases.length);
+                                
+                                if (purchases.length ==0 ){ // No compras y no suscrito
+                                    if (subscrito){ 
+                                        suscrito();
+                                    }else{
                                         noSuscripto();
                                     }
+                                }else{//Revisar todos los items comprados
+                                    purchases.forEach(function(element) {
+                                        // Build receipt
+                                        var googleReceipt = {
+                                            data: element.receipt,
+                                            signature: element.signature
+                                        };
+                                        //validarlo en un Promise
+                                        var prom = $http.post(myconf.url + '/validate', googleReceipt);
+                                        promises.push(prom);
+                                    });
+                                    var request_num =0;
+                                    // Resolver todos los promises
+                                    $q.all(promises).then(function (res) {
+                                        //Validar y guardar la factura de google en el perfil del usuario si fuera necesario
+                                        //** rellanar validado
+                                        res.some(function(element) {
+                                            $log.debug('sub valida:' + element.data.valida);
+                                            if (element.data.valida) {
+                                                validado =true;
 
-                                });
-                            }
-                           
+                                                var ordersaved;
+                                                // Get orderId factura guardade en mongodb del user
+                                                $http.get(myconf.url + '/getFactura/?access_token='+ $localStorage.google_access_token).then(function (data) {
+                                                    $log.debug('getFactura:' + data.data);
+                                                    ordersaved= data.data;
+                                                });
+
+                                                $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
+
+                                                //He visto que a veces no se guarda la ultima subcription
+                                                // Esto lo detecta y actualiza a la ultima que se tenga comprada
+                                                if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
+                                                    service.guardarCompra(  {
+                                                        data: JSON.parse(purchases[request_num].receipt),
+                                                        signature: purchases[request_num].signature
+                                                    });
+                                                }
+
+
+                                                return true; //short-circuiting the execution of the rest.
+                                            }
+
+                                            request_num++;
+                                        });
+                                        if (validado) {
+                                            suscrito();
+                                        } else {
+                                            noSuscripto();
+                                        }
+                                    });
+                                }
+
+                            });
+
                         })
                         .catch(function (err) {
                           
