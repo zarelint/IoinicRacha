@@ -19,7 +19,9 @@ var app=angular.module('app',
         "myconf", {
             version: "0.2.26",
             // "url": "http://192.168.1.130:8080"},
-            "url": "http://visualbetting-rachas.rhcloud.com"},
+            "url": "http://visualbetting-rachas.rhcloud.com",
+              "chrome_port": 8100} ,
+            // "chrome_port": 63342} ,
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
@@ -28,7 +30,6 @@ var app=angular.module('app',
            // window.iap.setUp(androidApplicationLicenseKey);
           if( navigator && navigator.splashscreen )
               navigator.splashscreen.hide();
-
 
           if(typeof navigator.globalization !== "undefined") {
               navigator.globalization.getPreferredLanguage(function(language) {

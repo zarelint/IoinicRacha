@@ -60,7 +60,7 @@ app.factory('googleLogin', [
         // Initialize params
         var service = {};
         service.access_token = false;
-        service.redirect_url = 'http://localhost:63342';
+        service.redirect_url = 'http://localhost:'+ myconf.chrome_port;
         service.client_id = '321359984550-m7cla0a172vi4t0ub7qg6qgfimg04pqp.apps.googleusercontent.com';
         service.secret = 'JysHsCm7a9O-luWR_aKUNExg';
         service.scopes = 'https://www.googleapis.com/auth/userinfo.email';
@@ -90,6 +90,7 @@ app.factory('googleLogin', [
                     if (data.url.indexOf(context.redirect_url) === 0) {
                         $log.debug('redirect url found ' + context.redirect_url);
                         $log.debug('window url found ' + data.url);
+                        
                         win.close();
                         var url = data.url;
                         var access_code = context.gulp(url, 'code');
