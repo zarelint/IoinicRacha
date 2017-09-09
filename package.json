@@ -1,50 +1,70 @@
 {
-  "name": "racha",
-  "version": "1.0.0",
-  "description": "racha: An Ionic project",
-  "dependencies": {
-    "angular-translate": "^2.11.0",
-    "cordova-uglify": "^0.2.3",
-    "gulp": "^3.5.6",
-    "gulp-concat": "^2.2.0",
-    "gulp-minify-css": "^0.3.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^0.7.1"
-  },
-  "devDependencies": {
-    "angular-translate": "^2.11.0",
-    "bower": "^1.3.3",
-    "gulp": "^3.8.10",
-    "gulp-util": "^2.2.14",
-    "shelljs": "^0.3.0"
-  },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard",
-    {
-      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
-      "id": "cordova-plugin-inappbrowser"
+    "name": "racha",
+    "version": "1.0.0",
+    "description": "racha: An Ionic project",
+    "scripts": {
+        "clean":  "ionic-app-scripts clean",
+        "build":  "ionic cordova build android --prod --release",
+        "deploy": "adb install C:\\Users\\jesus\\Documents\\js\\IoinicRacha\\platforms\\android\\build\\outputs\\apk\\android-release.apk",
+        "del":    "adb uninstall com.ionicframework.racha854942"
     },
-    "cordova-plugin-extension",
-    {
-      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
-      "id": "cordova-plugin-globalization"
+    "dependencies": {
+        "angular-translate": "^2.11.0",
+        "cordova-android": "^6.2.3",
+        "cordova-uglify": "^0.2.3",
+        "gulp": "^3.5.6",
+        "gulp-concat": "^2.2.0",
+        "gulp-minify-css": "^0.3.0",
+        "gulp-rename": "^1.2.0",
+        "gulp-sass": "^0.7.1",
+        "cordova-plugin-googleplus": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+        "heyzap-cordova": "~1.1.8"
     },
-    "cordova-plugin-network-information",
-    "onesignal-cordova-plugin",
-    {
-      "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
-      "id": "cordova-plugin-googleplus"
+    "devDependencies": {
+        "angular-translate": "^2.11.0",
+        "bower": "^1.3.3",
+        "gulp": "^3.8.10",
+        "gulp-util": "^2.2.14",
+        "shelljs": "^0.3.0"
     },
-    "heyzap-cordova"
-  ],
-  "cordovaPlatforms": [
-    "android",
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
+    "cordovaPlugins": [
+        "cordova-plugin-whitelist",
+        "cordova-plugin-splashscreen",
+        "ionic-plugin-keyboard",
+        {
+            "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
+            "id": "cordova-plugin-inappbrowser"
+        },
+        "cordova-plugin-extension",
+        {
+            "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
+            "id": "cordova-plugin-globalization"
+        },
+        "cordova-plugin-network-information",
+        "onesignal-cordova-plugin",
+        {
+            "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+            "id": "cordova-plugin-googleplus"
+        },
+        "heyzap-cordova"
+    ],
+    "cordovaPlatforms": [
+        "android",
+        {
+            "platform": "android",
+            "version": "",
+            "locator": "android"
+        }
+    ],
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-googleplus": {
+                "REVERSED_CLIENT_ID": "com.googleusercontent.apps.321359984550-4joji4va40065he3d3j2obohir1qshpr"
+            },
+            "heyzap-cordova": {}
+        }
     }
-  ]
 }

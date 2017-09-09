@@ -1,4 +1,15 @@
 {
   "name": "Visual Betting",
-  "app_id": "AIzaSyCOEsVfy-Ifpom2OnABLEjtVLDSejDk110"
+  "app_id": "AIzaSyCOEsVfy-Ifpom2OnABLEjtVLDSejDk110",
+  "type": "ionic1",
+  "integrations": {
+    "gulp": {},
+    "cordova": {}
+  },
+  "gulp": {
+    "enabled": false
+  },
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }
