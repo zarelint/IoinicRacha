@@ -8,8 +8,11 @@ app.controller('AppCtrl', function(
     $translate,
     $ionicLoading,
     $http,
+    myconf,
     $ionicPopup,$log,$localStorage,$ionicHistory,$state
     ) {
+    
+    $scope.url=myconf.url;
     
     $ionicModal.fromTemplateUrl('templates/detail/info.html', {
         scope: $rootScope,
@@ -25,7 +28,10 @@ app.controller('AppCtrl', function(
         $rootScope.infoDialog.hide();
     };
 
-
+    $scope.abrirUrl  = function (page) {
+         return window.open( myconf.url+'/'+page+'.html', '_blank', 'location=yes');
+    };
+ 
     //Rate dialog
     $scope.rateDialog = function() {
         var confirmPopup = $ionicPopup.confirm({
@@ -119,7 +125,7 @@ app.controller('AppCtrl', function(
         $scope.rateDialog();
     };
     $scope.privacy = function(){
-        window.open('https://visualbetting-rachas.rhcloud.com/', '_blank', 'location=yes');
+        window.open(myconf.url, '_blank', 'location=yes');
     };
 
     $scope.contactUs = function(){

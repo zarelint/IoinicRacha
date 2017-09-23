@@ -181,6 +181,8 @@ app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage,$lo
                         title: 'Subcription Expired',
                         template: 'Renew your Subcription'
                     });
+                    window.open('mailto:'+social_config.email+'?&subject=Send Us this email&body='+JSON.stringify(error), '_system');
+
                     $log.debug('Error en la llamada '+url_endpoint+ error);
                 } );
             }

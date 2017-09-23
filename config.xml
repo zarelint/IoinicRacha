@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="20278" id="com.ionicframework.racha854942" version="0.2.27" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="20318" id="com.ionicframework.racha854942" version="0.2.31" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Visual Betting</name>
     <description>
         An Ionic Framework and Cordova project.
@@ -49,6 +49,7 @@
         <splash density="port-xxxhdpi" src="resources\android\splash\drawable-port-xxxhdpi-screen.png" />
     </platform>
     <icon src="resources\android\icon\drawable-xhdpi-icon.png" />
+    <allow-navigation href="http://localhost:8100" />
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-googleplus" spec="https://github.com/EddyVerbruggen/cordova-plugin-googleplus">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.321359984550-4joji4va40065he3d3j2obohir1qshpr" />

@@ -9,3 +9,7 @@ plugins/
 www/lib
 engine/
 www/config.xml
+.vscode
+resources_3
+data
+Thumbs.db

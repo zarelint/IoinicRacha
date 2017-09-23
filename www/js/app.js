@@ -17,12 +17,11 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.27",
-            //"url": "http://localhost:8080",
-            "url": "https://visualbetting2.cloudno.de",
-           //  "url": "http://visualbetting-rachas.rhcloud.com",
-             "chrome_port": 8100} ,
-             //  "chrome_port": 63342} ,
+            version: "0.2.29",
+            //  "url": "http://192.168.1.129:8080",
+              "url": "https://visualbetting2.cloudno.de",
+              "chrome_port": 8100  } ,
+             //"chrome_port": 63342} ,
             '$ionicLoadingConfig', {
              template: '<ion-spinner icon="ios" class="light"></ion-spinner><br/><span>Loading...</span>'}
     )
@@ -45,7 +44,7 @@ var app=angular.module('app',
                   });
               }, null);
           }
-       
+   
             googleLogin.startLogin(false).then(function(greeting) {
                 if (greeting !== "revocado" ){
                     googlePlay.updateSubcription();

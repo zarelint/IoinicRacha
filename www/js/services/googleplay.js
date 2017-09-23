@@ -146,40 +146,41 @@ app.factory('googlePlay', [
                                     $q.all(promises).then(function (res) {
                                         //Validar y guardar la factura de google en el perfil del usuario si fuera necesario
                                         //** rellanar validado
-                                        res.some(function(element) {
-                                            $log.debug('sub valida:' + element.data.valida);
-                                            if (element.data.valida) {
-                                                validado =true;
-
-                                                var ordersaved;
-                                                // Get orderId factura guardade en mongodb del user
+                                        
+                                                // Get orderId factura guardada en el server
                                                 $http.get(myconf.url + '/getFactura/?access_token='+ $localStorage.google_access_token).then(function (data) {
                                                     $log.debug('getFactura:' + data.data);
-                                                    ordersaved= data.data;
+                                                    var ordersaved= data.data;
+                                                    // por cada purchase          
+                                                    res.some(function(element) {
+                                                        $log.debug('sub valida:' + element.data.valida);
+                                                        //Validar y guardarCompra si es necesario
+                                                        if (element.data.valida) {
+                                                            validado =true;
+                                                            $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
+                                                            //He visto que a veces no se guarda la ultima subcription
+                                                            // Esto lo detecta y actualiza a la ultima que se tenga comprada
+                                                            if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
+                                                                service.guardarCompra(  {
+                                                                    data: JSON.parse(purchases[request_num].receipt),
+                                                                    signature: purchases[request_num].signature
+                                                                });
+                                                            }                                  
+                                                            return true; //short-circuiting the execution of the rest.
+                                                        }
+                                                        request_num++;
+                                                    });
+
+                                                    // recorrido res hacer acciones
+                                                    if (validado) {
+                                                        suscrito();
+                                                    } else {
+                                                        noSuscripto();
+                                                    }
+                                                    
                                                 });
 
-                                                $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
 
-                                                //He visto que a veces no se guarda la ultima subcription
-                                                // Esto lo detecta y actualiza a la ultima que se tenga comprada
-                                                if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
-                                                    service.guardarCompra(  {
-                                                        data: JSON.parse(purchases[request_num].receipt),
-                                                        signature: purchases[request_num].signature
-                                                    });
-                                                }
-
-
-                                                return true; //short-circuiting the execution of the rest.
-                                            }
-
-                                            request_num++;
-                                        });
-                                        if (validado) {
-                                            suscrito();
-                                        } else {
-                                            noSuscripto();
-                                        }
                                     });
                                 }
 

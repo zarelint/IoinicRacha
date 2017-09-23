@@ -2,11 +2,16 @@
     "name": "racha",
     "version": "1.0.0",
     "description": "racha: An Ionic project",
+    "config": {
+        "ionic_source_map": "source-map"
+    },
     "scripts": {
-        "clean":  "ionic-app-scripts clean",
-        "build":  "ionic cordova build android --prod --release",
+        "ionic:build": "ionic-app-scripts build",
+        "ionic:watch": "ionic-app-scripts watch",
+        "clean": "ionic-app-scripts clean",
+        "build": "ionic cordova build android --prod --release",
         "deploy": "adb install C:\\Users\\jesus\\Documents\\js\\IoinicRacha\\platforms\\android\\build\\outputs\\apk\\android-release.apk",
-        "del":    "adb uninstall com.ionicframework.racha854942"
+        "del": "adb uninstall com.ionicframework.racha854942"
     },
     "dependencies": {
         "angular-translate": "^2.11.0",
