@@ -17,7 +17,7 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.29",
+            version: "0.2.32",
             //  "url": "http://192.168.1.129:8080",
               "url": "https://visualbetting2.cloudno.de",
               "chrome_port": 8100  } ,

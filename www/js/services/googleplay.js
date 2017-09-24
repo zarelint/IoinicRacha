@@ -124,7 +124,8 @@ app.factory('googlePlay', [
                                 subscrito= data.data.subscrito;
                                 $log.debug('ver compras usuario:'+JSON.stringify(purchases)+' '+purchases.length);
                                 
-                                if (purchases.length ==0 ){ // No compras y no suscrito
+                                if (purchases.length ==0 ){ // No compras en google
+                                    // look manual subcription skrill
                                     if (subscrito){ 
                                         suscrito();
                                     }else{
@@ -160,7 +161,10 @@ app.factory('googlePlay', [
                                                             $log.debug('orderId:' + JSON.parse(purchases[request_num].receipt).orderId);
                                                             //He visto que a veces no se guarda la ultima subcription
                                                             // Esto lo detecta y actualiza a la ultima que se tenga comprada
-                                                            if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId){
+                                                            if (ordersaved !== JSON.parse(purchases[request_num].receipt).orderId ||
+                                                            // directamente no tenia gurarda ninguna
+                                                                ordersaved == null
+                                                            ){
                                                                 service.guardarCompra(  {
                                                                     data: JSON.parse(purchases[request_num].receipt),
                                                                     signature: purchases[request_num].signature
