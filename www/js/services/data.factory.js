@@ -139,7 +139,7 @@ app.factory('HistoricoService', function($http,myconf,$q){
 });
 
 
-app.factory('VipService', function($http,myconf,$q,googleLogin,$localStorage,$log,$ionicPopup){
+app.factory('VipService', function($http,myconf,$q,$localStorage,$log,$ionicPopup){
     var items = [];
 
 

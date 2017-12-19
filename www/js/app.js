@@ -17,7 +17,7 @@ var app=angular.module('app',
     ['ionic', 'http-auth-interceptor','ngStorage','pascalprecht.translate'])
     .constant(
         "myconf", {
-            version: "0.2.32",
+            version: "0.2.34",
             //  "url": "http://192.168.1.129:8080",
               "url": "https://visualbetting2.cloudno.de",
               "chrome_port": 8100  } ,
@@ -82,14 +82,14 @@ var app=angular.module('app',
             // Check for network connection
             if(navigator.connection) {
                 if(navigator.connection.type == "none") {
-                    $ionicPopup.confirm({
+                    $ionicPopup.alert({
                             title: 'No Internet Connection',
                             content: 'Sorry, no Internet connectivity detected. Please reconnect and try again.'
                         })
                         .then(function(result) {
-                            if(!result) {
+                          
                                 ionic.Platform.exitApp();
-                            }
+                            
                         });
                 }
             }
@@ -97,14 +97,14 @@ var app=angular.module('app',
             $http.get(myconf.url+'/getVersion').then(function(res) {
 
                     if(res.data!==myconf.version){
-                        $ionicPopup.confirm({
+                        $ionicPopup. alert({
                                 title: 'Old version detected',
                                 content: 'Update to last version: '+res.data
                             })
                             .then(function(result) {
-                                if(!result) {
-                                    ionic.Platform.exitApp();
-                                }
+                          
+                                   ionic.Platform.exitApp();
+                      
                             });
                     }
                 });

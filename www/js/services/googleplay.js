@@ -188,7 +188,15 @@ app.factory('googlePlay', [
                                     });
                                 }
 
-                            });
+                            }).catch(function (err) {
+                                
+                                  $log.debug('google play plugin '+ err);
+                                  $ionicPopup.alert({
+                                      title: 'Something went wrong',
+                                      template: 'We can not connect with google play to check your subscription'
+                                  });
+                                  
+                              });
 
                         })
                         .catch(function (err) {
